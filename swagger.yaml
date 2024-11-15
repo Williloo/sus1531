@@ -499,7 +499,7 @@ components:
           oldPassword:
             $ref: '#/components/prim/Password'
           newPassword:
-            $ref: '#/components/prim/newPassword'
+            $ref: '#/components/prim/Password'
     UserDetailsPutIter2:
       in: body
       name: body
