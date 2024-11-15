@@ -1011,7 +1011,7 @@ paths:
           schema:
             $ref: '#/components/return/Error'
     put:
-      summary: Update the details of an admin user (non-password).
+      summary: Update the details of an admin user.
       description: Given a set of properties, update those properties of this logged in admin user.
       tags:
         # - "By Topic: Access Management"
