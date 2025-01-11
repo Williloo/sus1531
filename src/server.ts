@@ -8,6 +8,9 @@ import sui from 'swagger-ui-express';
 import fs from 'fs';
 import path from 'path';
 import process from 'process';
+import request from 'sync-request-curl';
+
+const HUGGINGFACE_API_TOKEN = process.env.HUGGINGFACE_API_TOKEN;
 
 // Set up web app
 const app = express();

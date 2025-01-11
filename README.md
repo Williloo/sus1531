@@ -8,13 +8,6 @@
 
 ## Change Log
 
-* 17/09: Specify 12 merge requests rather than 11 for iteration 0, since there are 12 function stubs.
-* 18/09: Changed weighting of iterations 1, 2 and 3.
-* 24/09: Minor wording change, section 3.1.
-* 05/11: Changes to automarking formula and marking criteria to include `tsc` as part of automarking, specify the inclusion of secure passwords and user session IDs, altered automarking formula to emphasise coverage and include typescript checks, section 5.13.
-* 05/11: Minor wording change, section 5.5 (Elicitation).
-* 05/11: Minor wording change to /player/join route in swagger documentation.
-
 ## 🫡 0. Aims:
 
 1. Demonstrate effective use of software development tools to build full-stack end-user applications.
@@ -32,7 +25,7 @@ UNSW must resort to giving into the limited attention span of students and gamif
 
 However, instead of licensing well-built and tested software, UNSW is hoping to use the pool of extremely talented and interesting COMP1531 students to create their own version to distribute around campus for free. The chosen game to "take inspiration from" is **<a href="https://kahoot.com/">Kahoot</a>**.
 
-The 24T3 cohort of COMP1531 students will build the **backend Javascript server** for a new quiz game platform, **Toohak**. We plan to task future students to build the frontend for Toohak, something you won't have to worry about.
+The 25T1 cohort of COMP1531 students will build the **backend Javascript server** for a new quiz game platform, **Toohak**. We plan to task future students to build the frontend for Toohak, something you won't have to worry about.
 
 **Toohak** is the questionably-named quiz tool that allows admins to create quiz games, and players to join (without signing up) to participate and compete.
 
@@ -65,7 +58,7 @@ In this iteration, you are expected to:
 // Return stub value matches table below
 function adminAuthLogin(email, password) {
   return {
-    authUserId: 1,
+    userId: 1,
   }
 }
 ```
@@ -95,7 +88,7 @@ function adminAuthLogin(email, password) {
 
 The following are strings: `email`, `password`, `nameFirst`, `nameLast`, `name`, `description`, `oldPassword`, `newPassword`.
 
-The following are integers: `authUserId`, `quizId`.
+The following are integers: `userId`, `quizId`.
 
 In terms of file structure:
  * All functions starting with `adminAuth` or `adminUser` go in `auth.js`.
@@ -111,7 +104,7 @@ In terms of file structure:
     <td>
       <code>adminAuthRegister</code>
       <br /><br />
-      Register a user with an email, password, and names, then returns their <code>authUserId</code> value.
+      Register a user with an email, password, and names, then returns their <code>userId</code> value.
     </td>
     <td>
       <b>Parameters:</b><br />
@@ -119,7 +112,7 @@ In terms of file structure:
       <br /><br />
       <b>Return object:</b><br />
       <code>{
-  authUserId: 1
+  userId: 1
 }</code>
     </td>
   </tr>
@@ -127,7 +120,7 @@ In terms of file structure:
     <td>
       <code>adminAuthLogin</code>
       <br /><br />
-      Given a registered user's email and password returns their <code>authUserId</code> value.
+      Given a registered user's email and password returns their <code>userId</code> value.
     </td>
     <td>
       <b>Parameters:</b><br />
@@ -135,7 +128,7 @@ In terms of file structure:
       <br /><br />
       <b>Return object:</b><br />
       <code>{
-  authUserId: 1
+  userId: 1
 }</code>
     </td>
   </tr>
@@ -143,12 +136,12 @@ In terms of file structure:
     <td>
       <code>adminUserDetails</code>
       <br /><br />
-      Given an admin user's authUserId, return details about the user.
+      Given an admin user's userId, return details about the user.
       <li>"<code>name</code>" is the first and last name concatenated with a single space between them.</li>
     </td>
     <td>
       <b>Parameters:</b><br />
-      <code>( authUserId )</code>
+      <code>( userId )</code>
       <br /><br />
       <b>Return object:</b><br />
       <code>{ user:
@@ -166,11 +159,11 @@ In terms of file structure:
     <td>
       <code>adminUserDetailsUpdate</code>
       <br /><br />
-      Given an admin user's authUserId and a set of properties, update the properties of this logged in admin user.
+      Given an admin user's userId and a set of properties, update the properties of this logged in admin user.
     </td>
     <td>
       <b>Parameters:</b><br />
-      <code>( authUserId, email, nameFirst, nameLast )</code>
+      <code>( userId, email, nameFirst, nameLast )</code>
       <br /><br />
       <b>Return object:</b><br />
       <code>{ }</code> empty object
@@ -184,7 +177,7 @@ In terms of file structure:
     </td>
     <td>
       <b>Parameters:</b><br />
-      <code>( authUserId, oldPassword, newPassword )</code>
+      <code>( userId, oldPassword, newPassword )</code>
       <br /><br />
       <b>Return object:</b><br />
       <code>{ }</code> empty object
@@ -198,7 +191,7 @@ In terms of file structure:
     </td>
     <td>
       <b>Parameters:</b><br />
-      <code>( authUserId )</code>
+      <code>( userId )</code>
       <br /><br />
       <b>Return object:</b><br />
       <code>{ quizzes: [
@@ -218,7 +211,7 @@ In terms of file structure:
     </td>
     <td>
       <b>Parameters:</b><br />
-      <code>( authUserId, name, description )</code>
+      <code>( userId, name, description )</code>
       <br /><br />
       <b>Return object:</b><br />
       <code>{
@@ -234,7 +227,7 @@ In terms of file structure:
     </td>
     <td>
       <b>Parameters:</b><br />
-      <code>( authUserId, quizId )</code>
+      <code>( userId, quizId )</code>
       <br /><br />
       <b>Return object:</b><br />
       <code>{ }</code> empty object
@@ -248,7 +241,7 @@ In terms of file structure:
     </td>
     <td>
       <b>Parameters:</b><br />
-      <code>( authUserId, quizId )</code>
+      <code>( userId, quizId )</code>
       <br /><br />
       <b>Return object:</b><br />
       <code>{
@@ -268,7 +261,7 @@ In terms of file structure:
     </td>
     <td>
       <b>Parameters:</b><br />
-      <code>( authUserId, quizId, name )</code>
+      <code>( userId, quizId, name )</code>
       <br /><br />
       <b>Return object:</b><br />
       <code>{ }</code> empty object
@@ -282,7 +275,7 @@ In terms of file structure:
     </td>
     <td>
       <b>Parameters:</b><br />
-      <code>( authUserId, quizId, description )</code>
+      <code>( userId, quizId, description )</code>
       <br /><br />
       <b>Return object:</b><br />
       <code>{ }</code> empty object
@@ -372,7 +365,7 @@ Please see section 6 for information on **due date**.
 
 ## 🐶 3. Iteration 1: Basic Functionality and Tests
 
-[You can watch the iteration 1 introductory video here.](https://youtu.be/VPlNNy-gK2w) Please note that this video was recorded in 23T2, and there are changes in 24T3. You should consult this spec for changes. This video is not required watching (the specification is clear by itself) though many students will watch this for the practical demo of how to get started.
+[You can watch the iteration 1 introductory video here.](https://youtu.be/VPlNNy-gK2w) Please note that this video was recorded in 23T2, and there are changes in 25T1. You should consult this spec for changes. This video is not required watching (the specification is clear by itself) though many students will watch this for the practical demo of how to get started.
 
 ### 🐶 3.1. Task
 
@@ -500,7 +493,7 @@ All error cases should return <code>{error: 'specific error message here'}</code
 
 The following are strings: `email`, `password`, `nameFirst`, `nameLast`, `name`, `description`, `oldPassword`, `newPassword`.
 
-The following are integers: `authUserId`, `quizId`.
+The following are integers: `userId`, `quizId`.
 
 For timestamps, these are Unix timestamps in seconds. You can find more information that here https://en.wikipedia.org/wiki/Unix_time. Timestamps should be rounded using `Math.floor()`. 
 
@@ -514,14 +507,14 @@ For timestamps, these are Unix timestamps in seconds. You can find more informat
     <td>
       <code>adminAuthRegister</code>
       <br /><br />
-      Register a user with an email, password, and names, then returns their <code>authUserId</code> value.
+      Register a user with an email, password, and names, then returns their <code>userId</code> value.
     </td>
     <td>
       <b>Parameters:</b><br />
       <code>( email, password, nameFirst, nameLast )</code>
       <br /><br />
       <b>Return type if no error:</b><br />
-      <code>{ authUserId }</code>
+      <code>{ userId }</code>
     </td>
     <td>
       <b>Return object <code>{error: 'specific error message here'}</code></b> when any of:
@@ -541,14 +534,14 @@ For timestamps, these are Unix timestamps in seconds. You can find more informat
     <td>
       <code>adminAuthLogin</code>
       <br /><br />
-      Given a registered user's email and password returns their <code>authUserId</code> value.
+      Given a registered user's email and password returns their <code>userId</code> value.
     </td>
     <td>
       <b>Parameters:</b><br />
       <code>( email, password )</code>
       <br /><br />
       <b>Return type if no error:</b><br />
-      <code>{ authUserId }</code>
+      <code>{ userId }</code>
     </td>
     <td>
       <b>Return object <code>{error: 'specific error message here'}</code></b> when any of:
@@ -562,14 +555,14 @@ For timestamps, these are Unix timestamps in seconds. You can find more informat
     <td>
       <code>adminUserDetails</code>
       <br /><br />
-      Given an admin user's authUserId, return details about the user.
+      Given an admin user's userId, return details about the user.
       <li>"name" is the first and last name concatenated with a single space between them.</li>
       <li>numSuccessfulLogins includes logins direct via registration, and is counted from the moment of registration starting at 1.</li>
       <li>numFailedPasswordsSinceLastLogin is reset every time they have a successful login, and simply counts the number of attempted logins that failed due to incorrect password, only since the last login.</li>
     </td>
     <td>
       <b>Parameters:</b><br />
-      <code>( authUserId )</code>
+      <code>( userId )</code>
       <br /><br />
       <b>Return type if no error:</b><br />
       <code>{ user:
@@ -585,18 +578,18 @@ For timestamps, these are Unix timestamps in seconds. You can find more informat
     <td>
       <b>Return object <code>{error: 'specific error message here'}</code></b> when any of:
       <ul>
-        <li>AuthUserId is not a valid user.</li>
+        <li>userId is not a valid user.</li>
     </td>
   </tr>
   <tr>
   <td>
     <code>adminUserDetailsUpdate</code>
     <br /><br />
-    Given an admin user's authUserId and a set of properties, update the properties of this logged in admin user. 
+    Given an admin user's userId and a set of properties, update the properties of this logged in admin user. 
   </td>
   <td>
     <b>Parameters:</b><br />
-    <code>( authUserId, email, nameFirst, nameLast )</code>
+    <code>( userId, email, nameFirst, nameLast )</code>
     <br /><br />
     <b>Return type if no error:</b><br />
     <code>{ }</code>
@@ -604,7 +597,7 @@ For timestamps, these are Unix timestamps in seconds. You can find more informat
   <td>
     <b>Return object <code>{error: 'specific error message here'}</code></b> when any of:
     <ul>
-      <li>AuthUserId is not a valid user.</li>
+      <li>userId is not a valid user.</li>
       <li>Email is currently used by another user (excluding the current authorised user)</li>
       <li>Email does not satisfy this: <a href="https://www.npmjs.com/package/validator">https://www.npmjs.com/package/validator</a> (validator.isEmail)</li>
       <li>NameFirst contains characters other than lowercase letters, uppercase letters, spaces, hyphens, or apostrophes</li>
@@ -623,7 +616,7 @@ For timestamps, these are Unix timestamps in seconds. You can find more informat
     </td>
     <td>
       <b>Parameters:</b><br />
-      <code>( authUserId, oldPassword, newPassword )</code>
+      <code>( userId, oldPassword, newPassword )</code>
       <br /><br />
       <b>Return type if no error:</b><br />
       <code>{ }</code>
@@ -631,7 +624,7 @@ For timestamps, these are Unix timestamps in seconds. You can find more informat
     <td>
       <b>Return object <code>{error: 'specific error message here'}</code></b> when any of:
       <ul>
-        <li>AuthUserId is not a valid user.</li>
+        <li>userId is not a valid user.</li>
         <li>Old Password is not the correct old password</li>
         <li>Old Password and New Password match exactly</li>
         <li>New Password has already been used before by this user</li>
@@ -648,7 +641,7 @@ For timestamps, these are Unix timestamps in seconds. You can find more informat
     </td>
     <td>
       <b>Parameters:</b><br />
-      <code>( authUserId )</code>
+      <code>( userId )</code>
       <br /><br />
       <b>Return type if no error:</b><br />
       <code>{ quizzes: [
@@ -662,7 +655,7 @@ For timestamps, these are Unix timestamps in seconds. You can find more informat
     <td>
       <b>Return object <code>{error: 'specific error message here'}</code></b> when any of:
       <ul>
-        <li>AuthUserId is not a valid user.</li>
+        <li>userId is not a valid user.</li>
       </ul>
     </td>
   </tr>
@@ -674,7 +667,7 @@ For timestamps, these are Unix timestamps in seconds. You can find more informat
     </td>
     <td>
       <b>Parameters:</b><br />
-      <code>( authUserId, name, description )</code>
+      <code>( userId, name, description )</code>
       <br /><br />
       <b>Return type if no error:</b><br />
       <code>{ quizId }</code>
@@ -682,7 +675,7 @@ For timestamps, these are Unix timestamps in seconds. You can find more informat
     <td>
       <b>Return object <code>{error: 'specific error message here'}</code></b> when any of:
       <ul>
-        <li>AuthUserId is not a valid user.</li>
+        <li>userId is not a valid user.</li>
         <li>Name contains invalid characters. Valid characters are alphanumeric and spaces.</li>
         <li>Name is either less than 3 characters long or more than 30 characters long.</li>
         <li>Name is already used by the current logged in user for another quiz.</li>
@@ -698,7 +691,7 @@ For timestamps, these are Unix timestamps in seconds. You can find more informat
     </td>
     <td>
       <b>Parameters:</b><br />
-      <code>( authUserId, quizId )</code>
+      <code>( userId, quizId )</code>
       <br /><br />
       <b>Return type if no error:</b><br />
       <code>{ }</code>
@@ -706,7 +699,7 @@ For timestamps, these are Unix timestamps in seconds. You can find more informat
     <td>
       <b>Return object <code>{error: 'specific error message here'}</code></b> when any of:
       <ul>
-        <li>AuthUserId is not a valid user.</li>
+        <li>userId is not a valid user.</li>
         <li>Quiz ID does not refer to a valid quiz.</li>
         <li>Quiz ID does not refer to a quiz that this user owns.</li>
       </ul>
@@ -720,7 +713,7 @@ For timestamps, these are Unix timestamps in seconds. You can find more informat
     </td>
     <td>
       <b>Parameters:</b><br />
-      <code>( authUserId, quizId )</code>
+      <code>( userId, quizId )</code>
       <br /><br />
       <b>Return type if no error:</b><br />
       <code>{
@@ -734,7 +727,7 @@ For timestamps, these are Unix timestamps in seconds. You can find more informat
     <td>
       <b>Return object <code>{error: 'specific error message here'}</code></b> when any of:
       <ul>
-        <li>AuthUserId is not a valid user.</li>
+        <li>userId is not a valid user.</li>
         <li>Quiz ID does not refer to a valid quiz.</li>
         <li>Quiz ID does not refer to a quiz that this user owns.</li>
       </ul>
@@ -748,7 +741,7 @@ For timestamps, these are Unix timestamps in seconds. You can find more informat
     </td>
     <td>
       <b>Parameters:</b><br />
-      <code>( authUserId, quizId, name )</code>
+      <code>( userId, quizId, name )</code>
       <br /><br />
       <b>Return type if no error:</b><br />
       <code>{ }</code>
@@ -756,7 +749,7 @@ For timestamps, these are Unix timestamps in seconds. You can find more informat
     <td>
       <b>Return object <code>{error: 'specific error message here'}</code></b> when any of:
       <ul>
-        <li>AuthUserId is not a valid user.</li>
+        <li>userId is not a valid user.</li>
         <li>Quiz ID does not refer to a valid quiz.</li>
         <li>Quiz ID does not refer to a quiz that this user owns.</li>
         <li>Name contains invalid characters. Valid characters are alphanumeric and spaces.</li>
@@ -773,7 +766,7 @@ For timestamps, these are Unix timestamps in seconds. You can find more informat
     </td>
     <td>
       <b>Parameters:</b><br />
-      <code>( authUserId, quizId, description )</code>
+      <code>( userId, quizId, description )</code>
       <br /><br />
       <b>Return type if no error:</b><br />
       <code>{ }</code>
@@ -781,7 +774,7 @@ For timestamps, these are Unix timestamps in seconds. You can find more informat
     <td>
       <b>Return object <code>{error: 'specific error message here'}</code></b> when any of:
       <ul>
-        <li>AuthUserId is not a valid user.</li>
+        <li>userId is not a valid user.</li>
         <li>Quiz ID does not refer to a valid quiz.</li>
         <li>Quiz ID does not refer to a quiz that this user owns.</li>
         <li>Description is more than 100 characters in length (note: empty strings are OK).</li>
@@ -806,17 +799,45 @@ For timestamps, these are Unix timestamps in seconds. You can find more informat
   </tr>
 </table>
 
-### 🐶 3.6. Authorisation
+### 🦆 3.6. Planning for the next problems to solve
+
+Software development is an iterative process - we're never truly finished. As we complete the development and testing of one feature, we're often then trying to understand the requirements and needs of our users to design the next set of features in our product.
+
+For iteration 1 you are going to produce a short report in `planning.pdf` and place it in the repository. The contents of this report will be a simplified approach to understanding user problems, and developing requirements.
+
+N.B. If you don't know how to produce a PDF, you can easily make one in Google docs and then export to PDF.
+
+We have opted not to provide you with a sample structure - because we're not interested in any rigid structure. Structure it however you best see fit, as we will be marking content.
+
+#### [Requirements] Elicitation
+
+Find 2-3 people to interview as target users. Target users are people who currently use a tool like Toohak, or intend to and are not current or former 1531 students. Record their name and email address. You must not interview members of your project group.
+
+Develop a series of questions (at least 4) to ask these target users to understand what *problems* (not solutions) they might have with quiz tools that are currently unsolved by Toohak. Give these questions to your target users and record their answers.
+
+Once you have done this, think about how you would solve the target users' problem(s) and write down a brief description of a proposed solution.
+
+#### [Requirements] Analysis & Specification - Use Cases
+
+Once you've elicited this information, it's time to consolidate it.
+
+Take the responses from the elicitation step and express these requirements as **user stories** (at least 3). Document these user stories. For each user story, add user acceptance criteria as notes so that you have a clear definition of when a story has been completed.
+
+Once the user stories have been documented, generate at least ONE use case that attempts to describe a solution that satifies some of or all the elicited requirements. You can generate a visual diagram or a more written-recipe style, as per lectures.
+
+#### [Requirements] Validation
+
+With your completed use case work, reach out to the 2-3 people you interviewed originally and inquire as to the extent to which these use cases would adequately describe the problem they're trying to solve. Ask them for a comment on this, and record their comments in the PDF.
+
+### 🐶 3.7. Authorisation
 
 Elements of securely storing passwords and other tricky authorisation methods are not required for iteration 1. You can simply store passwords plainly, and use the user ID to identify each user. We will discuss ways to improve the quality and methods of these capabilities in the later iterations.
 
-Note that the `authUserId` variable is simply the user ID of the user who is making the function call. For example,
+Note that the `userId` variable is simply the user ID of the user who is making the function call. For example,
 * A user registers an account with Toohak and is assigned some integer ID, e.g. `42` as their user ID.
-* When they make subsequent calls to functions, their user ID - in this case, `42` - is passed in as the `authUserId` argument.
+* When they make subsequent calls to functions, their user ID - in this case, `42` - is passed in as the `userId` argument.
 
-Since `authUserId` refers to the user ID of the user calling the functions, you do NOT need to store separate user IDs (e.g. a uId or userId + a authUserId) to identify each user in your data structure - you only need to store one user ID. How you name this user ID property in your data structure is up to you.
-
-### 🐶 3.7. Working in parallel
+### 🐶 3.8. Working in parallel
 
 This iteration provides challenges for many groups when it comes to working in parallel. Your group's initial reaction will be that you need to complete registration before you can complete quiz creation, and then quiz creation must be done before you update a quiz name, etc.
 
@@ -828,7 +849,7 @@ There are several approaches that you can consider to overcome these challenges:
     * This can be helpful when two people are working on functions on separate branches where one function is a prerequisite of the other, and an implementation is required to keep tests from failing.
 * You should pull from `master` on a regular basis to ensure your code remains up-to-date.
 
-### 🐶 3.8. Marking Criteria
+### 🐶 3.9. Marking Criteria
 
 <table>
   <tr>
@@ -838,7 +859,7 @@ There are several approaches that you can consider to overcome these challenges:
   </tr>
   <tr>
     <td>Automarking (Testing & Implementation)</td>
-    <td>45%</td>
+    <td>30%</td>
     <td>
       <ul>
       <li>Correct implementation of specified functions.</li>
@@ -861,7 +882,7 @@ There are several approaches that you can consider to overcome these challenges:
   </tr>
   <tr>
     <td>General Code Quality</td>
-    <td>10%</td>
+    <td>15%</td>
     <td>
       <ul>
         <li>Appropriate use of Javascript data structures (arrays, objects, etc.)</li>
@@ -888,6 +909,18 @@ There are several approaches that you can consider to overcome these challenges:
         <li>Attendance and contributions at your teams meetings and standups, including at least one scenario where you were the leader of the meeting and took the minutes/notes for that meeting.</li>
       </ul>
     </td>
+    <tr>
+    <td>Requirements Engineering</td>
+    <td>10%</td>
+    <td>
+      <ul>
+        <li>Requirements elicited from potential users, recorded as user stories with acceptance criteria for each, following the correct format from lectures.</li>
+        <li>Each user story has a corresponding set of comprehensive user acceptance criteria, in the correct format from lectures.</li>
+        <li>User journey justified and expressed as use case(s).</li>
+      </ul>
+       Whilst we look at your group's work as a whole, if we feel that materially unequal contributions occurred between group members we will assess your individual contribution against this criteria.
+    </td>
+  </tr>
   </tr>
 </table>
 
@@ -936,8 +969,7 @@ Please see the <a href="https://edstem.org/au/courses/18921/discussion/2236396">
 
 In this iteration, more features were added to the specification, and the focus has been changed to HTTP endpoints. Most of the theory surrounding iteration 2 is covered in week 4-5 lectures. Note that there will still be some features of the frontend that will not work because the routes will not appear until iteration 3. There is no introductory video for iteration 2.
 
-Iteration 2 both reuses a lot of work from iteration 1, as well as has new work. Most of the work from iteration 1 can be recycled, but the following consideration(s) need to be made from previous work:
- * `DELETE /v1/admin/quiz/{quizid}` now requires that upon deletion items are moved to trash instead of permanently removed.
+Iteration 2 both reuses a lot of work from iteration 1, as well as has new work.
 
 If you'd like more support in this iteration, you can see a [previous term's video](https://www.youtube.com/watch?v=j0P-SA8bwSs) where a lecturer discusses iteration 2 with the students of that term.
 
@@ -1005,7 +1037,7 @@ This will start the server on the port in the src/server.ts file, using `ts-node
 
 If you get an error stating that the address is already in use, you can change the port number in `config.json` to any number from `49152` to `65535`. Is it likely that another student may be using your original port number.
 
-Do **NOT** move the location of either `config.json` or `server.ts`
+Do **NOT** move the location of either `config.json` or `server.ts`. You must utilise the host/port combination from the `config.json` for the server, and any auxillary calls to routes within your test files. You may edit the port/host field within the `config.json` file, but be sure to dynamically import the port from this file for all your tests and do **NOT** hard-code its value since this may result in automarking failures.
 
 ### 🐝 4.3. Implementing and testing features
 
@@ -1073,17 +1105,17 @@ Hint: Yes, your `v1` routes can use the functions you had in iteration 1, regard
 
 ### 🐝 4.9. User Sessions
 
-#### The problem with Iteration 1 `authUserId`
+#### The problem with Iteration 1 `userId`
 
-In iteration 1, a problem we have with the `authUserId` is that there is no way to "log-out" a user - because all the user needs to identify themselves is just their user ID.
+In iteration 1, a problem we have with the `userId` is that there is no way to "log-out" a user - because all the user needs to identify themselves is just their user ID.
 
 In iteration 2, we want to issue something that abstracts their user ID into the notion of a session - this way a single user can log in, log out, or maybe log in from multiple places at the same time.
 
-If you're not following the issue with the `authUserId`, imagine it like trying to board a plane flight but your boarding pass IS your passport. Your passport is a (effectively) a permanent thing - it is just "always you". That wouldn't work, which is why airlines issue out boarding passes - to essentially grant you a "session" on a plane. And your boarding pass is linked to your passport. In this same way, a session is associated with an `authUserId`!
+If you're not following the issue with the `userId`, imagine it like trying to board a plane flight but your boarding pass IS your passport. Your passport is a (effectively) a permanent thing - it is just "always you". That wouldn't work, which is why airlines issue out boarding passes - to essentially grant you a "session" on a plane. And your boarding pass is linked to your passport. In this same way, a session is associated with an `userId`!
 
 #### How we adapt in Iteration 2 - User Sessions
 
-In iteration 2, instead of passing in `authUserId` into functions, we will instead pass in a session. Then on our server we look up the session information (which we've stored) to:
+In iteration 2, instead of passing in `userId` into functions, we will instead pass in a session. Then on our server we look up the session information (which we've stored) to:
 * Identify if the session is valid.
 * Identify which user this session belongs to.
 
@@ -1125,7 +1157,7 @@ Errors are thrown in the following order: 401, then 403, then 400.
 ### 🐝 4.11. Working with the frontend
 
 There is a SINGLE repository available for all students at 
-https://nw-syd-gitlab.cseunsw.tech/COMP1531/24T3/project-frontend. 
+https://nw-syd-gitlab.cseunsw.tech/COMP1531/25T1/project-frontend. 
 You can clone this frontend locally. 
 
 Please remember to pull regularly as we continue to work on the frontend.
@@ -1258,6 +1290,10 @@ Please see section 6 for information on **due date** and on how you will **demon
 
 Please see section 7.5 for information on **teamwork evaluation**.
 
+### 🐝 4.16. FAQs
+
+Please see the <a href="https://edstem.org/au/courses/18921/discussion/2214720">this EdStem megapost</a> for iteration 2 FAQs.
+
 ## 🦆 5. Iteration 3: Completing the Lifecycle
 
 There is no pre-recorded introductory video for this iteration, as we will cover this iteration in regular lectures.
@@ -1374,47 +1410,7 @@ npm run test
 
 Back in the first terminal, stop the server with Ctrl+C or Command+C. There should now be a `/coverage` directory available. Open the `index.html` file in your web browser to see its output.
 
-### 🦆 5.5. Planning for the next problems to solve
-
-Software development is an iterative process - we're never truly finished. As we complete the development and testing of one feature, we're often then trying to understand the requirements and needs of our users to design the next set of features in our product.
-
-For iteration 3 you are going to produce a short report in `planning.pdf` and place it in the repository. The contents of this report will be a simplified approach to understanding user problems, developing requirements, and doing some early designs.
-
-N.B. If you don't know how to produce a PDF, you can easily make one in Google docs and then export to PDF.
-
-We have opted not to provide you with a sample structure - because we're not interested in any rigid structure. Structure it however you best see fit, as we will be marking content.
-
-#### [Requirements] Elicitation
-
-Find 2-3 people to interview as target users. Target users are people who currently use a tool like Toohak, or intend to and are not current 1531 students. Record their name and email address. You must not interview members of your project group.
-
-Develop a series of questions (at least 4) to ask these target users to understand what *problems* (not solutions) they might have with quiz tools that are currently unsolved by Toohak. Give these questions to your target users and record their answers.
-
-Once you have done this, think about how you would solve the target users' problem(s) and write down a brief description of a proposed solution.
-
-#### [Requirements] Analysis & Specification - Use Cases
-
-Once you've elicited this information, it's time to consolidate it.
-
-Take the responses from the elicitation step and express these requirements as **user stories** (at least 3). Document these user stories. For each user story, add user acceptance criteria as notes so that you have a clear definition of when a story has been completed.
-
-Once the user stories have been documented, generate at least ONE use case that attempts to describe a solution that satifies some of or all the elicited requirements. You can generate a visual diagram or a more written-recipe style, as per lectures.
-
-#### [Requirements] Validation
-
-With your completed use case work, reach out to the 2-3 people you interviewed originally and inquire as to the extent to which these use cases would adequately describe the problem they're trying to solve. Ask them for a comment on this, and record their comments in the PDF.
-
-#### [Design] Interface Design
-
-Now that we've established our *problem* (described as requirements), it's time to think about our *solution* in terms of what capabilities would be necessary. You will specify these capabilities as HTTP endpoints, similar to what is described in the swagger docs. There is no minimum or maximum of what is needed - it will depend on what problem you're solving.
-
-**You are also encouraged to update your `swagger.yaml` file to include the routes associated with your new work.**
-
-#### [Design] Conceptual Modelling - State Diagrams
-
-Now that you have a sense of the problem to solve, and what capabilities you will need to provide to solve it, add at least ONE state diagram to your PDF to show how the state of the application would change based on user actions. The aim of this diagram is to help a developer understand the different states of the application.
-
-### 🦆 5.6. States & Actions
+### 🦆 5.5. States & Actions
 
 Iteration 3 sees the introduction of a quiz session, which describes a particular instance of a quiz being run.
 
@@ -1436,7 +1432,7 @@ There are 5 key actions that an admin can send that moves us between these state
 
 The constraints on moving between these states can be found in the state diagram here: https://miro.com/app/board/uXjVMNVSA6o=/?share_link_id=275801581370. 
 
-### 🦆 5.7. Error raising
+### 🦆 5.6. Error raising
 
 It's important that as part of separating the concerns of the HTTP server and the application logic that:
 * Your server never passes in a request or response object to any subsequent functions that handle application logic
@@ -1497,9 +1493,9 @@ app.get((req, res) => {
 
 We recommend that you refactor **gradually** and not in one giant merge request.
 
-### 🦆 5.8. Safer User Sessions and Secure Passwords
+### 🦆 5.7. Safer User Sessions and Secure Passwords
 
-#### 🦆 5.8.1. Secure Passwords
+#### 🦆 5.7.1. Secure Passwords
 
 For iteration 3, we require that passwords must be stored in a **hashed** form.
 
@@ -1509,7 +1505,22 @@ Hashes are one-way encryption where you can convert raw text (e.g. a password li
 
 If we store passwords as the hash of the plain text password, as opposed to the plain text password itself, it means that if our data store is compromised that attackers would not know the plain text passwords of our users.
 
-#### 🦆 5.8.2. More random user session IDs
+We do not require you to implement a hashing algorithm that is not brute forcable. If you are interested in current industry standards for password hashing see https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html.
+
+##### Example
+Using https://www.npmjs.com/package/jssha:
+
+```js
+import jsSHA from "jssha";
+
+const shaObj = new jsSHA("SHA-256", "TEXT", { encoding: "UTF8" });
+
+shaObj.update("password123");
+
+const hash = shaObj.getHash("HEX");
+```
+
+#### 🦆 5.7.2. More random user session IDs
 
 We require that you obfuscate your user sessions to prevent enumeration. You can do this one of two ways:
  1. Using a randomly generated session ID (rather than incremental session IDs, such as 3492, 485845, 49030); or
@@ -1517,7 +1528,7 @@ We require that you obfuscate your user sessions to prevent enumeration. You can
 
 You may already be doing (1) depending on your implementation from the previous iteration.
 
-#### 🦆 5.8.3. Avoiding tokens being exposed in the URL
+#### 🦆 5.7.3. Avoiding tokens being exposed in the URL
 
 In this model, you will replace `token` query and body parameters with a `token` HTTP header when dealing with requests/routes only. You shouldn't remove `token` parameters from backend functions, as they must perform the validity checks.
 
@@ -1534,7 +1545,7 @@ Any query parameters (those used by `GET/DELETE` functions) can be read in plain
 
 Note: While this safely protects user sessions from man-in-the-middle attacks (intercepting our HTTP requests), it doesn't protect against client-side attacks, where an attacker may steal a token after the HTTP header has been decoded and received by the user. **You do not need to worry about mitigating client-side attacks**, but you can read more about industry-standard session management <a href="https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#secure-attribute">here</a>.
 
-#### 🦆 5.8.4. Summary
+#### 🦆 5.7.4. Summary
 
 The following describes one potential way of implementing:
 
@@ -1546,7 +1557,7 @@ A sample flow logging a user in might be as follows (other flows exist too):
 4. Server returns that hash of the session ID as a token to the user in the response body.
 ```
 
-### 🦆 5.9. Deployment
+### 🦆 5.8. Deployment
 
 For this iteration some part of the marks (see marking criteria) will come from your group having deployed a version of your code to a public web server. Instructions about how to deploy can be found in `lab09_deploy`. 
 
@@ -1556,7 +1567,7 @@ Once you have deployed your server to a URL, add the URL to deploy.md, so that t
 
 You should **not** commit your deployed code to the `master` branch of this `project-backend` repo. You should also avoid running tests against your deployed backend as Vercel has a request limit. We recommend using an API client to ensure behaviour is as expected for the most part, alternatively you could run a very small number of tests. 
 
-Your URL must be in the format https://1531-24T3-W15A-EGGS.vercel.app where your tutorial and group name replaces W15A-EGGS. **If you do not have your group name in the URL we will be unable to mark you.**
+Your URL must be in the format https://1531-25T1-W15A-EGGS.vercel.app where your tutorial and group name replaces W15A-EGGS. **If you do not have your group name in the URL we will be unable to mark you.**
 
 Before attempting this task, you should also read the recommendations below on dealing with issues that can occur. It's important to read it all as it may influence how you deploy your project. 
 
@@ -1608,7 +1619,7 @@ Before attempting this task, you should also read the recommendations below on d
 
 </details>
 
-### 🦆 5.10. Scoring & Ranking
+### 🦆 5.9. Scoring & Ranking
 
 To determine the score a user receives for a particular question:
  * If they do not get the question correct or do not answer the question, they receive a score of 0.
@@ -1621,27 +1632,7 @@ When returned through any of the inputs:
  * All scores for a particular question are rounded to the nearest integer.
  * If there are players with the same final score, they share the same rank, e.g. players scoring 5, 3, 3, 2, 2, 1 have ranks 1, 2, 2, 4, 4, 6.
 
-### 🦆 5.11. CSV Format
-
-For the CSV format return, the format should be the following (and include the header line):
-```text
-Player,question1score,question1rank,...
-X,Y,Z,...
-X,Y,Z,...
-X,Y,Z,...
-```
-
-An example for a quiz with 3 players and 2 questions might be:
-```text
-Player,question1score,question1rank,question2score,question2rank
-Giuliana,2,3,2,2
-Hayden,3,2,1,3
-Yuchao,6,1,4,1
-```
-
-The CSV is ordered in alphabetical/ascii ascending order of player name.
-
-### 🦆 5.12. Iteration 3 Final Presentation
+### 🦆 5.10. Iteration 3 Final Presentation
 
 Iteration 3 final presentation is a 10 minute Q&A session.
 
@@ -1655,7 +1646,7 @@ Times mentioned above will be adhered to strictly.
 
 The remaining time will be Q&A led by a tutor. That tutor may not necessarily be your normal class tutor.
 
-### 🦆 5.13. Marking Criteria
+### 🦆 5.11. Marking Criteria
 
 <table>
   <tr>
@@ -1677,19 +1668,6 @@ The remaining time will be Q&A led by a tutor. That tutor may not necessarily be
      Whilst we look at your group's work as a whole, if we feel that materially unequal contributions occurred between group members we will assess your individual contribution against this criteria.
      Note: <b>Up to 10% of the automarking will be done on iteration 2 routes that we still expect to be functional / backwards compatible.</b>
   </td>
-  </tr>
-  <tr>
-    <td>Requirements & Design for future work</td>
-    <td>10%</td>
-    <td>
-      <ul>
-        <li>Requirements elicited from potential users, recorded as user stories with acceptance criteria for each.</li>
-        <li>User journey justified and expressed as use case(s).</li>
-        <li>Interface proposed as a potential solution to provide capabilities.</li>
-        <li>State diagram(s) drawn to demonstrate how application responds to actions.</li>
-      </ul>
-       Whilst we look at your group's work as a whole, if we feel that materially unequal contributions occurred between group members we will assess your individual contribution against this criteria.
-    </td>
   </tr>
   <tr>
     <td>General Code Quality</td>
@@ -1747,7 +1725,7 @@ Where:
  * `e` is the score between 0-100 achieved by running <code>eslint</code> against your code and the provided configuration. You may find a mark of 0 if you have used eslint disable comments in your code.
  * `t` is the score between 0-10 achieved by running <code>tsc</code> against your code and the provided configuration.
 
-### 🦆 5.14. Dryrun
+### 🦆 5.12. Dryrun
 
 The dryrun checks the format of your return types and simple expected behaviour for a few basic routes. Do not rely on these as an indicator for the correctness of your implementation or tests.
 
@@ -1762,11 +1740,15 @@ To view the dryrun tests, you can run the following command on CSE machines:
 cat ~cs1531/bin/iter3.test.js
 ```
 
-### 🦆 5.15. Submission & teamwork evaluation
+### 🦆 5.13. Submission & teamwork evaluation
 
 Please see section 6 for information on **due date**. There will be no demonstration for iteration 3.
 
 Please see section 7.5 for information on **teamwork evaluation**.
+
+### 🦆 5.14. FAQs
+
+Please see the <a href="https://edstem.org/au/courses/18921/discussion/2214720">this EdStem megapost</a> for iteration 3 FAQs.
 
 ## 🌸 6. Due Dates and Weightings
 
@@ -1806,7 +1788,7 @@ If the re-run automark after penalty is lower than your initial mark, we will ke
 * Create a branch, e.g. `iter[X]-fix`, based off the submission commit.
 * Make the minimal number of necessary changes (i.e. only fix the trivial bugs that cost you many automarks).
 * Create a merge request for this branch into the iteration's submission branch (i.e. `iterX-submission`), and take note of merge request ID in the URL
-  * It is the number at the end of the URL i.e. https://nw-syd-gitlab.cseunsw.tech/COMP1531/24T3/groups/H17B_CRUNCHIE/project-backend/-/merge_requests/67 = 67.
+  * It is the number at the end of the URL i.e. https://nw-syd-gitlab.cseunsw.tech/COMP1531/25T1/groups/H17B_CRUNCHIE/project-backend/-/merge_requests/67 = 67.
 * Log onto the [Gitruns site](https://cgi.cse.unsw.edu.au/~gitrun/) and submit that merge request ID (e.g. 67) for rerun
 * Once you submit it, it will take up to 24 hours for you to receive the results of the rerun.
   * The results will appear in status "reviewing", which means an admin still needs to review the penalty.
@@ -1826,7 +1808,7 @@ Please note: The current limit on reruns is one every 24 hours. You can submit m
 * Fixing constant variable values e.g. loginAttempts = 1 to loginAttempts = 0
 * As a general rule, any change that is < 3 lines of code
 
-### 🌸 6.2. Demonstration
+### 🌸 6.3. Demonstration
 
 #### Iteration 1 & 2 Demonstrations
 
@@ -1925,7 +1907,7 @@ Note that, **contributing more documentation is not a substitute for not contrib
 
 ### 👌 7.5. Teamwork Evaluation
 
-<a href="https://cgi.cse.unsw.edu.au/~cs1531/24T3/project/teamwork-evaluation"><b>Teamwork Evaluation link</b></a>.
+<a href="https://cgi.cse.unsw.edu.au/~cs1531/25T1/project/teamwork-evaluation"><b>Teamwork Evaluation link</b></a>.
 
 **Please note: Failure to complete teamwork evaluation for a particular iteration may result in a mark penalty of 10% for the iteration**
 
@@ -1975,7 +1957,7 @@ If you don't feel that the issue is being resolved quickly, you should escalate 
 
 It's imperative that issues are raised to your tutor ASAP, as we are limited in the mark adjustments we can do when issues are raised too late (e.g. we're limited with what we can do if you email your tutor with iteration 2 issues after iteration 2 is due).
 
-## 💻 8. Automarking & Leaderboard
+## 💻 8. Automarking & Preview
 
 ### 💻 8.1. Automarking
 
@@ -1983,15 +1965,15 @@ Each iteration consists of an automarking component. The particular formula used
 
 When running your code or tests as part of the automarking, we place a 90 second timer on the running of your group's tests. This is more than enough time to complete everything unless you're doing something very wrong or silly with your code. As long as your tests take under 90 seconds to run, you don't have to worry about it potentially taking longer when we run automarking.
 
-### 💻 8.2. Pre-submission Leaderboard
+### 💻 8.2. Pre-submission Preview
 
 In the days preceding iterations 1, 2, and 3's due date, we will be running your code against the actual automarkers (the same ones that determine your final mark) and publishing the results of every group on the [marking runs page](https://cgi.cse.unsw.edu.au/~cs1531/NOW/content/project/runs). You will get to see the current mark (within a range) of your submission, as well as how your group ranks within the cohort. You will not receive any elaboration on how that mark was determined - if your mark isn't what you expect, work with your group and/or tutor to debug your code and write more tests.
 
-You must have the code you wish to be tested in your `master` branch by **10pm** the night before leaderboard runs.
+You must have the code you wish to be tested in your `master` branch by **10pm** the night before preview runs.
 
-The leaderboard will be updated on Monday, Wednesday, and Friday morning during the week that the iteration is due.
+The preview will be updated on Monday, Wednesday, and Friday morning during the week that the iteration is due.
 
-This leaderboard run gives you a chance to sanity check your automark (without knowing the details of what you did right and wrong), and is just a bit of fun.
+This preview run gives you a chance to sanity check your automark (without knowing the details of what you did right and wrong), and is just a bit of fun.
 
 ## 👀 9. Plagiarism & Academic Misconduct Notice
 Your program must be entirely your group’s work. Plagiarism detection software will be used to compare all submissions pairwise (including submissions for similar assignments in previous terms) and serious penalties will be applied, including an entry on UNSW's plagiarism register.

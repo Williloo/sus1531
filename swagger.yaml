@@ -69,9 +69,6 @@ components:
     Url:
       type: string
       example: http://google.com/some/image/path.jpg
-    UrlCsv:
-      type: string
-      example: http://google.com/some/image/path.csv
     Timestamp:
       type: integer
       example: 1683019484
@@ -290,25 +287,6 @@ components:
         thumbnailUrl:
           $ref: '#/components/prim/Url'
 
-    MessagePayload:
-      type: object
-      properties:
-        messageBody:
-          type: string
-          example: Hello everyone! Nice to chat.
-    Message:
-      type: object
-      properties:
-        messageBody:
-          type: string
-          example: This is a message body
-        playerId:
-          $ref: '#/components/prim/PlayerId'
-        playerName:
-          type: string
-          example: Yuchao Jiang
-        timeSent:
-          $ref: '#/components/prim/Timestamp'
     QuestionResults:
       type: object
       properties:
@@ -397,14 +375,6 @@ components:
       required: true
       schema:
         type: string
-    QuizTrashEmpty:
-      in: query
-      name: quizIds
-      required: true
-      description: A string representing a JSONified array of quiz id numbers
-      schema:
-        type: string
-        example: "[3,4,5,6,7]"
   body:
     Token:
       in: body
@@ -623,13 +593,6 @@ components:
           description:
             type: string
             example: A description of my quiz
-    QuizTrash:
-      in: query
-      name: token
-      required: true
-      schema:
-        token:
-          $ref: '#/components/prim/Token'
     QuizRestore:
       in: body
       name: body
@@ -772,15 +735,6 @@ components:
             type: array
             items:
               $ref: '#/components/prim/AnswerId'
-    PlayerQuestionChat:
-      in: body
-      name: body
-      required: true
-      schema:
-        type: object
-        properties:
-          message:
-            $ref: '#/components/group/MessagePayload'
 
   return:
     Token:
@@ -815,20 +769,10 @@ components:
       $ref: '#/components/group/QuizIter2'
     QuizSingleIter3:
       $ref: '#/components/group/QuizIter3'
-    QuizTrash:
-      type: object
-      properties:
-        quizzes:
-          $ref: '#/components/group/SmallQuizzes'
     QuizQuestionNew:
       type: object
       properties:
         questionId:
-          $ref: '#/components/prim/QuestionId'
-    QuizQuestionDuplicate:
-      type: object
-      properties:
-        duplicatedQuestionId:
           $ref: '#/components/prim/QuestionId'
     QuizSessionStart:
       type: object
@@ -867,11 +811,6 @@ components:
           items:
             $ref: '#/components/prim/SessionId'
 
-    QuizSessionResultsCsv:
-      type: object
-      properties:
-        url:
-          $ref: '#/components/prim/UrlCsv'
     PlayerJoin:
       type: object
       properties: 
@@ -888,13 +827,6 @@ components:
           $ref: '#/components/prim/AtQuestion'
     ResultsFinal:
       $ref: '#/components/group/ResultsFinal'
-    PlayerChat:
-      type: object
-      properties: 
-        messages:
-          type: array
-          items:
-            $ref: '#/components/group/Message'
 
 paths:
 
@@ -1261,10 +1193,9 @@ paths:
 
   /v1/admin/quiz/{quizid}:
     delete:
-      summary: Send a quiz to trash
+      summary: Delete a quiz
       description: |
-       - Given a particular quiz, send it to the trash (can be recovered later)
-       - When this route is called, the timeLastEdited is updated
+       - Given a particular quiz, delete a quiz
       tags:
         # - "By Topic: Quiz Management"
         - "Iteration 2 (Using Iteration 1)"
@@ -1308,16 +1239,14 @@ paths:
             $ref: '#/components/return/Error'
   /v2/admin/quiz/{quizid}:
     delete:
-      summary: Send a quiz to trash
-      description: |
-       - Given a particular quiz, send it to the trash (can be recovered later)
-       - When this route is called, the timeLastEdited is updated
+      summary: Delete a quiz
+      description: Given a particular quiz, delete a quiz
       tags:
         # - "By Topic: Quiz Management"
-        - "Iteration 3 (Modified)"
+        - "Iteration 2 (Using Iteration 1)"
       parameters:
         - $ref: '#/components/path/QuizId'
-        - $ref: '#/components/header/Token'
+        - $ref: '#/components/body/QuizDeleteIter2'
       responses:
         200:
           description: OK
@@ -1331,14 +1260,6 @@ paths:
           description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
-        400:
-          description: |
-            If any of the following are true:
-            - Any session for this quiz is not in END state
-          schema:
-            $ref: '#/components/return/Error'
-      security:
-        - Iteration 3 Token Authentication: []
     get:
       summary: Get info about current quiz
       description: Get all of the relevant information about the current quiz including questions
@@ -1494,170 +1415,6 @@ paths:
       security:
         - Iteration 3 Token Authentication: []
   
-  /v1/admin/quiz/trash:
-    get:
-      summary: View the quizzes in trash
-      description: View the quizzes that are currently in the trash for the logged in user
-      tags:
-        # - "By Topic: Quiz Management"
-        - "Iteration 2 (New)"
-      parameters:
-        - $ref: '#/components/body/QuizTrash'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/components/return/QuizTrash'
-        401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
-          schema:
-            $ref: '#/components/return/Error'
-  
-  /v2/admin/quiz/trash:
-    get:
-      summary: View the quizzes in trash
-      description: View the quizzes that are currently in the trash for the logged in user
-      tags:
-        # - "By Topic: Quiz Management"
-        - "Iteration 3 (Modified)"
-      parameters:
-        - $ref: '#/components/header/Token'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/components/return/QuizTrash'
-        401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
-          schema:
-            $ref: '#/components/return/Error'
-      security:
-        - Iteration 3 Token Authentication: []
-  
-  /v1/admin/quiz/{quizid}/restore:
-    post:
-      summary: Restore a quiz from trash
-      description: Restore a particular quiz from the trash back to an active quiz. Note -- This should update it's timeLastEdited timestamp.
-      tags:
-        # - "By Topic: Quiz Management"
-        - "Iteration 2 (New)"
-      parameters:
-        - $ref: '#/components/path/QuizId'
-        - $ref: '#/components/body/QuizRestore'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/components/return/Empty'
-        401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
-          schema:
-            $ref: '#/components/return/Error'
-        403:
-          description: Valid token is provided, but user is not an owner of this quiz, or quiz doesn't exist
-          schema:
-            $ref: '#/components/return/Error'
-        400:
-          description: |
-            If any of the following are true:
-            - Quiz name of the restored quiz is already used by another active quiz
-            - Quiz ID refers to a quiz that is not currently in the trash
-          schema:
-            $ref: '#/components/return/Error'
-  /v2/admin/quiz/{quizid}/restore:
-    post:
-      summary: Restore a quiz from trash
-      description: Restore a particular quiz from the trash back to an active quiz. Note -- This should update it's timeLastEdited timestamp.
-      tags:
-        # - "By Topic: Quiz Management"
-        - "Iteration 3 (Modified)"
-      parameters:
-        - $ref: '#/components/path/QuizId'
-        - $ref: '#/components/header/Token'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/components/return/Empty'
-        401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
-          schema:
-            $ref: '#/components/return/Error'
-        403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
-          schema:
-            $ref: '#/components/return/Error'
-        400:
-          description: |
-            If any of the following are true:
-            - Quiz name of the restored quiz is already used by another active quiz
-            - Quiz ID refers to a quiz that is not currently in the trash
-          schema:
-            $ref: '#/components/return/Error'
-      security:
-        - Iteration 3 Token Authentication: []
-
-  /v1/admin/quiz/trash/empty:
-    delete:
-      summary: Empty the trash
-      description: Permanently delete specific quizzes currently sitting in the trash
-      tags:
-        # - "By Topic: Quiz Management"
-        - "Iteration 2 (New)"
-      parameters:
-        - $ref: '#/components/query/Token'
-        - $ref: '#/components/query/QuizTrashEmpty'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/components/return/Empty'
-        401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
-          schema:
-            $ref: '#/components/return/Error'
-        403:
-          description: Valid token is provided, but one or more of the Quiz IDs refers to a quiz that this current user does not own or doesn't exist
-          schema:
-            $ref: '#/components/return/Error'
-        400:
-          description: |
-            If any of the following are true:
-            - One or more of the Quiz IDs is not currently in the trash
-          schema:
-            $ref: '#/components/return/Error'
-
-  /v2/admin/quiz/trash/empty:
-    delete:
-      summary: Empty the trash
-      description: Permanently delete specific quizzes currently sitting in the trash
-      tags:
-        # - "By Topic: Quiz Management"
-        - "Iteration 3 (Modified)"
-      parameters:
-        - $ref: '#/components/header/Token'
-        - $ref: '#/components/query/QuizTrashEmpty'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/components/return/Empty'
-        401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
-          schema:
-            $ref: '#/components/return/Error'
-        403:
-          description: Valid token is provided, but one or more of the Quiz IDs refers to a quiz that this current user does not own
-          schema:
-            $ref: '#/components/return/Error'
-        400:
-          description: |
-            If any of the following are true:
-            - One or more of the Quiz IDs is not currently in the trash
-          schema:
-            $ref: '#/components/return/Error'
-      security:
-        - Iteration 3 Token Authentication: []
   /v1/admin/quiz/{quizid}/thumbnail:
     put:
       summary: Update the quiz thumbnail
@@ -2067,73 +1824,6 @@ paths:
             $ref: '#/components/return/Error'
       security:
         - Iteration 3 Token Authentication: []
-  
-  /v1/admin/quiz/{quizid}/question/{questionid}/duplicate:
-    post:
-      summary: Duplicate a quiz question
-      description: | 
-       - A particular question gets duplicated to immediately after where the source question is
-       - When this route is called, the timeLastEdited is updated
-      tags:
-        # - "By Topic: Quiz Management"
-        - "Iteration 2 (New)"
-      parameters:
-        - $ref: '#/components/path/QuizId'
-        - $ref: '#/components/path/QuestionId'
-        - $ref: '#/components/body/Token'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/components/return/QuizQuestionDuplicate'
-        401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
-          schema:
-            $ref: '#/components/return/Error'
-        403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
-          schema:
-            $ref: '#/components/return/Error'
-        400:
-          description: |
-            If any of the following are true:
-            - Question Id does not refer to a valid question within this quiz
-          schema:
-            $ref: '#/components/return/Error'
-  /v2/admin/quiz/{quizid}/question/{questionid}/duplicate:
-    post:
-      summary: Duplicate a quiz question
-      description: | 
-       - A particular question gets duplicated to immediately after where the source question is
-       - When this route is called, the timeLastEdited is updated
-      tags:
-        # - "By Topic: Quiz Management"
-        - "Iteration 3 (Modified)"
-      parameters:
-        - $ref: '#/components/path/QuizId'
-        - $ref: '#/components/path/QuestionId'
-        - $ref: '#/components/header/Token'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/components/return/QuizQuestionDuplicate'
-        401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
-          schema:
-            $ref: '#/components/return/Error'
-        403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
-          schema:
-            $ref: '#/components/return/Error'
-        400:
-          description: |
-            If any of the following are true:
-            - Question Id does not refer to a valid question within this quiz
-          schema:
-            $ref: '#/components/return/Error'
-      security:
-        - Iteration 3 Token Authentication: []
         
 
 
@@ -2200,7 +1890,6 @@ paths:
             - autoStartNum is a number greater than 50
             - 10 sessions that are not in END state currently exist for this quiz
             - The quiz does not have any questions in it
-            - The quiz is in trash
           schema:
             $ref: '#/components/return/Error'
       security:
@@ -2288,39 +1977,6 @@ paths:
           description: OK
           schema:
             $ref: '#/components/return/ResultsFinal'
-        401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
-          schema:
-            $ref: '#/components/return/Error'
-        403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
-          schema:
-            $ref: '#/components/return/Error'
-        400:
-          description: |
-            If any of the following are true:
-            - Session Id does not refer to a valid session within this quiz
-            - Session is not in FINAL_RESULTS state
-          schema:
-            $ref: '#/components/return/Error'
-      security:
-        - Iteration 3 Token Authentication: []
-  /v1/admin/quiz/{quizid}/session/{sessionid}/results/csv:
-    get:
-      summary: Get quiz session final results in CSV format
-      description: Get the a link to the final results (in CSV format) for all players for a completed quiz session
-      tags:
-        # - "By Topic: Session Management"
-        - "Iteration 3 (New)"
-      parameters:
-        - $ref: '#/components/path/QuizId'
-        - $ref: '#/components/path/SessionId'
-        - $ref: '#/components/header/Token'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/components/return/QuizSessionResultsCsv'
         401:
           description: Token is empty or invalid (does not refer to valid logged in user session)
           schema:
@@ -2483,49 +2139,6 @@ paths:
             - Session is not in FINAL_RESULTS state
           schema:
             $ref: '#/components/return/Error'
-  /v1/player/{playerid}/chat:
-    get:
-      summary: All chat messages in session
-      description: |
-        Return all messages that are in the same session as the player, in the order they were sent
-        In the repsonse, the timeSent is a unix timestamp that was recorded when the message was sent. You can find more information that here: https://en.wikipedia.org/wiki/Unix_time. When testing this, it's hard to get it accurate because network delays mean there is some variability in when the server will "lodge" the request. To solve this, when testing simply check if the received message falls within a 1 second range of what you'd expect.
-      tags:
-        # - "By Topic: Playing a session"
-        - "Iteration 3 (New)"
-      parameters:
-        - $ref: '#/components/path/PlayerId'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/components/return/PlayerChat'
-        400:
-          description: |
-            If any of the following are true:
-            - If player ID does not exist
-    post:
-      summary: Send chat message in session
-      description: Send a new chat message to everyone in the session
-      tags:
-        # - "By Topic: Playing a session"
-        - "Iteration 3 (New)"
-      parameters:
-        - $ref: '#/components/path/PlayerId'
-        - $ref: '#/components/body/PlayerQuestionChat'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/components/return/Empty'
-        400:
-          description: |
-            If any of the following are true:
-            - If player ID does not exist
-            - If message body is less than 1 character or more than 100 characters
-          schema:
-            $ref: '#/components/return/Error'
-      
-
 
   /v1/clear:
     delete:
