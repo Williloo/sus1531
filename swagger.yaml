@@ -36,7 +36,7 @@ components:
     NameLast:
       type: string
       example: Smith
-    Token:
+    Session:
       type: string
       example: 23748
     ResetCode:
@@ -362,29 +362,29 @@ components:
       schema:
         $ref: '#/components/prim/SessionId'
   header:
-    Token:
+    Session:
       in: header
-      name: token
+      name: session
       required: true
       schema:
         type: string
   query:
-    Token:
+    Session:
       in: query
-      name: token
+      name: session
       required: true
       schema:
         type: string
   body:
-    Token:
+    Session:
       in: body
       name: body
       required: true
       schema:
         type: object
         properties:
-          token:
-            $ref: '#/components/prim/Token'
+          session:
+            $ref: '#/components/prim/Session'
     Register:
       in: body
       name: body
@@ -418,8 +418,8 @@ components:
       schema:
         type: object
         properties:
-          token:
-            $ref: '#/components/prim/Token'
+          session:
+            $ref: '#/components/prim/Session'
     PasswordResetRequest:
       in: body
       name: body
@@ -442,7 +442,7 @@ components:
             $ref: '#/components/prim/Password'
     UserDetailsGetIter2:
       in: query
-      name: token
+      name: session
       required: true
       schema:
         type: string
@@ -453,8 +453,8 @@ components:
       schema:
         type: object
         properties:
-          token:
-            $ref: '#/components/prim/Token'
+          session:
+            $ref: '#/components/prim/Session'
           oldPassword:
             $ref: '#/components/prim/Password'
           newPassword:
@@ -477,8 +477,8 @@ components:
       schema:
         type: object
         properties:
-          token:
-            $ref: '#/components/prim/Token'
+          session:
+            $ref: '#/components/prim/Session'
           email:
             $ref: '#/components/prim/Email'
           nameFirst:
@@ -505,8 +505,8 @@ components:
       schema:
         type: object
         properties:
-          token:
-            $ref: '#/components/prim/Token'
+          session:
+            $ref: '#/components/prim/Session'
     QuizNewIter2:
       in: body
       name: body
@@ -514,8 +514,8 @@ components:
       schema:
         type: object
         properties:
-          token:
-            $ref: '#/components/prim/Token'
+          session:
+            $ref: '#/components/prim/Session'
           name:
             type: string
             example: My Quiz Name
@@ -537,18 +537,18 @@ components:
             example: A description of my quiz
     QuizDeleteIter2:
       in: query
-      name: token
+      name: session
       required: true
       schema:
-        token:
-          $ref: '#/components/prim/Token'
+        session:
+          $ref: '#/components/prim/Session'
     QuizGetIter2:
       in: query
-      name: token
+      name: session
       required: true
       schema:
-        token:
-          $ref: '#/components/prim/Token'
+        session:
+          $ref: '#/components/prim/Session'
     QuizUpdateNameIter2:
       in: body
       name: body
@@ -556,8 +556,8 @@ components:
       schema:
         type: object
         properties:
-          token:
-            $ref: '#/components/prim/Token'
+          session:
+            $ref: '#/components/prim/Session'
           name:
             type: string
             example: My Quiz Name
@@ -578,8 +578,8 @@ components:
       schema:
         type: object
         properties:
-          token:
-            $ref: '#/components/prim/Token'
+          session:
+            $ref: '#/components/prim/Session'
           description:
             type: string
             example: A description of my quiz
@@ -600,8 +600,8 @@ components:
       schema:
         type: object
         properties:
-          token:
-            $ref: '#/components/prim/Token'
+          session:
+            $ref: '#/components/prim/Session'
     QuizThumbnail:
       in: body
       name: body
@@ -618,8 +618,8 @@ components:
       schema:
         type: object
         properties:
-          token:
-            $ref: '#/components/prim/Token'
+          session:
+            $ref: '#/components/prim/Session'
           userEmail:
             $ref: '#/components/prim/Email'
     QuizTransferIter3:
@@ -638,8 +638,8 @@ components:
       schema:
         type: object
         properties:
-          token:
-            $ref: '#/components/prim/Token'
+          session:
+            $ref: '#/components/prim/Session'
           questionBody:
             $ref: '#/components/group/QuestionMutateIter2'
     QuizQuestionMutateIter3:
@@ -658,8 +658,8 @@ components:
       schema:
         type: object
         properties:
-          token:
-            $ref: '#/components/prim/Token'
+          session:
+            $ref: '#/components/prim/Session'
     QuizQuestionMoveIter2:
       in: body
       name: body
@@ -667,8 +667,8 @@ components:
       schema:
         type: object
         properties:
-          token:
-            $ref: '#/components/prim/Token'
+          session:
+            $ref: '#/components/prim/Session'
           newPosition:
             type: integer
             example: 1
@@ -706,11 +706,11 @@ components:
             $ref: '#/components/prim/Action'
     QuizSessionStatus:
       in: query
-      name: token
+      name: session
       required: true
       schema:
-        token:
-          $ref: '#/components/prim/Token'
+        session:
+          $ref: '#/components/prim/Session'
     PlayerJoin:
       in: body
       name: body
@@ -737,11 +737,11 @@ components:
               $ref: '#/components/prim/AnswerId'
 
   return:
-    Token:
+    Session:
       type: object
       properties:
-        token:
-          $ref: '#/components/prim/Token'
+        session:
+          $ref: '#/components/prim/Session'
     Error:
       properties:
         error:
@@ -845,7 +845,7 @@ paths:
         200:
           description: OK
           schema:
-            $ref: '#/components/return/Token'
+            $ref: '#/components/return/Session'
         400:
           description: |
             If any of the following are true:
@@ -873,7 +873,7 @@ paths:
         200:
           description: OK
           schema:
-            $ref: '#/components/return/Token'
+            $ref: '#/components/return/Session'
         400:
           description: |
             If any of the following are true:
@@ -885,7 +885,7 @@ paths:
   /v1/admin/auth/logout:
     post:
       summary: Logs out an admin user who has an active user session.
-      description: Should be called with a token that is returned after either a login or register has been made.
+      description: Should be called with a session that is returned after either a login or register has been made.
       tags:
         # - "By Topic: Access Management"
         - "Iteration 2 (New)"
@@ -897,29 +897,29 @@ paths:
           schema:
             $ref: '#/components/return/Empty'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
   /v2/admin/auth/logout:
     post:
       summary: Logs out an admin user who has an active user session.
-      description: Should be called with a token that is returned after either a login or register has been made.
+      description: Should be called with a session that is returned after either a login or register has been made.
       tags:
         # - "By Topic: Access Management"
         - "Iteration 3 (Modified)"
       parameters:
-        - $ref: '#/components/header/Token'
+        - $ref: '#/components/header/Session'
       responses:
         200:
           description: OK
           schema:
             $ref: '#/components/return/Empty'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
       security:
-        - Iteration 3 Token Authentication: []
+        - Iteration 3 Session Authentication: []
 
   /v1/admin/user/details:
     get:
@@ -939,7 +939,7 @@ paths:
           schema:
             $ref: '#/components/return/User'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
     put:
@@ -956,7 +956,7 @@ paths:
           schema:
             $ref: '#/components/return/Empty'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -978,7 +978,7 @@ paths:
         # - "By Topic: Access Management"
         - "Iteration 3 (Modified)"
       parameters:
-        - $ref: '#/components/header/Token'
+        - $ref: '#/components/header/Session'
       responses:
         200:
           description: |
@@ -988,11 +988,11 @@ paths:
           schema:
             $ref: '#/components/return/User'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
       security:
-        - Iteration 3 Token Authentication: []
+        - Iteration 3 Session Authentication: []
     put:
       summary: Update the details of this admin user (non-password).
       description: Given a set of properties, update those properties of this logged in admin user.
@@ -1000,7 +1000,7 @@ paths:
         # - "By Topic: Access Management"
         - "Iteration 3 (Modified)"
       parameters:
-        - $ref: '#/components/header/Token'
+        - $ref: '#/components/header/Session'
         - $ref: '#/components/body/UserDetailsPutIter3'
       responses:
         200:
@@ -1008,7 +1008,7 @@ paths:
           schema:
             $ref: '#/components/return/Empty'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1023,7 +1023,7 @@ paths:
           schema:
             $ref: '#/components/return/Error'
       security:
-        - Iteration 3 Token Authentication: []
+        - Iteration 3 Session Authentication: []
   
   /v1/admin/user/password:
     put:
@@ -1040,7 +1040,7 @@ paths:
           schema:
             $ref: '#/components/return/Empty'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1061,7 +1061,7 @@ paths:
         # - "By Topic: Access Management"
         - "Iteration 3 (Modified)"
       parameters:
-        - $ref: '#/components/header/Token'
+        - $ref: '#/components/header/Session'
         - $ref: '#/components/body/UserPasswordIter3'
       responses:
         200:
@@ -1069,7 +1069,7 @@ paths:
           schema:
             $ref: '#/components/return/Empty'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1083,7 +1083,7 @@ paths:
           schema:
             $ref: '#/components/return/Error'
       security:
-        - Iteration 3 Token Authentication: []
+        - Iteration 3 Session Authentication: []
         
 
 
@@ -1102,14 +1102,14 @@ paths:
         # - "By Topic: Quiz Management"
         - "Iteration 2 (Using Iteration 1)"
       parameters:
-        - $ref: '#/components/query/Token'
+        - $ref: '#/components/query/Session'
       responses:
         200:
           description: OK
           schema:
             $ref: '#/components/return/QuizList'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
   /v2/admin/quiz/list:
@@ -1120,18 +1120,18 @@ paths:
         # - "By Topic: Quiz Management"
         - "Iteration 3 (Modified)"
       parameters:
-        - $ref: '#/components/header/Token'
+        - $ref: '#/components/header/Session'
       responses:
         200:
           description: OK
           schema:
             $ref: '#/components/return/QuizList'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
       security:
-        - Iteration 3 Token Authentication: []
+        - Iteration 3 Session Authentication: []
 
   /v1/admin/quiz:
     post:
@@ -1148,7 +1148,7 @@ paths:
           schema:
             $ref: '#/components/return/QuizNew'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1168,7 +1168,7 @@ paths:
         # - "By Topic: Quiz Management"
         - "Iteration 3 (Modified)"
       parameters:
-        - $ref: '#/components/header/Token'
+        - $ref: '#/components/header/Session'
         - $ref: '#/components/body/QuizNewIter3'
       responses:
         200:
@@ -1176,7 +1176,7 @@ paths:
           schema:
             $ref: '#/components/return/QuizNew'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1189,7 +1189,7 @@ paths:
           schema:
             $ref: '#/components/return/Error'
       security:
-        - Iteration 3 Token Authentication: []
+        - Iteration 3 Session Authentication: []
 
   /v1/admin/quiz/{quizid}:
     delete:
@@ -1208,11 +1208,11 @@ paths:
           schema:
             $ref: '#/components/return/Empty'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
     get:
@@ -1230,11 +1230,11 @@ paths:
           schema:
             $ref: '#/components/return/QuizSingleIter2'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
   /v2/admin/quiz/{quizid}:
@@ -1253,11 +1253,11 @@ paths:
           schema:
             $ref: '#/components/return/Empty'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
     get:
@@ -1268,22 +1268,22 @@ paths:
         - "Iteration 3 (Modified)"
       parameters:
         - $ref: '#/components/path/QuizId'
-        - $ref: '#/components/header/Token'
+        - $ref: '#/components/header/Session'
       responses:
         200:
           description: OK
           schema:
             $ref: '#/components/return/QuizSingleIter3'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
       security:
-        - Iteration 3 Token Authentication: []
+        - Iteration 3 Session Authentication: []
 
   /v1/admin/quiz/{quizid}/name:
     put:
@@ -1301,11 +1301,11 @@ paths:
           schema:
             $ref: '#/components/return/Empty'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid token is provided, but user is not an owner of this quiz, or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz, or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1326,7 +1326,7 @@ paths:
         - "Iteration 3 (Modified)"
       parameters:
         - $ref: '#/components/path/QuizId'
-        - $ref: '#/components/header/Token'
+        - $ref: '#/components/header/Session'
         - $ref: '#/components/body/QuizUpdateNameIter3'
       responses:
         200:
@@ -1334,11 +1334,11 @@ paths:
           schema:
             $ref: '#/components/return/Empty'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1350,7 +1350,7 @@ paths:
           schema:
             $ref: '#/components/return/Error'
       security:
-        - Iteration 3 Token Authentication: []
+        - Iteration 3 Session Authentication: []
 
   /v1/admin/quiz/{quizid}/description:
     put:
@@ -1368,11 +1368,11 @@ paths:
           schema:
             $ref: '#/components/return/Empty'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid token is provided, but user is not an owner of this quiz, or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz, or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1390,7 +1390,7 @@ paths:
         # - "By Topic: Quiz Management"
         - "Iteration 3 (Modified)"
       parameters:
-        - $ref: '#/components/header/Token'
+        - $ref: '#/components/header/Session'
         - $ref: '#/components/path/QuizId'
         - $ref: '#/components/body/QuizUpdateDescriptionIter3'
       responses:
@@ -1399,11 +1399,11 @@ paths:
           schema:
             $ref: '#/components/return/Empty'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1413,7 +1413,7 @@ paths:
           schema:
             $ref: '#/components/return/Error'
       security:
-        - Iteration 3 Token Authentication: []
+        - Iteration 3 Session Authentication: []
   
   /v1/admin/quiz/{quizid}/thumbnail:
     put:
@@ -1426,7 +1426,7 @@ paths:
         - "Iteration 3 (New)"
       parameters:
         - $ref: '#/components/path/QuizId'
-        - $ref: '#/components/header/Token'
+        - $ref: '#/components/header/Session'
         - $ref: '#/components/body/QuizThumbnail'
       responses:
         200:
@@ -1434,11 +1434,11 @@ paths:
           schema:
             $ref: '#/components/return/Empty'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1449,7 +1449,7 @@ paths:
           schema:
             $ref: '#/components/return/Error'
       security:
-        - Iteration 3 Token Authentication: []
+        - Iteration 3 Session Authentication: []
   
   /v1/admin/quiz/{quizid}/transfer:
     post:
@@ -1467,11 +1467,11 @@ paths:
           schema:
             $ref: '#/components/return/Empty'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1492,7 +1492,7 @@ paths:
         - "Iteration 3 (Modified)"
       parameters:
         - $ref: '#/components/path/QuizId'
-        - $ref: '#/components/header/Token'
+        - $ref: '#/components/header/Session'
         - $ref: '#/components/body/QuizTransferIter3'
       responses:
         200:
@@ -1500,11 +1500,11 @@ paths:
           schema:
             $ref: '#/components/return/Empty'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1517,7 +1517,7 @@ paths:
           schema:
             $ref: '#/components/return/Error'
       security:
-        - Iteration 3 Token Authentication: []
+        - Iteration 3 Session Authentication: []
   
   /v1/admin/quiz/{quizid}/question:
     post:
@@ -1537,11 +1537,11 @@ paths:
           schema:
             $ref: '#/components/return/QuizQuestionNew'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1569,7 +1569,7 @@ paths:
         - "Iteration 3 (Modified)"
       parameters:
         - $ref: '#/components/path/QuizId'
-        - $ref: '#/components/header/Token'
+        - $ref: '#/components/header/Session'
         - $ref: '#/components/body/QuizQuestionMutateIter3'
       responses:
         200:
@@ -1577,11 +1577,11 @@ paths:
           schema:
             $ref: '#/components/return/QuizQuestionNew'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1601,7 +1601,7 @@ paths:
           schema:
             $ref: '#/components/return/Error'
       security:
-        - Iteration 3 Token Authentication: []
+        - Iteration 3 Session Authentication: []
   
   /v1/admin/quiz/{quizid}/question/{questionid}:
     put:
@@ -1622,11 +1622,11 @@ paths:
           schema:
             $ref: '#/components/return/Empty'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1652,18 +1652,18 @@ paths:
       parameters:
         - $ref: '#/components/path/QuizId'
         - $ref: '#/components/path/QuestionId'
-        - $ref: '#/components/query/Token'
+        - $ref: '#/components/query/Session'
       responses:
         200:
           description: OK
           schema:
             $ref: '#/components/return/Empty'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1685,7 +1685,7 @@ paths:
       parameters:
         - $ref: '#/components/path/QuizId'
         - $ref: '#/components/path/QuestionId'
-        - $ref: '#/components/header/Token'
+        - $ref: '#/components/header/Session'
         - $ref: '#/components/body/QuizQuestionMutateIter3'
       responses:
         200:
@@ -1693,11 +1693,11 @@ paths:
           schema:
             $ref: '#/components/return/Empty'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1718,7 +1718,7 @@ paths:
           schema:
             $ref: '#/components/return/Error'
       security:
-        - Iteration 3 Token Authentication: []
+        - Iteration 3 Session Authentication: []
     delete:
       summary: Delete quiz question
       description: Delete a particular question from a quiz
@@ -1728,18 +1728,18 @@ paths:
       parameters:
         - $ref: '#/components/path/QuizId'
         - $ref: '#/components/path/QuestionId'
-        - $ref: '#/components/header/Token'
+        - $ref: '#/components/header/Session'
       responses:
         200:
           description: OK
           schema:
             $ref: '#/components/return/Empty'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1750,7 +1750,7 @@ paths:
           schema:
             $ref: '#/components/return/Error'
       security:
-        - Iteration 3 Token Authentication: []
+        - Iteration 3 Session Authentication: []
   
   /v1/admin/quiz/{quizid}/question/{questionid}/move:
     put:
@@ -1771,11 +1771,11 @@ paths:
           schema:
             $ref: '#/components/return/Empty'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1799,7 +1799,7 @@ paths:
       parameters:
         - $ref: '#/components/path/QuizId'
         - $ref: '#/components/path/QuestionId'
-        - $ref: '#/components/header/Token'
+        - $ref: '#/components/header/Session'
         - $ref: '#/components/body/QuizQuestionMoveIter3'
       responses:
         200:
@@ -1807,11 +1807,11 @@ paths:
           schema:
             $ref: '#/components/return/Empty'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1823,7 +1823,7 @@ paths:
           schema:
             $ref: '#/components/return/Error'
       security:
-        - Iteration 3 Token Authentication: []
+        - Iteration 3 Session Authentication: []
         
 
 
@@ -1842,7 +1842,7 @@ paths:
         # - "By Topic: Quiz Management"
         - "Iteration 3 (New)"
       parameters:
-        - $ref: '#/components/header/Token'
+        - $ref: '#/components/header/Session'
         - $ref: '#/components/path/QuizId'
       responses:
         200:
@@ -1850,15 +1850,15 @@ paths:
           schema:
             $ref: '#/components/return/QuizSessionsList'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
       security:
-        - Iteration 3 Token Authentication: []
+        - Iteration 3 Session Authentication: []
       
   /v1/admin/quiz/{quizid}/session/start:
     post:
@@ -1869,7 +1869,7 @@ paths:
         - "Iteration 3 (New)"
       parameters:
         - $ref: '#/components/path/QuizId'
-        - $ref: '#/components/header/Token'
+        - $ref: '#/components/header/Session'
         - $ref: '#/components/body/QuizSessionStartIter3'
       responses:
         200:
@@ -1877,11 +1877,11 @@ paths:
           schema:
             $ref: '#/components/return/QuizSessionStart'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1893,7 +1893,7 @@ paths:
           schema:
             $ref: '#/components/return/Error'
       security:
-        - Iteration 3 Token Authentication: []
+        - Iteration 3 Session Authentication: []
   /v1/admin/quiz/{quizid}/session/{sessionid}:
     put:
       summary: Update a quiz session state
@@ -1904,7 +1904,7 @@ paths:
       parameters:
         - $ref: '#/components/path/QuizId'
         - $ref: '#/components/path/SessionId'
-        - $ref: '#/components/header/Token'
+        - $ref: '#/components/header/Session'
         - $ref: '#/components/body/QuizSessionMutateIter3'
       responses:
         200:
@@ -1912,11 +1912,11 @@ paths:
           schema:
             $ref: '#/components/return/Empty'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1928,7 +1928,7 @@ paths:
           schema:
             $ref: '#/components/return/Error'
       security:
-        - Iteration 3 Token Authentication: []
+        - Iteration 3 Session Authentication: []
     get:
       summary: Get quiz session status
       description: Get the status of a particular quiz session
@@ -1938,18 +1938,18 @@ paths:
       parameters:
         - $ref: '#/components/path/QuizId'
         - $ref: '#/components/path/SessionId'
-        - $ref: '#/components/header/Token'
+        - $ref: '#/components/header/Session'
       responses:
         200:
           description: OK
           schema:
             $ref: '#/components/return/QuizSessionStatus'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1959,7 +1959,7 @@ paths:
           schema:
             $ref: '#/components/return/Error'
       security:
-        - Iteration 3 Token Authentication: []
+        - Iteration 3 Session Authentication: []
       
   /v1/admin/quiz/{quizid}/session/{sessionid}/results:
     get:
@@ -1971,18 +1971,18 @@ paths:
       parameters:
         - $ref: '#/components/path/QuizId'
         - $ref: '#/components/path/SessionId'
-        - $ref: '#/components/header/Token'
+        - $ref: '#/components/header/Session'
       responses:
         200:
           description: OK
           schema:
             $ref: '#/components/return/ResultsFinal'
         401:
-          description: Token is empty or invalid (does not refer to valid logged in user session)
+          description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid token is provided, but user is not an owner of this quiz or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1993,7 +1993,7 @@ paths:
           schema:
             $ref: '#/components/return/Error'
       security:
-        - Iteration 3 Token Authentication: []
+        - Iteration 3 Session Authentication: []
 
 
   /v1/player/join:
@@ -2154,7 +2154,7 @@ paths:
             $ref: '#/components/return/Empty'
 
 securityDefinitions:
-  Iteration 3 Token Authentication:
+  Iteration 3 Session Authentication:
     type: apiKey
-    name: token
+    name: session
     in: header

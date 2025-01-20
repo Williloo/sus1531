@@ -1121,27 +1121,21 @@ In iteration 2, instead of passing in `userId` into functions, we will instead p
 
 Then in this way, we can now allow for things like the ability to meaningfully log someone out, as well as to have multiple sessions at the same time for multiple users (e.g. imagine being logged in on two computers but only wanting to log one out).
 
-#### The term `token`
-
-You may however notice in the specification that the word `token` is used - not session. This is because when sending HTTP requests a common practice is to package up information relating to the session of the user, we wrap it up into a ***stringified*** object called a `token`. This token could take on a number of different forms, though the simplest form is to just have your session inside a token object.
-
-A token is required to be stringified for sending over HTTP. This is typically done with JSON, if you've chosen a non-string, object-based token as above. If you pass a JSONified object (as opposed to just a string) as a token, we recommend that you use [encodeURIComponent](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent) and [decodeURIComponent](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURIComponent) to encode it to be friendly for transfer over URLs. Example:
-
-```javascript
-// This is ready to pass into a HTTP GET request now
-const token = encodeURIComponent(JSON.stringify(
-  {
-    "sessionId": 23145
-  }
-));
-```
-
 How you generate unique identifiers for sessions is up to you.
+
+#### 🦆 5.7.3. Avoiding sessions being exposed in the URL
+
+In this model, you will utiliza a `session` HTTP header when dealing with requests/routes only. You shouldn't remove `session` parameters from backend functions, as they must perform the validity checks.
+
+You can access HTTP headers like so:
+```javascript
+const session = req.header('session');
+```
 
 #### In summary
 
 Implentation details are up to you, though the key things to ensure that you comply with are that:
-* Token is an object that contains some information that allows you to derive a user session.
+* Session values must be passed via HTTP headers.
 * Your system allows multiple sessions to be able to be logged in and logged out at the same time.
 
 #### Other notes
@@ -1299,7 +1293,6 @@ Please see the <a href="https://edstem.org/au/courses/18921/discussion/2214720">
 There is no pre-recorded introductory video for this iteration, as we will cover this iteration in regular lectures.
 
 Iteration 3 builds off all of the work you've completed in iteration 1 and 2. If you haven't completed the implementation of iteration 2, you must complete it as part of this iteration. Most of the work from iteration 1 and 2 can be recycled, but the following consideration(s) need to be made from previous work:
-* All routes that had token in the query or body now have it in the header.
 * `PUT /v2/admin/quiz/{quizid}/question/{questionid}` has different body input.
 * `GET /v2/admin/quiz/{quizid}` has different return type.
 * `POST /v2/admin/quiz/{quizid}/question` has a different input type.
@@ -1335,7 +1328,7 @@ In this iteration, you are expected to:
     
     * You must comply with instructions laid out in `5.3`
 
-    * Ensure that you correctly manage user sessions (tokens) and passwords in terms of authentication and authorisation, as per requirements laid out in section `5.8`.
+    * Ensure that you correctly manage user sessions and passwords in terms of authentication and authorisation, as per requirements laid out in section `5.8`.
 
 3. Continue demonstrating effective project management and git usage.
 
@@ -1528,23 +1521,6 @@ We require that you obfuscate your user sessions to prevent enumeration. You can
 
 You may already be doing (1) depending on your implementation from the previous iteration.
 
-#### 🦆 5.7.3. Avoiding tokens being exposed in the URL
-
-In this model, you will replace `token` query and body parameters with a `token` HTTP header when dealing with requests/routes only. You shouldn't remove `token` parameters from backend functions, as they must perform the validity checks.
-
-You can access HTTP headers like so:
-```javascript
-const token = req.header('token');
-```
-
-This will also mean you no longer need to use `encodeURIComponent` or `decodeURIComponent` if you were using that in iteration 2.
-
-##### Background
-
-Any query parameters (those used by `GET/DELETE` functions) can be read in plaintext by an eavesdropper spying on your HTTP requests. Hence, by passing an authentication token as a query parameter, we're allowing an attacker to intercept our request, steal our token and impersonate other users! On the other hand, HTTP headers are encrypted (as long as you use HTTPS protocol), meaning an eavesdropper won't be able to read token values.
-
-Note: While this safely protects user sessions from man-in-the-middle attacks (intercepting our HTTP requests), it doesn't protect against client-side attacks, where an attacker may steal a token after the HTTP header has been decoded and received by the user. **You do not need to worry about mitigating client-side attacks**, but you can read more about industry-standard session management <a href="https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#secure-attribute">here</a>.
-
 #### 🦆 5.7.4. Summary
 
 The following describes one potential way of implementing:
@@ -1554,7 +1530,7 @@ A sample flow logging a user in might be as follows (other flows exist too):
 1. Client makes a valid `auth/register` call.
 2. Server stores the hash of the plain text password that was provided over the request, but does not store the plain text password.
 3. Server generates an incremental session ID (e.g. 1, 2, 3) and then stores a hash of that session ID to create something obfuscated.
-4. Server returns that hash of the session ID as a token to the user in the response body.
+4. Server returns that hash of the session ID to the user in the response body.
 ```
 
 ### 🦆 5.8. Deployment
@@ -1800,7 +1776,7 @@ Please note: The current limit on reruns is one every 24 hours. You can submit m
 
 #### What constitutes a "trivial fix”?
 * Fixing spelling/capitalisation/naming issues with values specified in spec documentation
-* Swapping a variable type e.g. token from 'number' to 'string'
+* Swapping a variable type e.g. session from 'number' to 'string'
 * Changing the return value type e.g. returning {} rather than null, to match spec documentation
 * Changing route versions e.g. v1 to v2 to match spec documentation
 * Fixing import values
@@ -1858,7 +1834,7 @@ The following serves as a baseline for expected progress during project check-in
 | 2         | **Week 6**    | **(Checked by your tutor in week 7)** Server routes for all iteration 1 functions complete and in master                                              |
 | 2         | **Week 7**    | 1x iteration 2 route per person complete (HTTP tests and implementation in master)                                                                    |
 | 3         | **Week 8**    | Iteration 3 specification has been discussed in a meeting, at least 1 task per person has been assigned                                               |
-| 3         | **Week 9**    | Exceptions & tokens in HTTP headers added across the project AND 1x iteration 3 route per person complete (HTTP tests and implementation in master)                            |
+| 3         | **Week 9**    | Exceptions & sessions in HTTP headers added across the project AND 1x iteration 3 route per person complete (HTTP tests and implementation in master)                            |
 | 3         | **Week 10**    | 2x iteration 3 routes per person complete (HTTP tests and implementation in master)                            |
 
 ### 👌 7.2. Tutorial contributions
