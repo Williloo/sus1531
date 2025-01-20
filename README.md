@@ -995,9 +995,11 @@ In this iteration, you are expected to:
 
 4. Ensure your code is linted to the provided style guide.
 
-    * `eslint` should be added to your repo via `npm` and then added to your `package.json` file to run when the command `npm run lint` is run. The provided `.eslintrc.json` file is *very* lenient, so there is no reason you should have to disable any additional checks. This is the exact configuration used by the automarking, so you should not change it.
+    * `eslint` should be added to your repo via `npm` and then added to your `package.json` file to run when the command `npm run lint` is run. The provided `.eslintrc.json` file and files scanned by `npm run lint` is *very* lenient, so there is no reason you should have to disable any additional checks. This is the exact configuration used by the automarking, so you should not change it.
 
     * You are required to edit the `gitlab-ci.yml` file, as per section 4.5 to add linting to the code on `master`. **You must do this BEFORE merging anything from iteration 2 into `master`**, so that you ensure `master` is always stable. See section 4.6 below for instructions on adding linting to your pipeline.
+
+    * Automarking ensures all 
 
 5. Continue demonstrating effective project management and effective git usage.
 

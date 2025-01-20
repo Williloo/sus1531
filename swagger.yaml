@@ -4,6 +4,7 @@ info:
   description: |
     API description in for Toohak.
     All error strings are required to be clear descriptive message. The descriptive message won't change the marks you receive when being automarked as long as you make an attempt for each one to be custom, but they will improve the usability of the frontend.
+    See the schema tab for greater explanations on each attribute of an object.
   version: 1.0.0
  
 schemes:
@@ -323,7 +324,7 @@ components:
               score:
                 type: number
                 example: 45
-                description: The final score for the user
+                description: The final score for the user, must be a whole number/integer.
           description: A list of all users who played ranked in descending order by score
         questionResults:
           type: array
