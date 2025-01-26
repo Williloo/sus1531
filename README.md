@@ -799,7 +799,7 @@ For timestamps, these are Unix timestamps in seconds. You can find more informat
   </tr>
 </table>
 
-### 🦆 3.6. Planning for the next problems to solve
+### 🐶 3.6. Planning for the next problems to solve
 
 Software development is an iterative process - we're never truly finished. As we complete the development and testing of one feature, we're often then trying to understand the requirements and needs of our users to design the next set of features in our product.
 
@@ -964,7 +964,7 @@ Please see section 6 for information on **due date** and on how you will **demon
 
 Please see section 7.5 for information on **teamwork evaluation**.
 
-### 🐭 3.11. FAQs
+### 🐶 3.11. FAQs
 
 Please see the <a href="https://edstem.org/au/courses/18921/discussion/2236396">this EdStem megapost</a> for iteration 1 FAQs.
 
@@ -1073,7 +1073,7 @@ Please pay careful attention to the following:
 * Pushing directly to `master` is not possible for this repo. The only way to get code into `master` is via a merge request. If you discover you have a bug in `master` that got through testing, create a bugfix branch and merge that in via a merge request.
 * As is the case with any system or functionality, there will be some things that you can test extensively, some things that you can test sparsely/fleetingly, and some things that you can't meaningfully test at all. You should aim to test as extensively as you can, and make judgements as to what things fall into what categories.
 
-### 🐝 4.3.1 LLM API
+#### 🐝 4.3.1 LLM API
 The `/v1/admin/quiz/{quizId}/question/suggestion` route requires interfacing with an LLM API. In this course, we will use the Hugging Face API to interface with Google's FLAN-T5 large model. You can learn more about it and play around with examples <a href="https://huggingface.co/google/flan-t5-large">here</a>.
 
 You will need to create a free account to generate an <b>Access Token</b> to utilise this API within your implementation. You may use one account per group and share this Access Token, but be mindful of the Inference API <a href="https://huggingface.co/docs/api-inference/en/rate-limits"> rate limits<a>, especially when writing tests and running pipelines.
@@ -1151,7 +1151,7 @@ Then in this way, we can now allow for things like the ability to meaningfully l
 
 How you generate unique identifiers for sessions is up to you.
 
-#### 🦆 5.7.3. Avoiding sessions being exposed in the URL
+#### Avoiding sessions being exposed in the URL
 
 In this model, you will utiliza a `session` HTTP header when dealing with requests/routes only. You shouldn't remove `session` parameters from backend functions, as they must perform the validity checks.
 
