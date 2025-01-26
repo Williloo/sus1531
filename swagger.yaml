@@ -412,15 +412,6 @@ components:
             $ref: '#/components/prim/Email'
           password:
             $ref: '#/components/prim/Password'
-    LogoutIter2:
-      in: body
-      name: body
-      required: true
-      schema:
-        type: object
-        properties:
-          session:
-            $ref: '#/components/prim/Session'
     PasswordResetRequest:
       in: body
       name: body
@@ -441,25 +432,6 @@ components:
             $ref: '#/components/prim/ResetCode'
           password:
             $ref: '#/components/prim/Password'
-    UserDetailsGetIter2:
-      in: query
-      name: session
-      required: true
-      schema:
-        type: string
-    UserPasswordIter2:
-      in: body
-      name: body
-      required: true
-      schema:
-        type: object
-        properties:
-          session:
-            $ref: '#/components/prim/Session'
-          oldPassword:
-            $ref: '#/components/prim/Password'
-          newPassword:
-            $ref: '#/components/prim/newPassword'
     UserPasswordIter3:
       in: body
       name: body
@@ -471,21 +443,6 @@ components:
             $ref: '#/components/prim/Password'
           newPassword:
             $ref: '#/components/prim/Password'
-    UserDetailsPutIter2:
-      in: body
-      name: body
-      required: true
-      schema:
-        type: object
-        properties:
-          session:
-            $ref: '#/components/prim/Session'
-          email:
-            $ref: '#/components/prim/Email'
-          nameFirst:
-            $ref: '#/components/prim/NameFirst'
-          nameLast:
-            $ref: '#/components/prim/NameLast'
     UserDetailsPutIter3:
       in: body
       name: body
@@ -508,21 +465,6 @@ components:
         properties:
           session:
             $ref: '#/components/prim/Session'
-    QuizNewIter2:
-      in: body
-      name: body
-      required: true
-      schema:
-        type: object
-        properties:
-          session:
-            $ref: '#/components/prim/Session'
-          name:
-            type: string
-            example: My Quiz Name
-          description:
-            type: string
-            example: A description of my quiz
     QuizNewIter3:
       in: body
       name: body
@@ -536,32 +478,6 @@ components:
           description:
             type: string
             example: A description of my quiz
-    QuizDeleteIter2:
-      in: query
-      name: session
-      required: true
-      schema:
-        session:
-          $ref: '#/components/prim/Session'
-    QuizGetIter2:
-      in: query
-      name: session
-      required: true
-      schema:
-        session:
-          $ref: '#/components/prim/Session'
-    QuizUpdateNameIter2:
-      in: body
-      name: body
-      required: true
-      schema:
-        type: object
-        properties:
-          session:
-            $ref: '#/components/prim/Session'
-          name:
-            type: string
-            example: My Quiz Name
     QuizUpdateNameIter3:
       in: body
       name: body
@@ -572,18 +488,6 @@ components:
           name:
             type: string
             example: My Quiz Name
-    QuizUpdateDescriptionIter2:
-      in: body
-      name: body
-      required: true
-      schema:
-        type: object
-        properties:
-          session:
-            $ref: '#/components/prim/Session'
-          description:
-            type: string
-            example: A description of my quiz
     QuizUpdateDescriptionIter3:
       in: body
       name: body
@@ -612,17 +516,6 @@ components:
         properties:
           thumbnailUrl:
             $ref: '#/components/prim/Url'
-    QuizTransferIter2:
-      in: body
-      name: body
-      required: true
-      schema:
-        type: object
-        properties:
-          session:
-            $ref: '#/components/prim/Session'
-          userEmail:
-            $ref: '#/components/prim/Email'
     QuizTransferIter3:
       in: body
       name: body
@@ -639,8 +532,6 @@ components:
       schema:
         type: object
         properties:
-          session:
-            $ref: '#/components/prim/Session'
           questionBody:
             $ref: '#/components/group/QuestionMutateIter2'
     QuizQuestionMutateIter3:
@@ -661,19 +552,6 @@ components:
         properties:
           session:
             $ref: '#/components/prim/Session'
-    QuizQuestionMoveIter2:
-      in: body
-      name: body
-      required: true
-      schema:
-        type: object
-        properties:
-          session:
-            $ref: '#/components/prim/Session'
-          newPosition:
-            type: integer
-            example: 1
-            description: Position 0 is the very beginning, position 1 is between the 1st and 2nd question, etc. So position n-1 is the final position where n is the number of questions
     QuizQuestionMoveIter3:
       in: body
       name: body
@@ -775,6 +653,11 @@ components:
       properties:
         questionId:
           $ref: '#/components/prim/QuestionId'
+    QuestionSuggestion:
+      type: object
+      properties:
+        question:
+          $ref: '#/components/prim/QuizQuestion'
     QuizSessionStart:
       type: object
       properties:
@@ -830,8 +713,6 @@ components:
       $ref: '#/components/group/ResultsFinal'
 
 paths:
-
-
 
   /v1/admin/auth/register:
     post:
@@ -891,24 +772,6 @@ paths:
         # - "By Topic: Access Management"
         - "Iteration 2 (New)"
       parameters:
-        - $ref: '#/components/body/LogoutIter2'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/components/return/Empty'
-        401:
-          description: Session is empty or invalid (does not refer to valid logged in user session)
-          schema:
-            $ref: '#/components/return/Error'
-  /v2/admin/auth/logout:
-    post:
-      summary: Logs out an admin user who has an active user session.
-      description: Should be called with a session that is returned after either a login or register has been made.
-      tags:
-        # - "By Topic: Access Management"
-        - "Iteration 3 (Modified)"
-      parameters:
         - $ref: '#/components/header/Session'
       responses:
         200:
@@ -919,8 +782,6 @@ paths:
           description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
-      security:
-        - Iteration 3 Session Authentication: []
 
   /v1/admin/user/details:
     get:
@@ -930,7 +791,7 @@ paths:
         # - "By Topic: Access Management"
         - "Iteration 2 (Using Iteration 1)"
       parameters:
-        - $ref: '#/components/body/UserDetailsGetIter2'
+        - $ref: '#/components/header/Session'
       responses:
         200:
           description: |
@@ -949,57 +810,6 @@ paths:
       tags:
         # - "By Topic: Access Management"
         - "Iteration 2 (Using Iteration 1)"
-      parameters:
-        - $ref: '#/components/body/UserDetailsPutIter2'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/components/return/Empty'
-        401:
-          description: Session is empty or invalid (does not refer to valid logged in user session)
-          schema:
-            $ref: '#/components/return/Error'
-        400:
-          description: |
-            If any of the following are true:
-            - Email is currently used by another user (excluding the current authorised user)
-            - Email does not satisfy this: https://www.npmjs.com/package/validator (validator.isEmail)
-            - NameFirst contains characters other than lowercase letters, uppercase letters, spaces, hyphens, or apostrophes
-            - NameFirst is less than 2 characters or more than 20 characters
-            - NameLast contains characters other than lowercase letters, uppercase letters, spaces, hyphens, or apostrophes
-            - NameLast is less than 2 characters or more than 20 characters
-          schema:
-            $ref: '#/components/return/Error'
-  /v2/admin/user/details:
-    get:
-      summary: Get the details of this admin user (non-password).
-      description: For the given admin user that is logged in, return all of the relevant details.
-      tags:
-        # - "By Topic: Access Management"
-        - "Iteration 3 (Modified)"
-      parameters:
-        - $ref: '#/components/header/Session'
-      responses:
-        200:
-          description: |
-            - "name" is the first and last name concatenated with a single space between them
-            - numSuccessfulLogins includes logins direct via registration, and is counted from the moment of registration starting at 1
-            - numFailedPasswordsSinceLastLogin is reset every time they have a successful login, and simply counts the number of attempted logins that failed due to incorrect password, only since the last login
-          schema:
-            $ref: '#/components/return/User'
-        401:
-          description: Session is empty or invalid (does not refer to valid logged in user session)
-          schema:
-            $ref: '#/components/return/Error'
-      security:
-        - Iteration 3 Session Authentication: []
-    put:
-      summary: Update the details of this admin user (non-password).
-      description: Given a set of properties, update those properties of this logged in admin user.
-      tags:
-        # - "By Topic: Access Management"
-        - "Iteration 3 (Modified)"
       parameters:
         - $ref: '#/components/header/Session'
         - $ref: '#/components/body/UserDetailsPutIter3'
@@ -1023,8 +833,6 @@ paths:
             - NameLast is less than 2 characters or more than 20 characters
           schema:
             $ref: '#/components/return/Error'
-      security:
-        - Iteration 3 Session Authentication: []
   
   /v1/admin/user/password:
     put:
@@ -1033,34 +841,6 @@ paths:
       tags:
         # - "By Topic: Access Management"
         - "Iteration 2 (Using Iteration 1)"
-      parameters:
-        - $ref: '#/components/body/UserPasswordIter2'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/components/return/Empty'
-        401:
-          description: Session is empty or invalid (does not refer to valid logged in user session)
-          schema:
-            $ref: '#/components/return/Error'
-        400:
-          description: |
-            If any of the following are true:
-            - Old Password is not the correct old password
-            - Old Password and New Password match exactly
-            - New Password has already been used before by this user
-            - New Password is less than 8 characters
-            - New Password does not contain at least one number and at least one letter
-          schema:
-            $ref: '#/components/return/Error'
-  /v2/admin/user/password:
-    put:
-      summary: Update the password of this admin user.
-      description: Given details relating to a password change, update the password of a logged in user.
-      tags:
-        # - "By Topic: Access Management"
-        - "Iteration 3 (Modified)"
       parameters:
         - $ref: '#/components/header/Session'
         - $ref: '#/components/body/UserPasswordIter3'
@@ -1083,15 +863,7 @@ paths:
             - New Password does not contain at least one number and at least one letter
           schema:
             $ref: '#/components/return/Error'
-      security:
-        - Iteration 3 Session Authentication: []
         
-
-
-
-
-
-
 
 
 
@@ -1103,24 +875,6 @@ paths:
         # - "By Topic: Quiz Management"
         - "Iteration 2 (Using Iteration 1)"
       parameters:
-        - $ref: '#/components/query/Session'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/components/return/QuizList'
-        401:
-          description: Session is empty or invalid (does not refer to valid logged in user session)
-          schema:
-            $ref: '#/components/return/Error'
-  /v2/admin/quiz/list:
-    get:
-      summary: Lists all user's quizzes
-      description: Provide a list of all quizzes that are owned by the currently logged in user
-      tags:
-        # - "By Topic: Quiz Management"
-        - "Iteration 3 (Modified)"
-      parameters:
         - $ref: '#/components/header/Session'
       responses:
         200:
@@ -1131,8 +885,6 @@ paths:
           description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
             $ref: '#/components/return/Error'
-      security:
-        - Iteration 3 Session Authentication: []
 
   /v1/admin/quiz:
     post:
@@ -1141,33 +893,6 @@ paths:
       tags:
         # - "By Topic: Quiz Management"
         - "Iteration 2 (Using Iteration 1)"
-      parameters:
-        - $ref: '#/components/body/QuizNewIter2'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/components/return/QuizNew'
-        401:
-          description: Session is empty or invalid (does not refer to valid logged in user session)
-          schema:
-            $ref: '#/components/return/Error'
-        400:
-          description: |
-            If any of the following are true:
-            - Name contains invalid characters. Valid characters are alphanumeric and spaces
-            - Name is either less than 3 characters long or more than 30 characters long
-            - Name is already used by the current logged in user for another quiz
-            - Description is more than 100 characters in length (note: empty strings are OK)
-          schema:
-            $ref: '#/components/return/Error'
-  /v2/admin/quiz:
-    post:
-      summary: Create a new quiz
-      description: Given basic details about a new quiz, create one for the logged in user
-      tags:
-        # - "By Topic: Quiz Management"
-        - "Iteration 3 (Modified)"
       parameters:
         - $ref: '#/components/header/Session'
         - $ref: '#/components/body/QuizNewIter3'
@@ -1189,8 +914,6 @@ paths:
             - Description is more than 100 characters in length (note: empty strings are OK)
           schema:
             $ref: '#/components/return/Error'
-      security:
-        - Iteration 3 Session Authentication: []
 
   /v1/admin/quiz/{quizid}:
     delete:
@@ -1202,7 +925,7 @@ paths:
         - "Iteration 2 (Using Iteration 1)"
       parameters:
         - $ref: '#/components/path/QuizId'
-        - $ref: '#/components/body/QuizDeleteIter2'
+        - $ref: '#/components/header/Session'
       responses:
         200:
           description: OK
@@ -1224,7 +947,7 @@ paths:
         - "Iteration 2 (Using Iteration 1)"
       parameters:
         - $ref: '#/components/path/QuizId'
-        - $ref: '#/components/body/QuizGetIter2'
+        - $ref: '#/components/header/Session'
       responses:
         200:
           description: OK
@@ -1238,6 +961,7 @@ paths:
           description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
+
   /v2/admin/quiz/{quizid}:
     delete:
       summary: Delete a quiz
@@ -1247,7 +971,7 @@ paths:
         - "Iteration 3 (Modified)"
       parameters:
         - $ref: '#/components/path/QuizId'
-        - $ref: '#/components/body/QuizDeleteIter2'
+        - $ref: '#/components/header/Session'
       responses:
         200:
           description: OK
@@ -1295,38 +1019,6 @@ paths:
         - "Iteration 2 (Using Iteration 1)"
       parameters:
         - $ref: '#/components/path/QuizId'
-        - $ref: '#/components/body/QuizUpdateNameIter2'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/components/return/Empty'
-        401:
-          description: Session is empty or invalid (does not refer to valid logged in user session)
-          schema:
-            $ref: '#/components/return/Error'
-        403:
-          description: Valid session is provided, but user is not an owner of this quiz, or quiz doesn't exist
-          schema:
-            $ref: '#/components/return/Error'
-        400:
-          description: |
-            If any of the following are true:
-            - Name contains invalid characters. Valid characters are alphanumeric and spaces
-            - Name is either less than 3 characters long or more than 30 characters long
-            - Name is already used by the current logged in user for another quiz
-          schema:
-            $ref: '#/components/return/Error'
-
-  /v2/admin/quiz/{quizid}/name:
-    put:
-      summary: Update quiz name
-      description: Update the name of the relevant quiz
-      tags:
-        # - "By Topic: Quiz Management"
-        - "Iteration 3 (Modified)"
-      parameters:
-        - $ref: '#/components/path/QuizId'
         - $ref: '#/components/header/Session'
         - $ref: '#/components/body/QuizUpdateNameIter3'
       responses:
@@ -1339,7 +1031,7 @@ paths:
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz, or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1350,8 +1042,6 @@ paths:
             - Name is already used by the current logged in user for another quiz
           schema:
             $ref: '#/components/return/Error'
-      security:
-        - Iteration 3 Session Authentication: []
 
   /v1/admin/quiz/{quizid}/description:
     put:
@@ -1360,36 +1050,6 @@ paths:
       tags:
         # - "By Topic: Quiz Management"
         - "Iteration 2 (Using Iteration 1)"
-      parameters:
-        - $ref: '#/components/path/QuizId'
-        - $ref: '#/components/body/QuizUpdateDescriptionIter2'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/components/return/Empty'
-        401:
-          description: Session is empty or invalid (does not refer to valid logged in user session)
-          schema:
-            $ref: '#/components/return/Error'
-        403:
-          description: Valid session is provided, but user is not an owner of this quiz, or quiz doesn't exist
-          schema:
-            $ref: '#/components/return/Error'
-        400:
-          description: |
-            If any of the following are true:
-            - Description is more than 100 characters in length (note: empty strings are OK)
-          schema:
-            $ref: '#/components/return/Error'
-
-  /v2/admin/quiz/{quizid}/description:
-    put:
-      summary: Update quiz description
-      description: Update the description of the relevant quiz
-      tags:
-        # - "By Topic: Quiz Management"
-        - "Iteration 3 (Modified)"
       parameters:
         - $ref: '#/components/header/Session'
         - $ref: '#/components/path/QuizId'
@@ -1404,7 +1064,7 @@ paths:
           schema:
             $ref: '#/components/return/Error'
         403:
-          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
+          description: Valid session is provided, but user is not an owner of this quiz, or quiz doesn't exist
           schema:
             $ref: '#/components/return/Error'
         400:
@@ -1413,8 +1073,6 @@ paths:
             - Description is more than 100 characters in length (note: empty strings are OK)
           schema:
             $ref: '#/components/return/Error'
-      security:
-        - Iteration 3 Session Authentication: []
   
   /v1/admin/quiz/{quizid}/thumbnail:
     put:
@@ -1461,7 +1119,8 @@ paths:
         - "Iteration 2 (New)"
       parameters:
         - $ref: '#/components/path/QuizId'
-        - $ref: '#/components/body/QuizTransferIter2'
+        - $ref: '#/components/header/Session'
+        - $ref: '#/components/body/QuizTransferIter3'
       responses:
         200:
           description: OK
@@ -1531,6 +1190,7 @@ paths:
         - "Iteration 2 (New)"
       parameters:
         - $ref: '#/components/path/QuizId'
+        - $ref: '#/components/header/Session'
         - $ref: '#/components/body/QuizQuestionMutateIter2'
       responses:
         200:
@@ -1604,6 +1264,34 @@ paths:
       security:
         - Iteration 3 Session Authentication: []
   
+  /v1/admin/quiz/{quizId}/question/suggestion:
+    get:
+      summary: Get an LLM-generated question suggestion.
+      description: |
+        Get a question suggestion from the LLM system.
+        This suggestion should be based on the quiz name and description.
+      tags:
+        # - "By Topic: Quiz Management"
+        - "Iteration 2 (New)"
+      parameters:
+        - $ref: '#/components/path/QuizId'
+        - $ref: '#/components/header/Session'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/components/return/QuestionSuggestion'
+        401:
+          description: Session is empty or invalid (does not refer to valid logged in user session)
+          schema:
+            $ref: '#/components/return/Error'
+        403:
+          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
+          schema:
+            $ref: '#/components/return/Error'
+      security:
+        - Iteration 3 Session Authentication: []
+
   /v1/admin/quiz/{quizid}/question/{questionid}:
     put:
       summary: Update quiz question
@@ -1616,6 +1304,7 @@ paths:
       parameters:
         - $ref: '#/components/path/QuizId'
         - $ref: '#/components/path/QuestionId'
+        - $ref: '#/components/query/Session'
         - $ref: '#/components/body/QuizQuestionMutateIter2'
       responses:
         200:
@@ -1763,9 +1452,10 @@ paths:
         # - "By Topic: Quiz Management"
         - "Iteration 2 (New)"
       parameters:
-        - $ref: '#/components/path/QuizId'
-        - $ref: '#/components/path/QuestionId'
-        - $ref: '#/components/body/QuizQuestionMoveIter2'
+       - $ref: '#/components/path/QuizId'
+       - $ref: '#/components/path/QuestionId'
+       - $ref: '#/components/header/Session'
+       - $ref: '#/components/body/QuizQuestionMoveIter3'
       responses:
         200:
           description: OK
@@ -1787,47 +1477,7 @@ paths:
             - NewPosition is the position of the current question
           schema:
             $ref: '#/components/return/Error'
-
-  /v2/admin/quiz/{quizid}/question/{questionid}/move:
-    put:
-      summary: Move a quiz question
-      description: | 
-       - Move a question from one particular position in the quiz to another
-       - When this route is called, the timeLastEdited is updated
-      tags:
-        # - "By Topic: Quiz Management"
-        - "Iteration 3 (Modified)"
-      parameters:
-        - $ref: '#/components/path/QuizId'
-        - $ref: '#/components/path/QuestionId'
-        - $ref: '#/components/header/Session'
-        - $ref: '#/components/body/QuizQuestionMoveIter3'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/components/return/Empty'
-        401:
-          description: Session is empty or invalid (does not refer to valid logged in user session)
-          schema:
-            $ref: '#/components/return/Error'
-        403:
-          description: Valid session is provided, but user is not an owner of this quiz or quiz doesn't exist
-          schema:
-            $ref: '#/components/return/Error'
-        400:
-          description: |
-            If any of the following are true:
-            - Question Id does not refer to a valid question within this quiz
-            - NewPosition is less than 0, or NewPosition is greater than n-1 where n is the number of questions
-            - NewPosition is the position of the current question
-          schema:
-            $ref: '#/components/return/Error'
-      security:
-        - Iteration 3 Session Authentication: []
         
-
-
 
 
 
