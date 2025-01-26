@@ -1268,7 +1268,7 @@ paths:
     get:
       summary: Get an LLM-generated question suggestion.
       description: |
-        Get a question suggestion from the LLM system.
+        Get a question suggestion from the LLM API. See the spec for more information. 
         This suggestion should be based on the quiz name and description.
       tags:
         # - "By Topic: Quiz Management"

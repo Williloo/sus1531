@@ -1073,6 +1073,26 @@ Please pay careful attention to the following:
 * Pushing directly to `master` is not possible for this repo. The only way to get code into `master` is via a merge request. If you discover you have a bug in `master` that got through testing, create a bugfix branch and merge that in via a merge request.
 * As is the case with any system or functionality, there will be some things that you can test extensively, some things that you can test sparsely/fleetingly, and some things that you can't meaningfully test at all. You should aim to test as extensively as you can, and make judgements as to what things fall into what categories.
 
+### 🐝 4.3.1 LLM API
+The `/v1/admin/quiz/{quizId}/question/suggestion` route requires interfacing with an LLM API. In this course, we will use the Hugging Face API to interface with Google's FLAN-T5 large model. You can learn more about it and play around with examples <a href="https://huggingface.co/google/flan-t5-large">here</a>.
+
+You will need to create a free account to generate an <b>Access Token</b> to utilise this API within your implementation. You may use one account per group and share this Access Token, but be mindful of the Inference API <a href="https://huggingface.co/docs/api-inference/en/rate-limits"> rate limits<a>, especially when writing tests and running pipelines.
+
+You may hard-code this Access Token within your server file, or implement the more secure method of environment variable secrets and <a href="https://docs.gitlab.com/ee/ci/variables/index.html">Gitlab CI/CD variables</a>. The course does not expect you to implement the secure method. 
+
+A simple API request to the Hugging Face Inference API using Google's FLAN-5 large model:
+```javascript
+const response = request('POST', 'https://api-inference.huggingface.co/models/google/flan-t5-larged', {
+  headers: {
+    Authorization: `Bearer ${HUGGINGFACE_API_TOKEN}`,
+    'Content-Type': 'application/json'
+  },
+  json: {
+    inputs: `YOUR_PROMPT_HERE`
+  }
+}
+```
+
 ### 🐝 4.4. Testing the interface
 
 In this iteration, **the layer of abstraction has changed to the HTTP level**, meaning that you are only required to write integration tests that check the HTTP endpoints, rather than the style of tests you wrote in iteration 1 where the behaviour of the Javascript functions themselves was tested.
