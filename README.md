@@ -1567,7 +1567,7 @@ A sample flow logging a user in might be as follows (other flows exist too):
 4. Server returns that hash of the session ID to the user in the response body.
 ```
 
-### 🦆 5.9. Scoring & Ranking
+### 🦆 5.8. Scoring & Ranking
 
 To determine the score a user receives for a particular question:
  * If they do not get the question correct or do not answer the question, they receive a score of 0.
@@ -1580,7 +1580,7 @@ When returned through any of the inputs:
  * All scores for a particular question are rounded to the nearest integer.
  * If there are players with the same final score, they share the same rank, e.g. players scoring 5, 3, 3, 2, 2, 1 have ranks 1, 2, 2, 4, 4, 6.
 
-### 🦆 5.10. Open-ended Feature(s)
+### 🦆 5.9. Open-ended Feature(s)
 <i>Only attempt this section if you have already completed the rest of the project. The time investment to earn these marks is significantly higher than other components of this iteration.</i>
 
 #### Part A: Thinking Bigger with LLMs (50%)
@@ -1619,7 +1619,7 @@ You may document any notes on your implementation that you would like to highlig
 
 You must implement independent routes for both Part A and B to receive 100% in this section.
 
-### 🦆 5.11. Iteration 3 Final Presentation
+### 🦆 5.10. Iteration 3 Final Presentation
 
 Iteration 3 final presentation is a 10 minute Q&A session.
 
@@ -1633,7 +1633,7 @@ Times mentioned above will be adhered to strictly.
 
 The remaining time will be Q&A led by a tutor. That tutor may not necessarily be your normal class tutor.
 
-### 🦆 5.12. Marking Criteria
+### 🦆 5.11. Marking Criteria
 
 <table>
   <tr>
@@ -1729,7 +1729,7 @@ Where:
  * `e` is the score between 0-100 achieved by running <code>eslint</code> against your code and the provided configuration. You may find a mark of 0 if you have used eslint disable comments in your code.
  * `t` is the score between 0-10 achieved by running <code>tsc</code> against your code and the provided configuration.
 
-### 🦆 5.12. Dryrun
+### 🦆 5.11. Dryrun
 
 The dryrun checks the format of your return types and simple expected behaviour for a few basic routes. Do not rely on these as an indicator for the correctness of your implementation or tests.
 
@@ -1744,13 +1744,13 @@ To view the dryrun tests, you can run the following command on CSE machines:
 cat ~cs1531/bin/iter3.test.js
 ```
 
-### 🦆 5.13. Submission & teamwork evaluation
+### 🦆 5.12. Submission & teamwork evaluation
 
 Please see section 6 for information on **due date**. There will be no demonstration for iteration 3.
 
 Please see section 7.5 for information on **teamwork evaluation**.
 
-### 🦆 5.14. FAQs
+### 🦆 5.13. FAQs
 
 Please see the <a href="https://edstem.org/au/courses/18921/discussion/2214720">this EdStem megapost</a> for iteration 3 FAQs.
 
