@@ -1244,7 +1244,7 @@ paths:
       description: Given a particular quiz, delete a quiz
       tags:
         # - "By Topic: Quiz Management"
-        - "Iteration 2 (Using Iteration 1)"
+        - "Iteration 3 (Modified)"
       parameters:
         - $ref: '#/components/path/QuizId'
         - $ref: '#/components/body/QuizDeleteIter2'
