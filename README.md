@@ -1580,20 +1580,60 @@ When returned through any of the inputs:
  * All scores for a particular question are rounded to the nearest integer.
  * If there are players with the same final score, they share the same rank, e.g. players scoring 5, 3, 3, 2, 2, 1 have ranks 1, 2, 2, 4, 4, 6.
 
-### 🦆 5.10. Iteration 3 Final Presentation
+### 🦆 5.10. Open-ended Feature(s)
+<i>Only attempt this section if you have already completed the rest of the project. The time investment to earn these marks is significantly higher than other components of this iteration.</i>
+
+#### Part A: Thinking Bigger with LLMs (50%)
+
+In iteration 2, you implemented a route utilising the Hugging Face Inference API to make requests to an LLM to generate quiz question solutions. In this iteration, you will design a new route (or set of routes) which utilizes an LLM API to extend on the existing Toohak features.
+
+Examples you may choose to design and implement:
+* Automatic Question Generation: Extend upon the suggestion route to generate a question and answer set that is directly added to a quiz's question set
+* Answer Explanation: Provide answer explanations to help users understand the correct answer
+* Language Translation: Translate quizzes into multiple languages to cater to a global audience.
+* Difficulty Adjustment: Automatically adjust the difficulty of questions based on the user's performance.
+* Hints: Provide hints during the game if users are performing poorly and/or taking a long time to answer a question.
+
+You may choose any free <a href="https://huggingface.co/models">model</a> that best suits your feature design.
+
+#### Part B: Thinking Bigger with Files or Multi-user elements (50%)
+
+You've been taught the basics of persistance via file storage, and multi-user interaction via Sessions. In this section, you should design a route (or set of routes) which deal with either files or feature interactive/multi-user elements.
+
+Examples you may choose to design and implement:
+* Collaborative Quizzes: Enable collaborative quizzes where multiple users can work together to answer questions.
+* Music: users have the option to add the iconic Tahook theme song, or another song of their choosing to a quiz.
+* CSV Results: users can generate a file (e.g., CSV, JSON) of a quiz's final results for a quiz admin to download.
+* Quiz Import/Export: Allow users to import and export quizzes in various formats (e.g., CSV, JSON) for easy sharing and backup.
+* File Attachments: Allow users to attach files (e.g., images, PDFs) to quiz questions for more comprehensive content.
+
+#### How to deliver your feature(s)
+
+Add your route design to the existing `swagger.yaml` file, or via a markdown table (similar to iteration 1 spec) with the route name, description, error cases, and expected request and response objects.
+
+You should add the route to your `server.ts` file as with other routes, and implement logic within your `src` directory.
+
+You will present any functioning open-ended routes during the iteration 3 demonstration via API platform (e.g. Postman, Insomnia). Non-functional routes will **not** be given partial marks.
+
+You may document any notes on your implementation that you would like to highlight during the final presentation in `open.md`.
+
+You must implement independent routes for both Part A and B to receive 100% in this section.
+
+### 🦆 5.11. Iteration 3 Final Presentation
 
 Iteration 3 final presentation is a 10 minute Q&A session.
 
 During this session, at a minimum we will expect groups to:
  * Each give a quick one sentence explanation of what you contributed
  * Complete a 90 second demonstration of your server working with the supplied frontend
+ * (If attempted) present any functioning open-ended routes via API platform (e.g. Postman, Insomnia)
  * Answer any questions/demonstrate features on request of demo tutors
 
 Times mentioned above will be adhered to strictly.
 
 The remaining time will be Q&A led by a tutor. That tutor may not necessarily be your normal class tutor.
 
-### 🦆 5.11. Marking Criteria
+### 🦆 5.12. Marking Criteria
 
 <table>
   <tr>
@@ -1663,6 +1703,15 @@ The remaining time will be Q&A led by a tutor. That tutor may not necessarily be
     <td><ul>
       <li>Demonstrated successful connection of the supplied frontend to the backend code.</li>
       <li>Correct implementation of section 5.8. Safer User Sessions and Secure Passwords</li>
+    </ul>
+  </td>
+  </tr>
+    <td>Open-ended Features</td>
+    <td>10%</td>
+    <td><ul>
+      <li>Demonstrated creativity and high quality functionality (50% for each part)</li>
+      <li>Choice of route(s) introduces new elements of software design to the Toohak project, and would be considered challenging for an average student to implement</li>
+      <li>Accurate interface design for open-ended route(s)</li>
     </ul>
   </td>
   </tr>
