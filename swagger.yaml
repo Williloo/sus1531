@@ -130,7 +130,7 @@ components:
       description: The colour of a particular question's answerOptions (generated randomly everytime a quiz question is created or updated). Colours only need to be updated on specific routes that clearly state this.
     Duration:
       type: integer
-      example: 44
+      example: 4
       description: Sum of all question timeLimits in seconds
     AtQuestion:
       type: integer

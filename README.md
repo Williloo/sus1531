@@ -324,7 +324,7 @@ In terms of file structure:
     <td>30%</td>
     <td><ul>
       <li>Meaningful and informative git commit messages being used (see <a href="https://initialcommit.com/blog/git-commit-messages-best-practices#:~:text=commit%20message%20style.-,General%20Commit%20Message%20Guidelines,-As%20a%20general">examples</a>).</li>
-      <li>Effective use of merge requests (from branches being made) across the team (as covered in lectures).</li>
+      <li>Effective use of merge requests (from branches being made) across the team (as covered in lectures). Repeated commit names are avoided.</li>
       <li>At least 1 merge request per person and 1 merge request per function (11 in total) made into the <code>master</code> branch. Each merge request is approved by a team member that did not create the MR. </li>
     </ul></td>
   </tr>
@@ -334,7 +334,7 @@ In terms of file structure:
     <td><ul>
       <li>Completed group contract.</li>
       <li>A generally equal contribution between team members.</li>
-      <li>Effective use of course-provided MS Teams for communication, demonstrating an ability to competently manage teamwork online.</li>
+      <li>Effective and regular use of course-provided MS Teams for communication (or another app approved by your tutor with evidence added to Teams), demonstrating an ability to competently manage teamwork online.</li>
       <li>Had a meeting together that involves planning and managing tasks, and taken notes from said meeting (and stored in a logical place in the repo e.g. Wiki section).</li>
     </ul></td>
   </tr>
@@ -873,9 +873,9 @@ There are several approaches that you can consider to overcome these challenges:
     <td>
       Develop tests that show a clear demonstration of:
       <ul>
-        <li>Good test <b>coverage</b> - how well you cover the use cases (no need to run a coverage checker in this iteration).</li>
-        <li>Good test  <b>clarity</b> in communicating the purpose of tests and code.</li>
-        <li>Good test <b>design</b> - thoughtful, clear, and modular layout that follows course examples.</li>
+        <li>Good test <b>coverage</b> - covering the use cases extensively (no need to run a coverage checker in this iteration).</li>
+        <li>Good test  <b>clarity</b> in communicating the purpose of tests and code. This includes logical commenting and good variable naming.</li>
+        <li>Good test <b>design</b> - thoughtful, clear, and modular layout that follows course examples (black-box testing), with little repetition.</li>
       </ul>
       Whilst we look at your group's work as a whole, if we feel that materially unequal contributions occurred between group members we will assess your individual contribution against this criteria.
     </td>
@@ -887,6 +887,8 @@ There are several approaches that you can consider to overcome these challenges:
       <ul>
         <li>Appropriate use of Javascript data structures (arrays, objects, etc.)</li>
         <li>Appropriate style as covered so far in introductory programming.</li>
+        <li>Appropriate layout of files and use of modularity to reduce repetition and improve readability.</li>
+        <li>Through comments/naming it is clear what the code is doing via human reading. Error messages aren't marked for quality.</li>
       </ul>
       Whilst we look at your group's work as a whole, if we feel that materially unequal contributions occurred between group members we will assess your individual contribution against this criteria.
     </td>
@@ -897,18 +899,22 @@ There are several approaches that you can consider to overcome these challenges:
     <td>
       As an individual, in terms of git:
       <ul>
-        <li>For particular features, committing the bulk of your tests prior to your implementation.</li>
-        <li>Your git commit messages are meaningful, clear, and informative.</li>
-        <li>You contribute at least 2 meaningful merge requests (approved by a team member) that merge your branch code to master.</li>
+        <li>For particular features, committing your tests prior to your implementation.</li>
+        <li>Your git commit messages are meaningful, clear, and informative. Repeat commit names are avoided.</li>
+        <li>You contribute at least 2 meaningful merge requests (approved by another team member) that merge your branch code to master.</li>
       </ul>
       As an individual, in terms of project management and teamwork:
       <ul>
         <li>Attendance to group check ins every week.</li>
-        <li>Effective use of course-provided MS Teams for effective communication with your group.</li>
+        <li>Effective and regular use of course-provided MS Teams for communication (or another app approved by your tutor with evidence added to Teams), demonstrating an ability to competently manage teamwork online.</li>
         <li>Use of issue board on Gitlab OR another equivalent tool that is used to effectively track your tasks.</li>
         <li>Attendance and contributions at your teams meetings and standups, including at least one scenario where you were the leader of the meeting and took the minutes/notes for that meeting.</li>
       </ul>
-    </td>
+      As a group, in terms of project management and teamwork:
+      <ul>
+        <li>Group contract is followed or revised to reflect the team's evolving work patterns.</l1>
+      </ul>
+     </td>
     <tr>
     <td>Requirements Engineering</td>
     <td>10%</td>
@@ -1210,9 +1216,9 @@ Our recommendation with this iteration is that you start out trying to implement
     <td>15%</td>
     <td>
       <ul>
-        <li>Good test <b>coverage</b> - how well you cover the use cases (no need to run a coverage checker in this iteration).</li>
-        <li>Good test  <b>clarity</b> in communicating the purpose of tests and code.</li>
-        <li>Good test <b>design</b> - thoughtful, clear, and modular layout that follows course examples.</li>
+        <li>Good test <b>coverage</b> - covering the use cases extensively (no need to run a coverage checker in this iteration).</li>
+        <li>Good test  <b>clarity</b> in communicating the purpose of tests and code. This includes logical commenting and good variable naming.</li>
+        <li>Good test <b>design</b> - thoughtful, clear, and modular layout that follows course examples (black-box testing), with little repetition.</li>
       </ul>
       Whilst we look at your group's work as a whole, if we feel that materially unequal contributions occurred between group members we will assess your individual contribution against this criteria.
     </td>
@@ -1224,6 +1230,8 @@ Our recommendation with this iteration is that you start out trying to implement
       <ul>
         <li>Appropriate use of Javascript data structures (arrays, objects, etc.).</li>
         <li>Appropriate style as described in section 7.4. and all lecture material</li>
+        <li>Appropriate layout of files and use of modularity to reduce repetition and improve readability.</li>
+        <li>Through comments/naming it is clear what the code is doing via human reading. Error messages aren't marked for quality.</li>
         <li>Appropriate application of good software design practices.</li>
         <li>Implementation of persistent state.</li>
         <li>Demonstrated successful connection of the supplied frontend to the backend code required for iteration 2 (doesn't have to be perfect).</li>
@@ -1237,18 +1245,22 @@ Our recommendation with this iteration is that you start out trying to implement
     <td>
       As an individual, in terms of git:
       <ul>
-        <li>For particular features, committing the bulk of your tests prior to your implementation.</li>
-        <li>Your git commit messages are meaningful, clear, and informative.</li>
-        <li>You contribute at least 2 meaningful merge requests (approved by a team member) that merge your branch code to master.</li>
+        <li>For particular features, committing your tests prior to your implementation.</li>
+        <li>Your git commit messages are meaningful, clear, and informative. Repeat commit names are avoided.</li>
+        <li>You contribute at least 2 meaningful merge requests (approved by another team member) that merge your branch code to master.</li>
       </ul>
       As an individual, in terms of project management and teamwork:
       <ul>
         <li>Attendance to group check ins every week.</li>
-        <li>Effective use of course-provided MS Teams for effective communication with your group.</li>
+        <li>Effective and regular use of course-provided MS Teams for communication (or another app approved by your tutor with evidence added to Teams), demonstrating an ability to competently manage teamwork online.</li>
         <li>Use of issue board on Gitlab OR another equivalent tool that is used to effectively track your tasks.</li>
-        <li>Attendance and contributions at your teams standups, including at least one scenario where you were the leader of the meeting and took the minutes/notes for that meeting.</li>
+        <li>Attendance and contributions at your teams meetings and standups, including at least one scenario where you were the leader of the meeting and took the minutes/notes for that meeting.</li>
       </ul>
-    </td>
+      As a group, in terms of project management and teamwork:
+      <ul>
+        <li>Group contract is followed or revised to reflect the team's evolving work patterns.</l1>
+      </ul>
+     </td>
   </tr>
 </table>
 
@@ -1312,7 +1324,7 @@ In this iteration, you are expected to:
 
     1. Applying whatever designing for maintainability concepts were taught in lectures
     2. Using exceptions to "throw errors" instead of returning errors in the functions you call from `server.ts`.
-    3. Ensuring that there is no references to `req`, `res`, or status codes, in functions outside of `server.ts` to properly maintain abstraction between the HTTP layer and the application logic layer.
+    3. Ensuring abstraction between the HTTP layer and the application logic layer, i.e. there are no references to express.js variables such as `req`, `res`, status codes, or other server-specific logic in implementation functions outside of `server.ts`. You may utilise these within helper/utility files designed to simplify server logic.
 
 2. Implement and test the HTTP Express server according to the [entire interface provided in the specification](swagger.yaml), including all new routes added in iteration 3.
 
@@ -1430,7 +1442,7 @@ The constraints on moving between these states can be found in the state diagram
 ### 🦆 5.6. Error raising
 
 It's important that as part of separating the concerns of the HTTP server and the application logic that:
-* Your server never passes in a request or response object to any subsequent functions that handle application logic
+* Your server never passes in an express.js request or response object to any subsequent functions that handle application logic
 * Any errors you return or throw in your application logic should not make reference to HTTP status codes directly, as the application shouldn't be aware of the fact that is being used by an HTTP server
 
 In iteration 3, we require you to use *exceptions* to handle errors being returned up to your `server.ts` file. Your `server.ts` will still be using `res.status(400)`, `res.status(401)`, or `res.status(403)`.
@@ -1535,68 +1547,6 @@ A sample flow logging a user in might be as follows (other flows exist too):
 4. Server returns that hash of the session ID to the user in the response body.
 ```
 
-### 🦆 5.8. Deployment
-
-For this iteration some part of the marks (see marking criteria) will come from your group having deployed a version of your code to a public web server. Instructions about how to deploy can be found in `lab09_deploy`. 
-
-**Please note that having code in a public repo (e.g. on GitHub) will result in a mark of zero for iteration 3.**
-
-Once you have deployed your server to a URL, add the URL to deploy.md, so that tutors can access it. This must be done by the iteration 3 deadline.
-
-You should **not** commit your deployed code to the `master` branch of this `project-backend` repo. You should also avoid running tests against your deployed backend as Vercel has a request limit. We recommend using an API client to ensure behaviour is as expected for the most part, alternatively you could run a very small number of tests. 
-
-Your URL must be in the format https://1531-25T1-W15A-EGGS.vercel.app where your tutorial and group name replaces W15A-EGGS. **If you do not have your group name in the URL we will be unable to mark you.**
-
-Before attempting this task, you should also read the recommendations below on dealing with issues that can occur. It's important to read it all as it may influence how you deploy your project. 
-
-<details>
-  <summary>Dealing with potential issues</summary>
-
-#### Tests failing inconsistently
-* Why this could happen (one possible reason):
-  * You're relying on pass-by-reference to access `dataStore`. Unfortunately variables don't persist on Vercel, meaning variables like `data` may revert back to their original state.
-* What you could do instead:
-  * First verify the issue by printing out the value for `data` between function calls.
-  * Consider requesting data from Vercel inside `getData` and `setData` instead.
-
-#### Account blocked from making excessive requests (e.g. `402_PAYMENT_REQUIRED` error):
-* Why this could happen:
-  * You have an infinite loop somewhere in your code.
-  * Code in `server.ts` that exists outside of the function scope could be called upon many times. 
-      ```ts
-      function foo() {
-        // pretend this line of code sends a request to Vercel
-      }
-      foo(); // this exists in the global scope and may be called multiple times
-      app.post('/example/route', () => {});
-      ```
-* What you can do:
-  * Sometimes your account may be blocked for 24hrs, in which case you simply wait for the block to expire.
-  * If the block is much longer, you may need to make another GitHub or Vercel account.
-* How to ensure your account doesn't get blocked:
-  * Check your codebase for any infinite loops.
-  * Ensure requests made to Vercel don't occur in the global scope in `server.ts`.
-  * Monitor the log on Vercel carefully when you first deploy your project. Send out one request using an API client such as Postman or ARC. If you notice excessive requests are being made, be ready to: 
-    * Change your domain to stop additional requests (Settings > Domain).
-    * Redeploy your project afterwards. 
-    * Read through the log to understand why it's happening, push any fixes. Repeat this until there are no excessive requests being made. 
-  * Vercel KV has a limit of 3,000 requests per day on the hobby plan, hence **avoid running a lot of tests**.
-
-#### "Ever since merging my deployed code into master my tests are running too slow!"
-* Please do not merge your deployed branch to `master`. As mentioned before, once you have deployed your server, add your URL to `deploy.md` and merge that into `master` only. 
-* It's normal for tests to take longer. Sending http requests takes longer than reading and writing from local `.json` files.
-
-#### Error: `DEPLOYMENT_BLOCKED`
-* This may occur if you redeploy too often. There is a maximum of 100 deployments allowed per day on the hobby plan. If this occurs, wait 24hrs for the block to be lifted. 
-
-#### Error: `ERR_DLOPEN_FAILED`
-* Change instances of `sync-request-curl` to `sync-request`.
-
-#### Error: `The default export must be a function or server.`
-* Include `export default app;` in `server.ts`.
-
-</details>
-
 ### 🦆 5.9. Scoring & Ranking
 
 To determine the score a user receives for a particular question:
@@ -1617,7 +1567,6 @@ Iteration 3 final presentation is a 10 minute Q&A session.
 During this session, at a minimum we will expect groups to:
  * Each give a quick one sentence explanation of what you contributed
  * Complete a 90 second demonstration of your server working with the supplied frontend
-  * If deployed, demonstrate this as deployed instead of running locally
  * Answer any questions/demonstrate features on request of demo tutors
 
 Times mentioned above will be adhered to strictly.
@@ -1653,11 +1602,14 @@ The remaining time will be Q&A led by a tutor. That tutor may not necessarily be
     <td>
       <ul>
         <li>Appropriate use of Javascript data structures (arrays, objects, etc.).</li>
-        <li>Appropriate style as described in section 7.4.</li>
+        <li>Appropriate style as described in section 7.4. and all lecture material</li>
+        <li>Appropriate layout of files and use of modularity to reduce repetition and improve readability.</li>
+        <li>Through comments/naming it is clear what the code is doing via human reading. Error messages aren't marked for quality.</li>
         <li>Appropriate application of good software design practices.</li>
         <li>Implementation of persistent state.</li>
+        <li>Appropriate separation of server and implementation logic, as per section 5.1.</li>
       </ul>
-       Whilst we look at your group's work as a whole, if we feel that materially unequal contributions occurred between group members we will assess your individual contribution against this criteria.
+      Whilst we look at your group's work as a whole, if we feel that materially unequal contributions occurred between group members we will assess your individual contribution against this criteria.
     </td>
   </tr>
   <tr>
@@ -1673,9 +1625,15 @@ The remaining time will be Q&A led by a tutor. That tutor may not necessarily be
       As an individual, in terms of project management and teamwork:
       <ul>
         <li>Attendance to group check ins every week.</li>
-        <li>Effective use of course-provided MS Teams for effective communication with your group.</li>
+        <li>Effective and regular use of course-provided MS Teams for communication (or another app approved by your tutor with evidence added to Teams), demonstrating an ability to competently manage teamwork online.</li>
         <li>Use of issue board on Gitlab OR another equivalent tool that is used to effectively track your tasks.</li>
-        <li>Attendance and contributions at your teams standups, including at least one scenario where you were the leader of the meeting and took the minutes/notes for that meeting.</li>
+        <li>Attendance and contributions at your teams meetings and standups, including at least one scenario where you were the leader of the meeting and took the minutes/notes for that meeting.</li>
+      </ul>
+      As a group, in terms of project management and teamwork:
+      <ul>
+        <li>Group contract is followed or revised to reflect the team's evolving work patterns.</l1>
+      </ul>
+     </td>
       </ul>
     </td>
   </tr>
@@ -1683,8 +1641,7 @@ The remaining time will be Q&A led by a tutor. That tutor may not necessarily be
     <td>Features</td>
     <td>10%</td>
     <td><ul>
-      <li>Backend works with the supplied frontend.</li>
-      <li>Successful deployment of your project to a public web server.</li>
+      <li>Demonstrated successful connection of the supplied frontend to the backend code.</li>
       <li>Correct implementation of section 5.8. Safer User Sessions and Secure Passwords</li>
     </ul>
   </td>
