@@ -19,11 +19,13 @@
 
 ## 🌈 1. Overview
 
-UNSW has been having severe issues with lecture attendance - student's just aren't coming to class, and they're citing that class isn't interesting enough for them.
+UNSW has been having severe issues with lecture attendance - students just aren't coming to class, and they're citing that class isn't interesting enough for them.
 
 UNSW must resort to giving into the limited attention span of students and gamify lecture and tutorial time as much as possible - by doing interactive and colourful quizzes.
 
 However, instead of licensing well-built and tested software, UNSW is hoping to use the pool of extremely talented and interesting COMP1531 students to create their own version to distribute around campus for free. The chosen game to "take inspiration from" is **<a href="https://kahoot.com/">Kahoot</a>**.
+
+(For legal reasons, this is a joke).
 
 The 25T1 cohort of COMP1531 students will build the **backend Javascript server** for a new quiz game platform, **Toohak**. We plan to task future students to build the frontend for Toohak, something you won't have to worry about.
 
@@ -32,8 +34,6 @@ The 25T1 cohort of COMP1531 students will build the **backend Javascript server*
 We have already specified a **common interface** for the frontend and backend to operate on. This allows both courses to go off and do their own development and testing under the assumption that both parties will comply with the common interface. This is the interface **you are required to use**.
 
 The specific capabilities that need to be built for this project are described in the interface at the bottom. This is clearly a lot of features, but not all of them are to be implemented at once.
-
-(For legal reasons, this is a joke).
 
 We highly recommend **creating and playing** a Kahoot game to better understand your task:
 - To sign up and log in as an admin, go to [kahoot.com](https://kahoot.com/).
@@ -45,14 +45,14 @@ We highly recommend **creating and playing** a Kahoot game to better understand 
 
 ### 🐭 2.1. Task
 
-This iteration is designed as a warm-up to help you setup your project, learn Git and project management practises (see Marking Criteria), and understand how your team works together.
+This iteration is designed as a warm-up to help you setup your project, learn Git and project management practices (see Marking Criteria), and understand how your team works together.
 
 In this iteration, you are expected to:
 1. Write stub code for the basic functionality of Toohak. The basic functionality is defined in the interface section below.
     * A stub is a function declaration and sample return value (see example below). **Do NOT write the implementation** for the stubbed functions. That is for the next iteration. In this iteration you are just focusing on setting up your function declarations and getting familiar with Git.
     * Each team member must stub **AT LEAST 1** function each.
     * Function stub locations should be inside files specified in the interface section below.
-    * Return values should match the interface table below (see example below).
+    * Return values should exactly match the interface table below (see example below).
 ```javascript
 // Sample stub for the authLoginV1 function
 // Return stub value matches table below
@@ -323,9 +323,9 @@ In terms of file structure:
     <td>Git Practices</td>
     <td>30%</td>
     <td><ul>
-      <li>Meaningful and informative git commit messages being used (see <a href="https://initialcommit.com/blog/git-commit-messages-best-practices#:~:text=commit%20message%20style.-,General%20Commit%20Message%20Guidelines,-As%20a%20general">examples</a>).</li>
+      <li>Meaningful, informative and consistent git commit messages and branch names being used (see <a href="https://initialcommit.com/blog/git-commit-messages-best-practices#:~:text=commit%20message%20style.-,General%20Commit%20Message%20Guidelines,-As%20a%20general">examples</a>).</li>
       <li>Effective use of merge requests (from branches being made) across the team (as covered in lectures). Repeated commit names are avoided.</li>
-      <li>At least 1 merge request per person and 1 merge request per function (11 in total) made into the <code>master</code> branch. Each merge request is approved by a team member that did not create the MR. </li>
+      <li>At least 1 merge request per person and 1 merge request per function (12 in total) made into the <code>master</code> branch. Each merge request is approved by a team member that did not create the MR. </li>
     </ul></td>
   </tr>
   <tr>
@@ -813,7 +813,7 @@ We have opted not to provide you with a sample structure - because we're not int
 
 Find 2-3 people to interview as target users. Target users are people who currently use a tool like Toohak, or intend to and are not current or former 1531 students. Record their name and email address. You must not interview members of your project group.
 
-Develop a series of questions (at least 4) to ask these target users to understand what *problems* (not solutions) they might have with quiz tools that are currently unsolved by Toohak. Give these questions to your target users and record their answers.
+Develop a series of questions (at least 4) to ask these target users to understand what *problems* (not solutions) they might have with quiz tools like Kahoot. Give these questions to your target users and record their answers.
 
 Once you have done this, think about how you would solve the target users' problem(s) and write down a brief description of a proposed solution.
 
@@ -1005,8 +1005,6 @@ In this iteration, you are expected to:
 
     * You are required to edit the `gitlab-ci.yml` file, as per section 4.5 to add linting to the code on `master`. **You must do this BEFORE merging anything from iteration 2 into `master`**, so that you ensure `master` is always stable. See section 4.6 below for instructions on adding linting to your pipeline.
 
-    * Automarking ensures all 
-
 5. Continue demonstrating effective project management and effective git usage.
 
     * You will be heavily marked for your use of thoughtful project management and use of git effectively. The degree to which your team works effectively will also be assessed.
@@ -1035,7 +1033,7 @@ In this iteration we also expect for you to improve on any feedback left by tuto
 
 ### 🐝 4.2. Running the server
 
-To run the server you can the following command from the root directory of your project:
+To run the server you can use the following command from the root directory of your project:
 
 ```bash
 npm start
@@ -1045,7 +1043,7 @@ This will start the server on the port in the src/server.ts file, using `ts-node
 
 If you get an error stating that the address is already in use, you can change the port number in `config.json` to any number from `49152` to `65535`. Is it likely that another student may be using your original port number.
 
-Do **NOT** move the location of either `config.json` or `server.ts`. You must utilise the host/port combination from the `config.json` for the server, and any auxillary calls to routes within your test files. You may edit the port/host field within the `config.json` file, but be sure to dynamically import the port from this file for all your tests and do **NOT** hard-code its value since this may result in automarking failures.
+Do **NOT** move the location of either `config.json` or `server.ts`. You must utilise the host/port combination from the `config.json` for the server, and any auxilliary calls to routes within your test files. You may edit the port/host field within the `config.json` file, but be sure to dynamically import the port from this file for all your tests and do **NOT** hard-code its value since this may result in automarking failures.
 
 ### 🐝 4.3. Implementing and testing features
 
@@ -1074,15 +1072,15 @@ Please pay careful attention to the following:
 * As is the case with any system or functionality, there will be some things that you can test extensively, some things that you can test sparsely/fleetingly, and some things that you can't meaningfully test at all. You should aim to test as extensively as you can, and make judgements as to what things fall into what categories.
 
 #### 🐝 4.3.1 LLM API
-The `/v1/admin/quiz/{quizId}/question/suggestion` route requires interfacing with an LLM API. In this course, we will use the Hugging Face API to interface with Google's FLAN-T5 large model. You can learn more about it and play around with examples <a href="https://huggingface.co/google/flan-t5-large">here</a>.
+The `/v1/admin/quiz/{quizId}/question/suggestion` route requires interfacing with an LLM API. In this course, we will use the Hugging Face API to interface with Google's Gemma 2 model. You can learn more about it and play around with examples <a href="https://huggingface.co/google/gemma-2-2b-it">here</a>.
 
 You will need to create a free account to generate an <b>Access Token</b> to utilise this API within your implementation. You may use one account per group and share this Access Token, but be mindful of the Inference API <a href="https://huggingface.co/docs/api-inference/en/rate-limits"> rate limits<a>, especially when writing tests and running pipelines.
 
 You may hard-code this Access Token within your server file, or implement the more secure method of environment variable secrets and <a href="https://docs.gitlab.com/ee/ci/variables/index.html">Gitlab CI/CD variables</a>. The course does not expect you to implement the secure method. 
 
-A simple API request to the Hugging Face Inference API using Google's FLAN-5 large model:
+A simple API request to the Hugging Face Inference API using Google's Gemma 2 model:
 ```javascript
-const response = request('POST', 'https://api-inference.huggingface.co/models/google/flan-t5-larged', {
+const response = request('POST', 'https://api-inference.huggingface.co/models/google/gemma-2-2b-it', {
   headers: {
     Authorization: `Bearer ${HUGGINGFACE_API_TOKEN}`,
     'Content-Type': 'application/json'
@@ -1137,9 +1135,9 @@ Hint: Yes, your `v1` routes can use the functions you had in iteration 1, regard
 
 In iteration 1, a problem we have with the `userId` is that there is no way to "log-out" a user - because all the user needs to identify themselves is just their user ID.
 
-In iteration 2, we want to issue something that abstracts their user ID into the notion of a session - this way a single user can log in, log out, or maybe log in from multiple places at the same time.
+In iteration 2, we want to issue something that abstracts their user ID into the idea of a session - this way a single user can log in, log out, or maybe log in from multiple places at the same time.
 
-If you're not following the issue with the `userId`, imagine it like trying to board a plane flight but your boarding pass IS your passport. Your passport is a (effectively) a permanent thing - it is just "always you". That wouldn't work, which is why airlines issue out boarding passes - to essentially grant you a "session" on a plane. And your boarding pass is linked to your passport. In this same way, a session is associated with an `userId`!
+If you're not following the issue with the `userId`, imagine it like trying to board a plane flight but your boarding pass IS your passport. Your passport is a (effectively) a permanent thing - it is just "always you". That wouldn't allow staff to check if you should or shouldn't be on that plane, which is why airlines issue out boarding passes - to essentially grant you a "session" on a plane. And your boarding pass is linked to your passport. In this same way, a session is associated with an `userId`!
 
 #### How we adapt in Iteration 2 - User Sessions
 
@@ -1153,7 +1151,7 @@ How you generate unique identifiers for sessions is up to you.
 
 #### Avoiding sessions being exposed in the URL
 
-In this model, you will utiliza a `session` HTTP header when dealing with requests/routes only. You shouldn't remove `session` parameters from backend functions, as they must perform the validity checks.
+In this iteration, you will utilize a `session` HTTP header when dealing with requests/routes only. You shouldn't remove `userId` parameters from backend functions, as they must perform the validity checks.
 
 You can access HTTP headers like so:
 ```javascript
@@ -1162,7 +1160,7 @@ const session = req.header('session');
 
 #### In summary
 
-Implentation details are up to you, though the key things to ensure that you comply with are that:
+Implementation details are up to you, though the key things to ensure that you comply with are that:
 * Session values must be passed via HTTP headers.
 * Your system allows multiple sessions to be able to be logged in and logged out at the same time.
 
@@ -1170,7 +1168,7 @@ Implentation details are up to you, though the key things to ensure that you com
 
 ### 🐝 4.10. Error returning
 
-Either a `400 (Bad Request)` or `401 (Unauthorized)` or `403 (Forbidden)` is thrown when something goes wrong. A `400` error refers to issues with user input; a `401` error refers to when someone does not attempt to authenticate properly, and a a `403` error refers to issues with authorisation. Most of the routes in the API interface provided throw types of these errors under various conditions.
+Either a `400 (Bad Request)` or `401 (Unauthorized)` or `403 (Forbidden)` is thrown when something goes wrong. A `400` error refers to issues with user input; a `401` error refers to when someone does not attempt to authenticate properly, and a `403` error refers to issues with authorisation. Most of the routes in the API interface provided throw types of these errors under various conditions.
 
 To throw one of these errors, simply use the code `res.status(400).send(JSON.stringify({ error: 'specific error message here' }))` or `res.status(400).json({ error: 'specific error message here' })` in your server where 400 is the error.
 
@@ -1188,7 +1186,7 @@ If you run the frontend at the same time as your express server is running on th
 
 Please note: The frontend may have very slight inconsistencies with expected behaviour outlined in the specification. Our automarkers will be running against your compliance to the specification. The frontend is there for further testing and demonstration.
 
-Please note: This frontend is experiment. It will not be perfect and is always under development.
+Please note: This frontend is experimental. It will not be perfect and is always under development.
 
 #### 🐝 4.11.1. Example implementation
 
@@ -1196,8 +1194,7 @@ A working example of the Toohak application can be used at https://project-front
 
 The data is reset occasionally, but you can use this link to play around and get a feel for how the application should behave.
 
-Please note: This frontend and backend that powers this example is experiment. It will not be perfect and is always under 
-development.
+Please note: This frontend and backend that powers this example is experimental. It will not be perfect and is always under development.
 
 ### 🐝 4.12. Recommended approach
 
@@ -1249,7 +1246,7 @@ Our recommendation with this iteration is that you start out trying to implement
     <td>
       <ul>
         <li>Appropriate use of Javascript data structures (arrays, objects, etc.).</li>
-        <li>Appropriate style as described in section 7.4. and all lecture material</li>
+        <li>Appropriate style and documentation as described in section 7.4. and all lecture material</li>
         <li>Appropriate layout of files and use of modularity to reduce repetition and improve readability.</li>
         <li>Through comments/naming it is clear what the code is doing via human reading. Error messages aren't marked for quality.</li>
         <li>Appropriate application of good software design practices.</li>
@@ -1413,8 +1410,6 @@ For this project, a feature is typically sized somewhere between a single functi
 
 There is no requirement that each feature be implemented by only one person. In fact, we encourage you to work together closely on features.
 
-You are required to edit the `gitlab-ci.yml` file, as per section 4.5 to add linting to the code on `master`. **You must do this BEFORE merging anything from iteration 2 into `master`**, so that you ensure `master` is always stable.
-
 * We want to see **evidence that you wrote your tests before writing the implementation**. As noted above, the commits containing your initial tests should appear *before* your implementation for every feature branch. If we don't see this evidence, we will assume you did not write your tests first and your mark will be reduced.
 * You should have black-box tests for all tests required (i.e. testing each function/endpoint). However, you are also welcome to write white-box unit tests in this iteration if you see that as important.
 * Merging in merge requests with failing pipelines is **very bad practice**. Not only does this interfere with your team's ability to work on different features at the same time, and thus slow down development - it is something you will be penalised for in marking.
@@ -1555,17 +1550,16 @@ We require that you obfuscate your user sessions to prevent enumeration. You can
 
 You may already be doing (1) depending on your implementation from the previous iteration.
 
-#### 🦆 5.7.4. Summary
+#### 🦆 5.7.3. Summary
 
 The following describes one potential way of implementing:
 
-```text
 A sample flow logging a user in might be as follows (other flows exist too):
 1. Client makes a valid `auth/register` call.
 2. Server stores the hash of the plain text password that was provided over the request, but does not store the plain text password.
 3. Server generates an incremental session ID (e.g. 1, 2, 3) and then stores a hash of that session ID to create something obfuscated.
 4. Server returns that hash of the session ID to the user in the response body.
-```
+
 
 ### 🦆 5.8. Scoring & Ranking
 
@@ -1602,7 +1596,7 @@ You've been taught the basics of persistance via file storage, and multi-user in
 
 Examples you may choose to design and implement:
 * Collaborative Quizzes: Enable collaborative quizzes where multiple users can work together to answer questions.
-* Music: users have the option to add the iconic Tahook theme song, or another song of their choosing to a quiz.
+* Music: users have the option to add the iconic Kahoot theme song, or another song of their choosing to a quiz.
 * CSV Results: users can generate a file (e.g., CSV, JSON) of a quiz's final results for a quiz admin to download.
 * Quiz Import/Export: Allow users to import and export quizzes in various formats (e.g., CSV, JSON) for easy sharing and backup.
 * File Attachments: Allow users to attach files (e.g., images, PDFs) to quiz questions for more comprehensive content.
@@ -1613,7 +1607,7 @@ Add your route design to the existing `swagger.yaml` file, or via a markdown tab
 
 You should add the route to your `server.ts` file as with other routes, and implement logic within your `src` directory.
 
-You will present any functioning open-ended routes during the iteration 3 demonstration via API platform (e.g. Postman, Insomnia). Non-functional routes will **not** be given partial marks.
+You will present any functioning open-ended routes during the iteration 3 final presentation via an API platform (e.g. Postman, Insomnia). Non-functional routes will **not** be given partial marks.
 
 You may document any notes on your implementation that you would like to highlight during the final presentation in `open.md`.
 
@@ -1662,7 +1656,7 @@ The remaining time will be Q&A led by a tutor. That tutor may not necessarily be
     <td>
       <ul>
         <li>Appropriate use of Javascript data structures (arrays, objects, etc.).</li>
-        <li>Appropriate style as described in section 7.4. and all lecture material</li>
+        <li>Appropriate style and documentation as described in section 7.4. and all lecture material</li>
         <li>Appropriate layout of files and use of modularity to reduce repetition and improve readability.</li>
         <li>Through comments/naming it is clear what the code is doing via human reading. Error messages aren't marked for quality.</li>
         <li>Appropriate application of good software design practices.</li>
@@ -1702,7 +1696,7 @@ The remaining time will be Q&A led by a tutor. That tutor may not necessarily be
     <td>10%</td>
     <td><ul>
       <li>Demonstrated successful connection of the supplied frontend to the backend code.</li>
-      <li>Correct implementation of section 5.8. Safer User Sessions and Secure Passwords</li>
+      <li>Correct implementation of section 5.7. Safer User Sessions and Secure Passwords</li>
     </ul>
   </td>
   </tr>
@@ -1758,10 +1752,10 @@ Please see the <a href="https://edstem.org/au/courses/18921/discussion/2214720">
 
 | Iteration | Due date                             | Demonstration to tutor(s)     | Assessment weighting (%) |
 | --------- | ------------------------------------ | ----------------------------- | ------------------------ |
-| 0         | 8pm Friday 20th Sept (**week 2**)    | No demonstration              | 5% of project mark       |
-| 1         | 8pm Friday 4th Oct (**week 4**)    | In YOUR **week 5** laboratory | 20% of project mark      |
-| 2         | 8pm Friday 25th Oct (**week 7**)    | In YOUR **week 8** laboratory | 40% of project mark      |
-| 3         | 8pm Friday 15th Nov (**week 10**)    | Final demonstration week 11   | 35% of project mark      |
+| 0         | 12pm Monday 24th Feb (**week 3**)    | No demonstration              | 5% of project mark       |
+| 1         | 12pm Tuesday 18th Mar (**week 5**)    | In YOUR **week 5** laboratory | 20% of project mark      |
+| 2         | 12pm Tuesday 8th Apr (**week 8**)    | In YOUR **week 8** laboratory | 40% of project mark      |
+| 3         | 12pm Thursday 24th Apr (**week 10**)    | Final demonstration week 11   | 35% of project mark      |
 
 For more information about demonstrations see section `6.2`.
 
@@ -1971,13 +1965,15 @@ When running your code or tests as part of the automarking, we place a 90 second
 
 ### 💻 8.2. Pre-submission Preview
 
-In the days preceding iterations 1, 2, and 3's due date, we will be running your code against the actual automarkers (the same ones that determine your final mark) and publishing the results of every group on the [marking runs page](https://cgi.cse.unsw.edu.au/~cs1531/NOW/content/project/runs). You will get to see the current mark (within a range) of your submission, as well as how your group ranks within the cohort. You will not receive any elaboration on how that mark was determined - if your mark isn't what you expect, work with your group and/or tutor to debug your code and write more tests.
+In the days preceding iterations 1, 2, and 3's due date, we will be running your code against the actual automarkers (the same ones that determine your final mark) and publishing the results of every group on the [marking runs page](https://cgi.cse.unsw.edu.au/~cs1531/NOW/content/project/runs). You will get to see the current mark (within a range) of your submission. You will not receive any elaboration on how that mark was determined - if your mark isn't what you expect, work with your group and/or tutor to debug your code and write more tests.
 
 You must have the code you wish to be tested in your `master` branch by **10pm** the night before preview runs.
 
 The preview will be updated on Monday, Wednesday, and Friday morning during the week that the iteration is due.
 
 This preview run gives you a chance to sanity check your automark (without knowing the details of what you did right and wrong), and is just a bit of fun.
+
+Please note the preview mark represents the hidden coursetest/automark performance only - it does not include coverage, linting, group test performance etc. 
 
 ## 👀 9. Plagiarism & Academic Misconduct Notice
 Your program must be entirely your group’s work. Plagiarism detection software will be used to compare all submissions pairwise (including submissions for similar assignments in previous terms) and serious penalties will be applied, including an entry on UNSW's plagiarism register.
