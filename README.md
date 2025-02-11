@@ -1927,18 +1927,18 @@ The following criteria will be assessed by your team members:
   </tr>
   <tr>
     <td>1</td>
-    <td>8pm Friday 4th Oct</td>
-    <td>9am Tuesday 8th Oct</td>
+    <td>12pm Tuesday 18th Mar</td>
+    <td>12pm Friday 21st Mar</td>
   </tr>
   <tr>
     <td>2</td>
-    <td>8pm Friday 25th Oct</td>
-    <td>9am Monday 28th Oct</td>
+    <td>12pm Tuesday 8th Apr</td>
+    <td>12pm Friday 11th Apr</td>
   </tr>
   <tr>
     <td>3</td>
-    <td>8pm Friday 15th Nov</td>
-    <td>9am Monday 18th Nov</td>
+    <td>12pm Thursday 24th Apr</td>
+    <td>12pm Monday 28th Apr</td>
   </tr>
 </table>
 
