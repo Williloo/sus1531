@@ -104,7 +104,7 @@ In terms of file structure:
     <td>
       <code>adminAuthRegister</code>
       <br /><br />
-      Register a user with an email, password, and names, then returns their <code>userId</code> value.
+      Register a user with an email, password, and names, then return their <code>userId</code> value.
     </td>
     <td>
       <b>Parameters:</b><br />
@@ -120,7 +120,7 @@ In terms of file structure:
     <td>
       <code>adminAuthLogin</code>
       <br /><br />
-      Given a registered user's email and password returns their <code>userId</code> value.
+      Given a registered user's email and password, return their <code>userId</code> value.
     </td>
     <td>
       <b>Parameters:</b><br />
@@ -344,7 +344,7 @@ In terms of file structure:
 
 We have provided a dryrun for iteration 0 consisting of one test for each function. Passing these tests means you have a correct implementation for your stubs, and have earned the marks for the automarking component iteration 0.
 
-To run the dryrun, you should on a CSE machine (i.e. using `VLAB` or `ssh`'ed into CSE) be in the root directory of your project (e.g. `/project-backend`) and use the command:
+To run the dryrun, you should on a CSE machine (i.e. using `VLAB` or `ssh`'ed into CSE) and in the root directory of your project (e.g. `/project-backend`) and use the command:
 
 ```bash
 1531 dryrun 0
@@ -507,7 +507,7 @@ For timestamps, these are Unix timestamps in seconds. You can find more informat
     <td>
       <code>adminAuthRegister</code>
       <br /><br />
-      Register a user with an email, password, and names, then returns their <code>userId</code> value.
+      Register a user with an email, password, and names, then return their <code>userId</code> value.
     </td>
     <td>
       <b>Parameters:</b><br />
@@ -534,7 +534,7 @@ For timestamps, these are Unix timestamps in seconds. You can find more informat
     <td>
       <code>adminAuthLogin</code>
       <br /><br />
-      Given a registered user's email and password returns their <code>userId</code> value.
+      Given a registered user's email and password return their <code>userId</code> value.
     </td>
     <td>
       <b>Parameters:</b><br />
@@ -1137,7 +1137,7 @@ In iteration 1, a problem we have with the `userId` is that there is no way to "
 
 In iteration 2, we want to issue something that abstracts their user ID into the idea of a session - this way a single user can log in, log out, or maybe log in from multiple places at the same time.
 
-If you're not following the issue with the `userId`, imagine it like trying to board a plane flight but your boarding pass IS your passport. Your passport is a (effectively) a permanent thing - it is just "always you". That wouldn't allow staff to check if you should or shouldn't be on that plane, which is why airlines issue out boarding passes - to essentially grant you a "session" on a plane. And your boarding pass is linked to your passport. In this same way, a session is associated with an `userId`!
+If you're not following the issue with the `userId`, imagine it like trying to board a plane flight but your boarding pass IS your passport. Your passport is (effectively) a permanent thing - it is just "always you". That wouldn't allow staff to check if you should or shouldn't be on that plane, which is why airlines issue out boarding passes - to essentially grant you a "session" on a plane. And your boarding pass is linked to your passport. In this same way, a session is associated with an `userId`!
 
 #### How we adapt in Iteration 2 - User Sessions
 
@@ -1462,7 +1462,7 @@ It's important that as part of separating the concerns of the HTTP server and th
 
 In iteration 3, we require you to use *exceptions* to handle errors being returned up to your `server.ts` file. Your `server.ts` will still be using `res.status(400)`, `res.status(401)`, or `res.status(403)`.
 
-Another way to explain this is that all of the functions that your `server.ts` calls should only "return" a value if successful, or throw an exception if unnecessful.
+Another way to explain this is that all of the functions that your `server.ts` calls should only "return" a value if successful, or throw an exception if unsuccessful.
 
 How you use exceptions is up to you - this is a refactor, so tutors will manually mark this as the API behaviour will remain unchanged.
 
