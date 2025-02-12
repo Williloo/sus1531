@@ -1168,11 +1168,11 @@ Implementation details are up to you, though the key things to ensure that you c
 
 ### 🐝 4.10. Error returning
 
-Either a `400 (Bad Request)` or `401 (Unauthorized)` or `403 (Forbidden)` is thrown when something goes wrong. A `400` error refers to issues with user input; a `401` error refers to when someone does not attempt to authenticate properly, and a `403` error refers to issues with authorisation. Most of the routes in the API interface provided throw types of these errors under various conditions.
+Either a `400 (Bad Request)` or `401 (Unauthorized)` or `403 (Forbidden)` is returned when something goes wrong. A `400` error refers to issues with user input; a `401` error refers to when someone does not attempt to authenticate properly, and a `403` error refers to issues with authorisation. Most of the routes in the API interface provided throw types of these errors under various conditions.
 
-To throw one of these errors, simply use the code `res.status(400).send(JSON.stringify({ error: 'specific error message here' }))` or `res.status(400).json({ error: 'specific error message here' })` in your server where 400 is the error.
+To return one of these errors, simply use the code `res.status(400).send(JSON.stringify({ error: 'specific error message here' }))` or `res.status(400).json({ error: 'specific error message here' })` in your server where 400 is the error.
 
-Errors are thrown in the following order: 401, then 403, then 400.
+Errors are returned in the following order: 401, then 403, then 400.
 
 ### 🐝 4.11. Working with the frontend
 
