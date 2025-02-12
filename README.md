@@ -357,7 +357,7 @@ cat ~cs1531/bin/iter0.test.js
 
 ### 🐭 2.4. FAQs
 
-Please see the <a href="https://edstem.org/au/courses/18921/discussion/2214720">this EdStem megapost</a> for iteration 0 FAQs.
+Please see the <a href="https://edstem.org/au/courses/21170/discussion/2425606">this EdStem megapost</a> for iteration 0 FAQs.
 
 ### 🐭 2.5. Submission
 
@@ -966,7 +966,7 @@ Please see section 7.5 for information on **teamwork evaluation**.
 
 ### 🐶 3.11. FAQs
 
-Please see the <a href="https://edstem.org/au/courses/18921/discussion/2236396">this EdStem megapost</a> for iteration 1 FAQs.
+Please see the <a href="https://edstem.org/au/courses/21170/discussion/2425607">this EdStem megapost</a> for iteration 1 FAQs.
 
 ## 🐝 4. Iteration 2: Building a Web Server
 
@@ -1317,7 +1317,7 @@ Please see section 7.5 for information on **teamwork evaluation**.
 
 ### 🐝 4.16. FAQs
 
-Please see the <a href="https://edstem.org/au/courses/18921/discussion/2214720">this EdStem megapost</a> for iteration 2 FAQs.
+Please see the <a href="https://edstem.org/au/courses/21170/discussion/2425609">this EdStem megapost</a> for iteration 2 FAQs.
 
 ## 🦆 5. Iteration 3: Completing the Lifecycle
 
@@ -1746,7 +1746,7 @@ Please see section 7.5 for information on **teamwork evaluation**.
 
 ### 🦆 5.13. FAQs
 
-Please see the <a href="https://edstem.org/au/courses/18921/discussion/2214720">this EdStem megapost</a> for iteration 3 FAQs.
+Please see the <a href="https://edstem.org/au/courses/21170/discussion/2425611">this EdStem megapost</a> for iteration 3 FAQs.
 
 ## 🌸 6. Due Dates and Weightings
 
