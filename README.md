@@ -386,6 +386,11 @@ In this iteration, you are expected to:
 
     * For this iteration, you will need to collectively make a minimum of **12 merge requests** into `master`.
 
+3. Produce a short report, `planning.pdf` containing a simplified approach to understanding user problems, and developing requirements for future iterations of Toohak.
+    * You will interview users of existing quiz platforms like Toohak to identify their requirements. You will create user stories, a use case, and validate these requirements with the users you interviewed.
+
+    * You will not need to develop or implement these features.
+
 
 ### 🐶 3.2. Storing data
 
@@ -811,7 +816,7 @@ We have opted not to provide you with a sample structure - because we're not int
 
 #### [Requirements] Elicitation
 
-Find 2-3 people to interview as target users. Target users are people who currently use a tool like Toohak, or intend to and are not current or former 1531 students. Record their name and email address. You must not interview members of your project group.
+Find 2-3 people to interview as target users. Target users are people who currently use a tool like Kahoot, or intend to and are not current or former 1531 students. Record their name and email address. You must not interview members of your project group.
 
 Develop a series of questions (at least 4) to ask these target users to understand what *problems* (not solutions) they might have with quiz tools like Kahoot. Give these questions to your target users and record their answers.
 
