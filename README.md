@@ -41,7 +41,7 @@ We highly recommend **creating and playing** a Kahoot game to better understand 
 
 ## 🐭 2. Iteration 0: Getting Started
 
-[You can watch the iteration 0 introductory video here.](https://youtu.be/81r1oUQHRNA) This video is not required watching (the specification is clear by itself) though many students find it useful as a starting point.
+[You can watch the iteration 0 introductory video here.](https://youtu.be/YhBwRQN--gs) This video is not required watching (the specification is clear by itself) though many students find it useful as a starting point.
 
 ### 🐭 2.1. Task
 
