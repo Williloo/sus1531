@@ -365,7 +365,7 @@ Please see section 6 for information on **due date**.
 
 ## 🐶 3. Iteration 1: Basic Functionality and Tests
 
-[You can watch the iteration 1 introductory video here.](https://youtu.be/VPlNNy-gK2w) Please note that this video was recorded in 23T2, and there are changes in 25T1. You should consult this spec for changes. This video is not required watching (the specification is clear by itself) though many students will watch this for the practical demo of how to get started.
+[You can watch the iteration 1 introductory video here.](https://youtu.be/81r1oUQHRNA) This video is not required watching (the specification is clear by itself) though many students find it useful as a starting point.
 
 ### 🐶 3.1. Task
 
