@@ -43,7 +43,7 @@ components:
     ResetCode:
       type: string
       example: asdf89ajf2348905j9834
-    SessionId:
+    GameId:
       type: integer
       example: 5546
     PlayerId:
@@ -139,7 +139,7 @@ components:
     NumQuestions:
       type: integer
       example: 1
-      description: The current number of questions in this quiz session
+      description: The current number of questions in this quiz game
   group:
     User:
       type: object
@@ -356,12 +356,12 @@ components:
       required: true
       schema:
         $ref: '#/components/prim/QuizId'
-    SessionId:
+    GameId:
       in: path
-      name: sessionid
+      name: gameid
       required: true
       schema:
-        $ref: '#/components/prim/SessionId'
+        $ref: '#/components/prim/GameId'
   header:
     Session:
       in: header
@@ -563,7 +563,7 @@ components:
             type: integer
             example: 1
             description: Position 0 is the very beginning, position 1 is between the 1st and 2nd question, etc. So position n-1 is the final position where n is the number of questions
-    QuizSessionStartIter3:
+    QuizGameStartIter3:
       in: body
       name: body
       required: true
@@ -574,7 +574,7 @@ components:
             type: integer 
             example: 3
             description: autostartNum is number of people to autostart the quiz once that number of people join. If this number is 0, then no auto start will occur.
-    QuizSessionMutateIter3:
+    QuizGameMutateIter3:
       in: body
       name: body
       required: true
@@ -583,9 +583,9 @@ components:
         properties:
           action:
             $ref: '#/components/prim/Action'
-    QuizSessionStatus:
+    QuizGameStatus:
       in: query
-      name: session
+      name: game
       required: true
       schema:
         session:
@@ -597,7 +597,7 @@ components:
       schema:
         type: object
         properties:
-          sessionId:
+          gameId:
             type: integer
             example: 234234
           playerName:
@@ -658,12 +658,12 @@ components:
       properties:
         question:
           $ref: '#/components/prim/QuizQuestion'
-    QuizSessionStart:
+    QuizGameStart:
       type: object
       properties:
-        sessionId:
-          $ref: '#/components/prim/SessionId'
-    QuizSessionStatus:
+        gameId:
+          $ref: '#/components/prim/GameId'
+    QuizGameStatus:
       type: object
       properties:
         state:
@@ -676,24 +676,24 @@ components:
             type: string
             example: Hayden
             description: Name of a player
-          description: Names of all the players in the quiz session, ordered in ascending order of player name
+          description: Names of all the players in the quiz game, ordered in ascending order of player name
         metadata:
           $ref: '#/components/group/QuizIter3'
-    QuizSessionsList:
+    QuizGamesList:
       type: object
       properties:
-        activeSessions:
+        activeGames:
           type: array
-          description: List of active quiz session ids (sessions that are not in the END state), sorted in ascending order
+          description: List of active quiz game ids (games that are not in the END state), sorted in ascending order
           example: [247, 566, 629, 923]
           items:
-            $ref: '#/components/prim/SessionId'
-        inactiveSessions:
+            $ref: '#/components/prim/GameId'
+        inactiveGames:
           type: array
-          description: List of inactive quiz session ids (sessions that are in the END state), sorted in ascending order
+          description: List of inactive quiz game ids (games that are in the END state), sorted in ascending order
           example: [422, 817]
           items:
-            $ref: '#/components/prim/SessionId'
+            $ref: '#/components/prim/GameId'
 
     PlayerJoin:
       type: object
@@ -977,6 +977,10 @@ paths:
           description: OK
           schema:
             $ref: '#/components/return/Empty'
+        400:
+          description: Any game for this quiz is not in END state
+          schema:
+            $ref: '#/components/return/Error'
         401:
           description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
@@ -1173,7 +1177,7 @@ paths:
             - userEmail is not a real user
             - userEmail is the current logged in user
             - Quiz ID refers to a quiz that has a name that is already used by the target user
-            - Any session for this quiz is not in END state
+            - Any game for this quiz is not in END state
           schema:
             $ref: '#/components/return/Error'
       security:
@@ -1304,7 +1308,7 @@ paths:
       parameters:
         - $ref: '#/components/path/QuizId'
         - $ref: '#/components/path/QuestionId'
-        - $ref: '#/components/query/Session'
+        - $ref: '#/components/header/Session'
         - $ref: '#/components/body/QuizQuestionMutateIter2'
       responses:
         200:
@@ -1342,7 +1346,7 @@ paths:
       parameters:
         - $ref: '#/components/path/QuizId'
         - $ref: '#/components/path/QuestionId'
-        - $ref: '#/components/query/Session'
+        - $ref: '#/components/header/Session'
       responses:
         200:
           description: OK
@@ -1482,13 +1486,13 @@ paths:
 
 
 
-  /v1/admin/quiz/{quizid}/sessions:
+  /v1/admin/quiz/{quizid}/games:
     get:
-      summary: View active and inactive quiz sessions
+      summary: View active and inactive quiz games
       description: |
-        Retrieves active and inactive session ids (sorted in ascending order) for a quiz
-        - Active sessions are sessions that are not in the END state.
-        - Inactive sessions are sessions in the END state.
+        Retrieves active and inactive game ids (sorted in ascending order) for a quiz
+        - Active games are games that are not in the END state.
+        - Inactive games are games in the END state.
       tags:
         # - "By Topic: Quiz Management"
         - "Iteration 3 (New)"
@@ -1499,7 +1503,7 @@ paths:
         200:
           description: OK
           schema:
-            $ref: '#/components/return/QuizSessionsList'
+            $ref: '#/components/return/QuizGamesList'
         401:
           description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
@@ -1511,22 +1515,22 @@ paths:
       security:
         - Iteration 3 Session Authentication: []
       
-  /v1/admin/quiz/{quizid}/session/start:
+  /v1/admin/quiz/{quizid}/game/start:
     post:
-      summary: Start a new session for a quiz
-      description: This _copies_ the quiz, so that any edits whilst a session is running does not affect active session
+      summary: Start a new game for a quiz
+      description: This _copies_ the quiz, so that any edits whilst a game is running does not affect active game
       tags:
-        # - "By Topic: Session Management"
+        # - "By Topic: Game Management"
         - "Iteration 3 (New)"
       parameters:
         - $ref: '#/components/path/QuizId'
         - $ref: '#/components/header/Session'
-        - $ref: '#/components/body/QuizSessionStartIter3'
+        - $ref: '#/components/body/QuizGameStartIter3'
       responses:
         200:
           description: OK
           schema:
-            $ref: '#/components/return/QuizSessionStart'
+            $ref: '#/components/return/QuizGameStart'
         401:
           description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
@@ -1539,24 +1543,24 @@ paths:
           description: |
             If any of the following are true:
             - autoStartNum is a number greater than 50
-            - 10 sessions that are not in END state currently exist for this quiz
+            - 10 games that are not in END state currently exist for this quiz
             - The quiz does not have any questions in it
           schema:
             $ref: '#/components/return/Error'
       security:
         - Iteration 3 Session Authentication: []
-  /v1/admin/quiz/{quizid}/session/{sessionid}:
+  /v1/admin/quiz/{quizid}/game/{gameid}:
     put:
-      summary: Update a quiz session state
-      description: Update the state of a particular quiz session by sending an action command
+      summary: Update a quiz game state
+      description: Update the state of a particular quiz game by sending an action command
       tags:
-        # - "By Topic: Session Management"
+        # - "By Topic: Game Management"
         - "Iteration 3 (New)"
       parameters:
         - $ref: '#/components/path/QuizId'
-        - $ref: '#/components/path/SessionId'
+        - $ref: '#/components/path/GameId'
         - $ref: '#/components/header/Session'
-        - $ref: '#/components/body/QuizSessionMutateIter3'
+        - $ref: '#/components/body/QuizGameMutateIter3'
       responses:
         200:
           description: OK
@@ -1573,28 +1577,28 @@ paths:
         400:
           description: |
             If any of the following are true:
-            - Session Id does not refer to a valid session within this quiz
+            - Game Id does not refer to a valid game within this quiz
             - Action provided is not a valid Action enum
-            - Action enum cannot be applied in the current state (see spec for details)
+            - Action enum cannot be applied in the current state (see spec and miro for details)
           schema:
             $ref: '#/components/return/Error'
       security:
         - Iteration 3 Session Authentication: []
     get:
-      summary: Get quiz session status
-      description: Get the status of a particular quiz session
+      summary: Get quiz game status
+      description: Get the status of a particular quiz game
       tags:
-        # - "By Topic: Session Management"
+        # - "By Topic: Game Management"
         - "Iteration 3 (New)"
       parameters:
         - $ref: '#/components/path/QuizId'
-        - $ref: '#/components/path/SessionId'
+        - $ref: '#/components/path/GameId'
         - $ref: '#/components/header/Session'
       responses:
         200:
           description: OK
           schema:
-            $ref: '#/components/return/QuizSessionStatus'
+            $ref: '#/components/return/QuizGameStatus'
         401:
           description: Session is empty or invalid (does not refer to valid logged in user session)
           schema:
@@ -1606,22 +1610,22 @@ paths:
         400:
           description: |
             If any of the following are true:
-            - Session Id does not refer to a valid session within this quiz
+            - Game Id does not refer to a valid game within this quiz
           schema:
             $ref: '#/components/return/Error'
       security:
         - Iteration 3 Session Authentication: []
       
-  /v1/admin/quiz/{quizid}/session/{sessionid}/results:
+  /v1/admin/quiz/{quizid}/game/{gameid}/results:
     get:
-      summary: Get quiz session final results
-      description: Get the final results for all players for a completed quiz session
+      summary: Get quiz game final results
+      description: Get the final results for all players for a completed quiz game
       tags:
-        # - "By Topic: Session Management"
+        # - "By Topic: Game Management"
         - "Iteration 3 (New)"
       parameters:
         - $ref: '#/components/path/QuizId'
-        - $ref: '#/components/path/SessionId'
+        - $ref: '#/components/path/GameId'
         - $ref: '#/components/header/Session'
       responses:
         200:
@@ -1639,8 +1643,8 @@ paths:
         400:
           description: |
             If any of the following are true:
-            - Session Id does not refer to a valid session within this quiz
-            - Session is not in FINAL_RESULTS state
+            - Game Id does not refer to a valid game within this quiz
+            - Game is not in FINAL_RESULTS state
           schema:
             $ref: '#/components/return/Error'
       security:
@@ -1649,12 +1653,12 @@ paths:
 
   /v1/player/join:
     post:
-      summary: Allow a guest player to join a session
+      summary: Allow a guest player to join a game
       description: |
         If the name entered is an empty string, a name must be randomly generated that conforms to the structure "[5 letters][3 numbers]" (e.g. valid123, ifjru483, ofijr938) where there are no repetitions of numbers or characters within the same name
       tags:
         - "Iteration 3 (New)"
-        # - "By Topic: Playing a session"
+        # - "By Topic: Playing a game"
       parameters:
         - $ref: '#/components/body/PlayerJoin'
       responses:
@@ -1667,16 +1671,16 @@ paths:
             If any of the following are true:
             - Name contains invalid characters. Valid characters are alphanumeric and spaces.
             - Name of user entered is not unique (compared to other users who have already joined)
-            - Session Id does not refer to a valid session
-            - Session is not in LOBBY state
+            - Game Id does not refer to a valid game
+            - Game is not in LOBBY state
           schema:
             $ref: '#/components/return/Error'
   /v1/player/{playerid}:
     get:
-      summary: Status of guest player in session
-      description: Get the status of a guest player that has already joined a session
+      summary: Status of guest player in game
+      description: Get the status of a guest player that has already joined a game
       tags:
-        # - "By Topic: Playing a session"
+        # - "By Topic: Playing a game"
         - "Iteration 3 (New)"
       parameters:
         - $ref: '#/components/path/PlayerId'
@@ -1696,7 +1700,7 @@ paths:
       summary: Current question information for a player
       description: Get the information about a question that the guest player is on. Question position starts at 1
       tags:
-        # - "By Topic: Playing a session"
+        # - "By Topic: Playing a game"
         - "Iteration 3 (New)"
       parameters:
         - $ref: '#/components/path/PlayerId'
@@ -1710,9 +1714,9 @@ paths:
           description: |
             If any of the following are true:
             - If player ID does not exist
-            - If question position is not valid for the session this player is in
-            - If session is not currently on this question
-            - Session is in LOBBY, QUESTION_COUNTDOWN, FINAL_RESULTS or END state
+            - If question position is not valid for the game this player is in
+            - If game is not currently on this question
+            - Game is in LOBBY, QUESTION_COUNTDOWN, FINAL_RESULTS or END state
           schema:
             $ref: '#/components/return/Error'
   /v1/player/{playerid}/question/{questionposition}/answer:
@@ -1722,7 +1726,7 @@ paths:
         Allow the current player to submit answer(s) to the currently active question. Question position starts at 1
         Note: An answer can be re-submitted once first selection is made, as long as game is in the right state
       tags:
-        # - "By Topic: Playing a session"
+        # - "By Topic: Playing a game"
         - "Iteration 3 (New)"
       parameters:
         - $ref: '#/components/body/PlayerQuestionAnswer'
@@ -1737,9 +1741,9 @@ paths:
           description: |
             If any of the following are true:
             - If player ID does not exist
-            - If question position is not valid for the session this player is in
-            - Session is not in QUESTION_OPEN state
-            - If session is not currently on this question
+            - If question position is not valid for the game this player is in
+            - Game is not in QUESTION_OPEN state
+            - If game is not currently on this question
             - Answer IDs are not valid for this particular question
             - There are duplicate answer IDs provided
             - Less than 1 answer ID was submitted
@@ -1748,9 +1752,9 @@ paths:
   /v1/player/{playerid}/question/{questionposition}/results:
     get:
       summary: Results for a question
-      description: Get the results for a particular question of the session a player is playing in. Question position starts at 1
+      description: Get the results for a particular question of the game a player is playing in. Question position starts at 1
       tags:
-        # - "By Topic: Playing a session"
+        # - "By Topic: Playing a game"
         - "Iteration 3 (New)"
       parameters:
         - $ref: '#/components/path/PlayerId'
@@ -1764,17 +1768,17 @@ paths:
           description: |
             If any of the following are true:
             - If player ID does not exist
-            - If question position is not valid for the session this player is in
-            - Session is not in ANSWER_SHOW state
-            - If session is not currently on this question
+            - If question position is not valid for the game this player is in
+            - Game is not in ANSWER_SHOW state
+            - If game is not currently on this question
           schema:
             $ref: '#/components/return/Error'
   /v1/player/{playerid}/results:
     get:
-      summary: Final results for a session
-      description: Get the final results for a whole session a player is playing in
+      summary: Final results for a game
+      description: Get the final results for a whole game a player is playing in
       tags:
-        # - "By Topic: Playing a session"
+        # - "By Topic: Playing a game"
         - "Iteration 3 (New)"
       parameters:
         - $ref: '#/components/path/PlayerId'
@@ -1787,7 +1791,7 @@ paths:
           description: |
             If any of the following are true:
             - If player ID does not exist
-            - Session is not in FINAL_RESULTS state
+            - Game is not in FINAL_RESULTS state
           schema:
             $ref: '#/components/return/Error'
 

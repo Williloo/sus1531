@@ -1396,7 +1396,7 @@ This will start the server on the port in the `src/server.ts` file, using `ts-no
 
 If you get an error stating that the address is already in use, you can change the port number in `config.json` to any number from 1024 to 49151. Is it likely that another student may be using your original port number.
 
-Please note: For routes involving the playing of a game and waiting for questions to end, you are not required to account for situations where the server process crashes or restarts while waiting. If the server ever restarts while these active "quiz sessions" are ongoing, you can assume they are no longer happening after restart.
+Please note: For routes involving the playing of a game and waiting for questions to end, you are not required to account for situations where the server process crashes or restarts while waiting. If the server ever restarts while these active "quiz games" are ongoing, you can assume they are no longer happening after restart.
 
 ### 🦆 5.3. Implementing and testing features
 
@@ -1439,9 +1439,9 @@ Back in the first terminal, stop the server with Ctrl+C or Command+C. There shou
 
 ### 🦆 5.5. States & Actions
 
-Iteration 3 sees the introduction of a quiz session, which describes a particular instance of a quiz being run.
+Iteration 3 sees the introduction of a quiz game, which describes a particular instance of a quiz being run.
 
-Quiz sessions can be in one of many states:
+Quiz games can be in one of many states:
  * **LOBBY**: Players can join in this state, and nothing has started.
  * **QUESTION_COUNTDOWN**: This is the question countdown period. It always exists before a question is open.
  * **QUESTION_OPEN**: This is when players can see the question, and the answers, and submit their answers (as many times as they like).
@@ -1597,7 +1597,7 @@ You may choose any free <a href="https://huggingface.co/models">model</a> that b
 
 #### Part B: Thinking Bigger with Files or Multi-user elements (50%)
 
-You've been taught the basics of persistance via file storage, and multi-user interaction via Sessions. In this section, you should design a route (or set of routes) which deal with either files or feature interactive/multi-user elements.
+You've been taught the basics of persistance via file storage, and multi-user interaction via sessions. In this section, you should design a route (or set of routes) which deal with either files or feature interactive/multi-user elements.
 
 Examples you may choose to design and implement:
 * Collaborative Quizzes: Enable collaborative quizzes where multiple users can work together to answer questions.
@@ -1620,7 +1620,7 @@ You must implement independent routes for both Part A and B to receive 100% in t
 
 ### 🦆 5.10. Iteration 3 Final Presentation
 
-Iteration 3 final presentation is a 10 minute Q&A session.
+Iteration 3 final presentation is a 10 minute Q&A and demo session.
 
 During this session, at a minimum we will expect groups to:
  * Each give a quick one sentence explanation of what you contributed
@@ -1642,7 +1642,7 @@ The remaining time will be Q&A led by a tutor. That tutor may not necessarily be
   </tr>
   <tr>
     <td>Automarking (Testing & Implementation)</td>
-    <td>65%</td>
+    <td>55%</td>
     <td>
     <ul>
       <li>Correct implementation of specified functions.</li>
@@ -1706,7 +1706,7 @@ The remaining time will be Q&A led by a tutor. That tutor may not necessarily be
   </td>
   </tr>
     <td>Open-ended Features</td>
-    <td>10%</td>
+    <td>20%</td>
     <td><ul>
       <li>Demonstrated creativity and high quality functionality (50% for each part)</li>
       <li>Choice of route(s) introduces new elements of software design to the Toohak project, and would be considered challenging for an average student to implement</li>
@@ -1757,7 +1757,7 @@ Please see the <a href="https://edstem.org/au/courses/21170/discussion/2425611">
 
 | Iteration | Due date                             | Demonstration to tutor(s)     | Assessment weighting (%) |
 | --------- | ------------------------------------ | ----------------------------- | ------------------------ |
-| 0         | 12pm Monday 24th Feb (**week 3**)    | No demonstration              | 5% of project mark       |
+| 0         | 8pm Friday 28th Feb (**week 3**)    | No demonstration              | 5% of project mark       |
 | 1         | 12pm Tuesday 18th Mar (**week 5**)    | In YOUR **week 5** laboratory | 20% of project mark      |
 | 2         | 12pm Tuesday 8th Apr (**week 8**)    | In YOUR **week 8** laboratory | 40% of project mark      |
 | 3         | 12pm Thursday 24th Apr (**week 10**)    | Final demonstration week 11   | 35% of project mark      |
