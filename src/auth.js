@@ -1,3 +1,11 @@
+
+/**
+ * This function takes an userId and returns information about the user
+ * in an user object
+ * 
+ * @param { number } userId 
+ * @returns { user }
+ */
 function adminUserDetails( userId ) {
     return { user:
         {
