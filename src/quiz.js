@@ -1,11 +1,12 @@
 /**
- * Function to update the name of the relevant quiz.
+ * This function updates the description of the relevant quiz.
  * 
  * @param {string} userId 
  * @param {string} quizId 
- * @param {string} name 
+ * @param {string} description 
  * @returns {object}
  */
-function adminQuizNameUpdate(userId, quizId, name) {
+
+function adminQuizDescriptionUpdate (userId, quizId, description) {
     return {};
 }
