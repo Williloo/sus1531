@@ -1,3 +1,23 @@
+
+/*
+* Given a registered user's email and password, 
+* return their userId value.
+*
+* @param {string} email
+* @param {string} password
+* @returns {Object}
+*
+* @typdef {Object}
+* @property {number} userId
+*/
+
+
+function adminAuthLogin(email, password) {
+  return {
+    userId: 1 
+  }
+}
+
 /**
  * This function takes an userId and returns information about the user
  * in an user object
@@ -43,3 +63,4 @@ function adminUserDetailsUpdate( userId, email, nameFirst, nameLast ) {
 function adminUserPasswordUpdate( userId, oldPassword, newPassword ) {
     return { }
 }
+
