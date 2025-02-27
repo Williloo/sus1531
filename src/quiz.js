@@ -4,9 +4,8 @@
  * @param {String} name 
  * @param {String} description 
  * @returns {object}
- */
-
-/*
+ * 
+ * 
  * This function takes in the userId , name and description
  * Returns a quizId 
  */
