@@ -43,14 +43,12 @@ let Data = {
   ],
   quizzes: [
     quiz: {
-    {
       quizId: 1,
       creatorId: 1, 
       name: 'My Quiz',
       timeCreated: 1683125870,
       timeLastEdited: 1683125871,
       description: 'This is my quiz',
-    }
     },
   ]
 }
