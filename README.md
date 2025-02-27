@@ -363,7 +363,7 @@ Please see the <a href="https://edstem.org/au/courses/21170/discussion/2425606">
 
 Please see section 6 for information on **due date**.
 
-## 🐶 3. Iteration 1: Basic Functionality and Tests
+## 🐶 3. Iteration 1: Requirements, Basic Functionality and Tests
 
 [You can watch the iteration 1 introductory video here.](https://youtu.be/81r1oUQHRNA) This video is not required watching (the specification is clear by itself) though many students find it useful as a starting point.
 
@@ -371,10 +371,13 @@ Please see section 6 for information on **due date**.
 
 In this iteration, you are expected to:
 
-1. Produce a short report, `planning.pdf` containing a simplified approach to understanding user problems, and developing requirements for future iterations of Toohak.
+1. Produce a short report, `planning.pdf` containing a simplified approach to understanding user problems, and developing requirements for Toohak.
     * You will interview users of existing quiz platforms like Toohak to identify their requirements. You will create user stories, a use case, and validate these requirements with the users you interviewed.
 
-    * You will not need to develop or implement these features.
+    * Note that at this stage, the user stories and use cases you generate may or may not be implemented in this project assignment. The goal is to practice identifying and documenting requirements, even if not all of them are built immediately. Later, in Project Iteration 3, you will have the opportunity to extend your project with open-ended features, where you can implement additional functionality based on the requirements you have defined. This structured approach will help you gain confidence in each step of the SDLC before applying it to more complex development tasks.
+
+    * The course has set up some basic features for you to implement - as described in Tasks 2.
+
 
 2. Write tests for and implement the basic functionality of Toohak. The basic functionality is defined as per the interface section below.
     * Test files you add should all be in the form `*.test.js`.
@@ -391,8 +394,37 @@ In this iteration, you are expected to:
 
     * For this iteration, you will need to collectively make a minimum of **12 merge requests** into `master`.
 
+### 🐶 3.2. Planning for the problems to solve
 
-### 🐶 3.2. Storing data
+Before we start implementing any features for our software systems, we need first to understand the requirements for the system, so make sure that we are building the right systems. This is an essential step in the Software Development Life Cycle (SDLC) and will help you build a strong foundation for future development.
+
+For iteration 1 you are going to produce a short report in `planning.pdf` and place it in the repository. The contents of this report will be a simplified approach to understanding user problems, and developing requirements.
+
+N.B. If you don't know how to produce a PDF, you can easily make one in Google docs and then export to PDF.
+
+We have opted not to provide you with a sample structure - because we're not interested in any rigid structure. Structure it however you best see fit, as we will be looking at content only.
+
+#### [Requirements] Elicitation
+
+Find 2-3 people to interview as target users. Target users are people who currently use a tool like Kahoot, or intend to and are not current or former 1531 students. Record their name and email address. You must not interview members of your project group.
+
+Develop a series of questions (at least 4) to ask these target users to understand what *problems* (not solutions) they might have with quiz tools like Kahoot. Give these questions to your target users and record their answers.
+
+
+#### [Requirements] Analysis & Specification - User stories and use cases
+
+Once you've elicited this information, it's time to consolidate it.
+
+Take the responses from the elicitation step and express these requirements as **user stories** (at least 3). Document these user stories. For each user story, add user acceptance criteria as notes so that you have a clear definition of when a story has been completed.
+
+Once the user stories have been documented, generate at least ONE use case that attempts to describe how the system works that satifies some of or all the elicited requirements. You can generate a visual diagram or a more written-recipe style, as per lectures.
+
+#### [Requirements] Validation
+
+With your completed use case work, reach out to the 2-3 people you interviewed originally and inquire as to the extent to which these use cases would adequately describe the problem they're trying to solve. Ask them for a comment on this, and record their comments in the PDF.
+
+
+### 🐶 3.3. Storing data
 
 Nearly all of the functions will likely have to reference some "data source" to store information. E.g. If you register two users, create two quizzes, all of that information needs to be "stored" somewhere. The most important thing for iteration 1 is not to overthink this problem.
 
@@ -428,7 +460,7 @@ let data = {
     ],
 }
 ```
-### 🐶 3.3. Implementing and testing features
+### 🐶 3.4. Implementing and testing features
 
 You should first approach this project by considering its distinct "features". Each feature should add some meaningful functionality to the project, but still be as small as possible. You should aim to size features as the smallest amount of functionality that adds value without making the project more unstable. For each feature you should:
 
@@ -454,9 +486,9 @@ Please pay careful attention to the following:
 * Pushing directly to `master` is not possible for this repo. The only way to get code into `master` is via a merge request. If you discover you have a bug in `master` that got through testing, create a bugfix branch and merge that in via a merge request.
 * As is the case with any system or functionality, there will be some things that you can test extensively, some things that you can test sparsely/fleetingly, and some things that you can't meaningfully test at all. You should aim to test as extensively as you can, and make judgements as to what things fall into what categories.
 
-### 🐶 3.4. Testing guidelines & advice
+### 🐶 3.5. Testing guidelines & advice
 
-#### 🐶 3.4.1. Test Structure
+#### 🐶 3.5.1. Test Structure
 The tests you write should be as small and independent as possible. This makes it easier to identify why a particular test may be failing. Similarly, try to make it clear what each test is testing for. Meaningful test names and documentation help with this. An example of how to structure tests has been done in:
 
 * `src/echo.js`
@@ -464,7 +496,7 @@ The tests you write should be as small and independent as possible. This makes i
 
 _The echo functionality is tested, both for correct behaviour and for failing behaviour. As echo is relatively simple functionality, only 2 tests are required. For the larger features, you will need many tests to account for many different behaviours._
 
-#### 🐶 3.4.2. Black Box Testing
+#### 🐶 3.5.2. Black Box Testing
 
 Your tests should be *black box* unit tests:
   * Black box means they should not depend your specific implementation, but rather work with *any* faithful implementation of the project interface specification. I.e. you should design your tests such that if they were run against another group's backend they would still pass.
@@ -478,11 +510,11 @@ let result = adminAuthRegister('validemail@gmail.com', '123abc!@#', 'Jake', 'Ren
 adminAuthLogin('validemail@gmail.com', '123abc!@#') // Expect to work since we registered
 ```
 
-#### 🐶 3.4.3. Resetting state
+#### 🐶 3.5.3. Resetting state
 
 You should reset the state of the application (e.g. deleting all users, quizzes, etc.) at the start of every test. That way you know none of them are accidentally dependent on an earlier test. You can use a function for this that is run at the beginning of each test (hint: `clear`).
 
-#### 🐶 3.4.4. Other help
+#### 🐶 3.5.4. Other help
 
 * If you find yourself needing similar code at the start of a series of tests, consider using Jest's [**beforeEach**](https://jestjs.io/docs/api#beforeeachfn-timeout) to avoid repetition.
 
@@ -490,7 +522,7 @@ Sometimes you may ask "What happens if X?". In cases where we don't specify beha
 
 A common question asked throughout the project is usually "How can I test this?" or "Can I test this?". In any situation, most things can be tested thoroughly. However, some things can only be tested sparsely, and on some other rare occasions, some things can't be tested at all. A challenge of this project is for you to use your discretion to figure out what to test, and how much to test. Often, you can use the functions you've already written to test new functions in a black-box manner.
 
-### 🐶 3.5. Iteration 1 Interface
+### 🐶 3.6. Iteration 1 Interface
 
 The functions required for iteration 1 are described below.
 
@@ -804,35 +836,6 @@ For timestamps, these are Unix timestamps in seconds. You can find more informat
   </tr>
 </table>
 
-### 🐶 3.6. Planning for the next problems to solve
-
-Software development is an iterative process - we're never truly finished. As we complete the development and testing of one feature, we're often then trying to understand the requirements and needs of our users to design the next set of features in our product.
-
-For iteration 1 you are going to produce a short report in `planning.pdf` and place it in the repository. The contents of this report will be a simplified approach to understanding user problems, and developing requirements.
-
-N.B. If you don't know how to produce a PDF, you can easily make one in Google docs and then export to PDF.
-
-We have opted not to provide you with a sample structure - because we're not interested in any rigid structure. Structure it however you best see fit, as we will be marking content.
-
-#### [Requirements] Elicitation
-
-Find 2-3 people to interview as target users. Target users are people who currently use a tool like Kahoot, or intend to and are not current or former 1531 students. Record their name and email address. You must not interview members of your project group.
-
-Develop a series of questions (at least 4) to ask these target users to understand what *problems* (not solutions) they might have with quiz tools like Kahoot. Give these questions to your target users and record their answers.
-
-Once you have done this, think about how you would solve the target users' problem(s) and write down a brief description of a proposed solution.
-
-#### [Requirements] Analysis & Specification - Use Cases
-
-Once you've elicited this information, it's time to consolidate it.
-
-Take the responses from the elicitation step and express these requirements as **user stories** (at least 3). Document these user stories. For each user story, add user acceptance criteria as notes so that you have a clear definition of when a story has been completed.
-
-Once the user stories have been documented, generate at least ONE use case that attempts to describe a solution that satifies some of or all the elicited requirements. You can generate a visual diagram or a more written-recipe style, as per lectures.
-
-#### [Requirements] Validation
-
-With your completed use case work, reach out to the 2-3 people you interviewed originally and inquire as to the extent to which these use cases would adequately describe the problem they're trying to solve. Ask them for a comment on this, and record their comments in the PDF.
 
 ### 🐶 3.7. Authorisation
 
