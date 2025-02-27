@@ -1,6 +1,6 @@
 /*
  * 
- * @param {Integer} userId 
+ * @param {number} userId 
  * @returns {Object}
  * 
  * 
