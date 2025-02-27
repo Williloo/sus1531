@@ -371,11 +371,16 @@ Please see section 6 for information on **due date**.
 
 In this iteration, you are expected to:
 
-1. Write tests for and implement the basic functionality of Toohak. The basic functionality is defined as per the interface section below.
+1. Produce a short report, `planning.pdf` containing a simplified approach to understanding user problems, and developing requirements for future iterations of Toohak.
+    * You will interview users of existing quiz platforms like Toohak to identify their requirements. You will create user stories, a use case, and validate these requirements with the users you interviewed.
+
+    * You will not need to develop or implement these features.
+
+2. Write tests for and implement the basic functionality of Toohak. The basic functionality is defined as per the interface section below.
     * Test files you add should all be in the form `*.test.js`.
     * Do NOT attempt to try and write or start a web server. Don't overthink how these functions are meant to connect to a frontend yet. That is for the next iteration. In this iteration you are just focusing on the basic backend functionality.
 
-2. Follow best practices for git, project management, and effective teamwork, as discussed in lectures.
+3. Follow best practices for git, project management, and effective teamwork, as discussed in lectures.
     * The marking will be heavily biased toward how well you follow good practices and work together as a team. Just having a "working" solution at the end is not, on its own, sufficient to even get a passing mark.
 
     * You need to use the [**GitLab Issue Boards**](https://docs.gitlab.com/ee/user/project/issue_board.html) (or similar) for your task tracking and allocation. Spend some time getting to know how to use the taskboard. If you would like to use another collaborative task tracker e.g. Jira, Trello, Airtable, etc. you must first get approval from your tutor and grant them administrator access to your team board.
@@ -385,11 +390,6 @@ In this iteration, you are expected to:
     * You should have regular standups and be able to demonstrate evidence of this to your tutor.
 
     * For this iteration, you will need to collectively make a minimum of **12 merge requests** into `master`.
-
-3. Produce a short report, `planning.pdf` containing a simplified approach to understanding user problems, and developing requirements for future iterations of Toohak.
-    * You will interview users of existing quiz platforms like Toohak to identify their requirements. You will create user stories, a use case, and validate these requirements with the users you interviewed.
-
-    * You will not need to develop or implement these features.
 
 
 ### 🐶 3.2. Storing data
@@ -1378,12 +1378,6 @@ In this iteration, you are expected to:
 
     * You are required to regularly and thoughtfully make merge requests for the smallest reasonable units, and merge them into `master`.
 
-4. Document the planning of new features.
-
-    * You are required to scope out 2-3 problems to solve for future iterations of Toohak. You aren't required to build/code them, but you are required to go through SDLC steps of requirements analysis, conceptual modelling, and design.
-
-    * Full detail of this can be found in `5.5`.
-
 ### 🦆 5.2. Running the server
 
 To run the server, you can run the following command from the root directory of your project (e.g. `/project-backend`):
@@ -1970,11 +1964,11 @@ When running your code or tests as part of the automarking, we place a 90 second
 
 ### 💻 8.2. Pre-submission Preview
 
-In the days preceding iterations 1, 2, and 3's due date, we will be running your code against the actual automarkers (the same ones that determine your final mark) and publishing the results of every group on the [marking runs page](https://cgi.cse.unsw.edu.au/~cs1531/NOW/content/project/runs). You will get to see the current mark (within a range) of your submission. You will not receive any elaboration on how that mark was determined - if your mark isn't what you expect, work with your group and/or tutor to debug your code and write more tests.
+In the days preceding iterations 1, 2, and 3's due date, we will be running your code against the actual automarkers (the same ones that determine your final mark) and publishing the results of every group on [Gitrun](https://cgi.cse.unsw.edu.au/~cs1531/NOW/content/project/runs). You will get to see the current mark (within a range) of your submission. You will not receive any elaboration on how that mark was determined - if your mark isn't what you expect, work with your group and/or tutor to debug your code and write more tests.
 
-You must have the code you wish to be tested in your `master` branch by **10pm** the night before preview runs.
+You should have the code you wish to be tested in your `master` branch by **10pm** the night before preview runs.
 
-The preview will be updated on Monday, Wednesday, and Friday morning during the week that the iteration is due.
+3x previews are released for iteration 1, 2 and 3. Each preview release will occur at 12pm every second day during the week leading up to the iteration due date. Iteration 1 and 2 previews will occur on Thursday, Saturday and Monday. Iteration 3 previews will occur on Saturday, Monday and Wednesday. 
 
 This preview run gives you a chance to sanity check your automark (without knowing the details of what you did right and wrong), and is just a bit of fun.
 
