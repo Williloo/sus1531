@@ -1,5 +1,5 @@
 /**
- * <This function is used to permanently remove a quiz>
+ * <This function is used to permanently remove a particular quiz>
  * 
  * @param {number} unserId - this parameter is user id
  * @param {number} quizId - this parameter is 
