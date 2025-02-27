@@ -993,7 +993,7 @@ Please see the <a href="https://edstem.org/au/courses/21170/discussion/2425611">
 
 | Iteration | Due date                             | Demonstration to tutor(s)     | Assessment weighting (%) |
 | --------- | ------------------------------------ | ----------------------------- | ------------------------ |
-| 0         | 8pm Friday 28th Feb (**week 3**)    | No demonstration              | 5% of project mark       |
+| 0         | 8pm Friday 28th Feb (**week 2**)    | No demonstration              | 5% of project mark       |
 | 1         | 12pm Tuesday 18th Mar (**week 5**)    | In YOUR **week 5** laboratory | 20% of project mark      |
 | 2         | 12pm Tuesday 8th Apr (**week 8**)    | In YOUR **week 8** laboratory | 40% of project mark      |
 | 3         | 12pm Thursday 24th Apr (**week 10**)    | Final demonstration week 11   | 35% of project mark      |
