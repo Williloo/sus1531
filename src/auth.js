@@ -13,7 +13,7 @@
 * @property {number} userId
 */
 
-function adminAuthRegister(email, password, nameFirst, nameLast) {
+function adminAuthRegister( email, password, nameFirst, nameLast ) {
   return {
     userId: 1
   }
