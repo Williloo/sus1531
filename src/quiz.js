@@ -1,8 +1,8 @@
 /**
  * Function to update the name of the relevant quiz.
  * 
- * @param {string} userId 
- * @param {string} quizId 
+ * @param {number} userId 
+ * @param {number} quizId 
  * @param {string} name 
  * @returns {object}
  */
