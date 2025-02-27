@@ -2,9 +2,7 @@
  * 
  * @param {Integer} userId 
  * @returns {Object}
- */
-
-/*
+ * 
  * 
  * Given the userId 
  *  return a quiz object with quizId and name.
