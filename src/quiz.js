@@ -1,8 +1,8 @@
 /**
  * This function updates the description of the relevant quiz.
  * 
- * @param {string} userId 
- * @param {string} quizId 
+ * @param {number} userId 
+ * @param {number} quizId 
  * @param {string} description 
  * @returns {object}
  */
