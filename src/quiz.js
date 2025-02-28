@@ -90,3 +90,17 @@ function adminQuizNameUpdate(userId, quizId, name) {
   return {};
 }
 
+
+/**
+ * This function updates the description of the relevant quiz.
+ * 
+ * @param {number} userId - the ID of the user
+ * @param {number} quizId - the ID of the quiz
+ * @param {string} description - the quiz description that requires to be updated to
+ * @returns {object}
+ */
+
+function adminQuizDescriptionUpdate (userId, quizId, description) {
+  return {};
+}
+
