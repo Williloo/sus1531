@@ -1,19 +1,16 @@
-
-
 /*
 * Register a user with an email, password and names 
 * then return their userId value.
 *
-* @param {string} email
-* @param {string} password
-* @param {string} nameFirst
-* @param {string} nameLast
-* @returns {Object}
+* @param { string } email
+* @param { string } password
+* @param { string } nameFirst
+* @param { string } nameLast
+* @returns { Object }
 *
-* @typdef {Object}
-* @property {number} userId
+* @typdef { Object }
+* @property { number } userId
 */
-
 function adminAuthRegister( email, password, nameFirst, nameLast ) {
   return {
     userId: 1
@@ -25,15 +22,13 @@ function adminAuthRegister( email, password, nameFirst, nameLast ) {
 * Given a registered user's email and password, 
 * return their userId value.
 *
-* @param {string} email
-* @param {string} password
-* @returns {Object}
+* @param { string } email
+* @param { string } password
+* @returns { Object }
 *
-* @typdef {Object}
-* @property {number} userId
+* @typdef { Object }
+* @property { number } userId
 */
-
-
 function adminAuthLogin( email, password ) {
   return {
     userId: 1 
@@ -85,5 +80,3 @@ function adminUserDetailsUpdate( userId, email, nameFirst, nameLast ) {
 function adminUserPasswordUpdate( userId, oldPassword, newPassword ) {
     return { }
 }
-
-
