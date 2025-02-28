@@ -51,15 +51,15 @@ function adminAuthLogin( email, password ) {
  * @property { number } numFailedPasswordsSinceLastLogin - Number of failed password attempts of the user since the last login
  */
 function adminUserDetails( userId ) {
-    return { user:
-        {
-          userId: 1,
-          name: 'Hayden Smith',
-          email: 'hayden.smith@unsw.edu.au',
-          numSuccessfulLogins: 3,
-          numFailedPasswordsSinceLastLogin: 1,
-        }
+  return { user:
+    {
+      userId: 1,
+      name: 'Hayden Smith',
+      email: 'hayden.smith@unsw.edu.au',
+      numSuccessfulLogins: 3,
+      numFailedPasswordsSinceLastLogin: 1,
     }
+  }
 }
 
 /**
@@ -73,7 +73,7 @@ function adminUserDetails( userId ) {
  * @returns { Object } - Empty object
  */
 function adminUserDetailsUpdate( userId, email, nameFirst, nameLast ) {
-    return { }
+  return {  }
 }
 
 /**
@@ -86,5 +86,5 @@ function adminUserDetailsUpdate( userId, email, nameFirst, nameLast ) {
  * @returns { Object } - Empty object
  */
 function adminUserPasswordUpdate( userId, oldPassword, newPassword ) {
-    return { }
+  return {  }
 }
