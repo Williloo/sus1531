@@ -5,9 +5,9 @@ Date: 25 February 2025
 | -------- | ------- |
 | z5592167 | William Liu |
 | z5624648 | Yash Mittal |
-|          | Joshua Pozzolungo |
+| z5599337 | Joshua Pozzolungo |
 | z5593350 | Susie Shen |
-|          | Haoyu Zhuang |
+| z5395058 | Haoyu Zhuang |
 
 
 1. Meeting Schedule:
