@@ -1,4 +1,17 @@
 /**
+ * Function to update the name of the relevant quiz.
+ * 
+ * @param {number} userId 
+ * @param {number} quizId 
+ * @param {string} name 
+ * @returns {object}
+ */
+
+function adminQuizNameUpdate(userId, quizId, name) {
+    return {};
+}
+
+/** 
  * This function updates the description of the relevant quiz.
  * 
  * @param {number} userId 
@@ -10,6 +23,7 @@
 function adminQuizDescriptionUpdate (userId, quizId, description) {
     return {};
 }
+
 
 /** 
  * <This function is used to permanently remove a particular quiz>
