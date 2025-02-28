@@ -8,7 +8,7 @@
 * @param { string } nameLast - The last name of the user being registered
 * @returns { Object }
 *
-* @typdef { Object }
+* @typedef { Object }
 * @property { number } userId - The user id of the user that has been registered
 */
 function adminAuthRegister( email, password, nameFirst, nameLast ) {
@@ -25,7 +25,7 @@ function adminAuthRegister( email, password, nameFirst, nameLast ) {
 * @param { string } password - The password of the user logging in
 * @returns { Object } 
 *
-* @typdef { Object }
+* @typedef { Object }
 * @property { number } userId - The userId of the user loogging in
 */
 function adminAuthLogin( email, password ) {
