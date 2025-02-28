@@ -77,3 +77,16 @@ function adminQuizInfo (userId, quizId) {
 
     }
 }
+
+/**
+ * Function to update the name of the relevant quiz.
+ * 
+ * @param {number} userId - the ID of the user
+ * @param {number} quizId - the ID of the quiz
+ * @param {string} name - the name of the quiz that requires to be updated to
+ * @returns {object}
+ */
+function adminQuizNameUpdate(userId, quizId, name) {
+  return {};
+}
+
