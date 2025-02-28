@@ -1,4 +1,4 @@
-/*
+/** 
  * 
  * @param {number} userId 
  * @returns {Object}
@@ -34,9 +34,9 @@ function adminQuizList(userId) {
  */
 
 function adminQuizCreate( userId, name, description ) {
-    return {
-        quizId: 2
-    }
+  return {
+    quizId: 2
+  }
 }
 
 
