@@ -3,11 +3,11 @@ Date: 25 February 2025
 
 | zID      | Name    |
 | -------- | ------- |
-|          |         |
-|          |         |
-|          |         |
-|          |         |
-|          |         |
+|          | William Liu |
+|          | Yash Mittal |
+|          | Joshua Pozzolungo |
+|          | Susie Shen |
+|          | Haoyu Zhuang |
 
 
 1. Meeting Schedule:
