@@ -1,11 +1,9 @@
 /** 
+ * This function provides a list of all the quizzes owned by the currently logged in user
  * 
- * @param { number } userId 
- * @returns { Object }
+ * @param { number } userId - The userId of the currently logged in user
  * 
- * 
- * Given the userId 
- *  return a quiz object with quizId and name.
+ * @returns { Object } - Empty object
  */
 function adminQuizList( userId ) {
   return { quizzes: [
@@ -18,15 +16,14 @@ function adminQuizList( userId ) {
 }
 
 /**
+ * This function takes in the userId, name and description of a new quiz,
+ * creates it, and returns its quizId 
  * 
- * @param { number } userId 
- * @param { String } name 
- * @param { String } description 
- * @returns { object }
+ * @param { number } userId - The userId of the user creating the quiz
+ * @param { string } name - The name of the quiz
+ * @param { string } description - A description of the quiz
  * 
- * 
- * This function takes in the userId , name and description
- * Returns a quizId 
+ * @returns { Object } - Empty object
  */
 function adminQuizCreate( userId, name, description ) {
   return {
@@ -35,26 +32,31 @@ function adminQuizCreate( userId, name, description ) {
 }
 
 /** 
- * <This function is used to permanently remove a particular quiz>
+ * This function is used to permanently remove a particular quiz
  * 
- * @param { number } userId - this parameter is user id
- * @param { number } quizId - this parameter is quiz id
+ * @param { number } userId - The userId of the creator of the quiz
+ * @param { number } quizId - The quizId of the quiz to be deleted
  * 
- * @returns {object} - this function returns an empty object
+ * @returns { Object } - Empty object
  */
 function adminQuizRemove( userId, quizId ) {
   return {  };
 }
 
 /**
- * <This function gets all of the relevant information about current quiz>
+ * This function gets all of the relevant information about current quiz
  * 
- * @param { number } userId - user ID
- * @param { number } quizId - quiz ID
+ * @param { number } userId - The userId of the creator of the quiz
+ * @param { number } quizId - The quizId of the quiz
  * 
- * @returns { object } - this function returns an object containing all
- * information properties about current quiz.
- * Example values are added to each property of the return object.
+ * @returns { Object }
+ * 
+ * @typedef { Object }
+ * @property { number } quizId - The quizId of the quix
+ * @property { string } name - The name of the quiz
+ * @property { number } timeCreated - The time that the quiz was created
+ * @property { number } timeLastEdited - The time the quiz was last editted
+ * @property { string } description - The description of the quiz
  */
 function adminQuizInfo ( userId, quizId ) {
   return {
@@ -67,24 +69,26 @@ function adminQuizInfo ( userId, quizId ) {
 }
 
 /**
- * Function to update the name of the relevant quiz.
+ * Function to update the name of the relevant quiz
  * 
- * @param { number } userId - the ID of the user
- * @param { number } quizId - the ID of the quiz
- * @param { string } name - the name of the quiz that requires to be updated to
- * @returns { object }
+ * @param { number } userId - The userId of the creator of the quiz
+ * @param { number } quizId - The quizId of the quiz
+ * @param { string } name - The name of the quiz
+ * 
+ * @returns { Object } - Empty object
  */
 function adminQuizNameUpdate( userId, quizId, name ) {
   return {   };
 }
 
 /**
- * This function updates the description of the relevant quiz.
+ * This function updates the description of the relevant quiz
  * 
- * @param { number } userId - the ID of the user
- * @param { number } quizId - the ID of the quiz
- * @param { string } description - the quiz description that requires to be updated to
- * @returns { object }
+ * @param { number } userId - The userId of the creator of the quiz
+ * @param { number } quizId - The quizId of the quiz
+ * @param { string } description - The description of the quiz
+ * 
+ * @returns { Object }
  */
 function adminQuizDescriptionUpdate( userId, quizId, description ) {
   return {   };
