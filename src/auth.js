@@ -6,6 +6,7 @@
 * @param { string } password - The password of the user being registered
 * @param { string } nameFirst - The first name of the user being registered
 * @param { string } nameLast - The last name of the user being registered
+* 
 * @returns { Object }
 *
 * @typedef { Object }
@@ -23,6 +24,7 @@ function adminAuthRegister( email, password, nameFirst, nameLast ) {
 *
 * @param { string } email - The email of the user logging in
 * @param { string } password - The password of the user logging in
+*
 * @returns { Object } 
 *
 * @typedef { Object }
@@ -39,6 +41,7 @@ function adminAuthLogin( email, password ) {
  * in an user object
  * 
  * @param { number } userId - The Id of the user whose details are returned
+ * 
  * @returns { Object }
  * 
  * @typedef { Object }
@@ -70,6 +73,7 @@ function adminUserDetails( userId ) {
  * @param { string } email - The email of the user
  * @param { string } nameFirst - The first name of the user
  * @param { string } nameLast - The last name of the user
+ * 
  * @returns { Object } - Empty object
  */
 function adminUserDetailsUpdate( userId, email, nameFirst, nameLast ) {
@@ -83,6 +87,7 @@ function adminUserDetailsUpdate( userId, email, nameFirst, nameLast ) {
  * @param { number } userId - The userId of the user
  * @param { string } oldPassword - The old password of the user
  * @param { string } newPassword - The new password of the user
+ * 
  * @returns { Object } - Empty object
  */
 function adminUserPasswordUpdate( userId, oldPassword, newPassword ) {
