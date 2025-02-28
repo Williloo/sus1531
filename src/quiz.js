@@ -1,27 +1,42 @@
-/**
- * Function to update the name of the relevant quiz.
+/*
  * 
  * @param {number} userId 
- * @param {number} quizId 
- * @param {string} name 
- * @returns {object}
+ * @returns {Object}
+ * 
+ * 
+ * Given the userId 
+ *  return a quiz object with quizId and name.
  */
-
-function adminQuizNameUpdate(userId, quizId, name) {
-    return {};
+function adminQuizList(userId) {
+  return { 
+    quizzes: [
+      {
+        quizId: 1,
+        name: 'My Quiz',
+      }
+    ]
+  };
 }
 
-/** 
- * This function updates the description of the relevant quiz.
+
+
+
+/**
  * 
  * @param {number} userId 
- * @param {number} quizId 
- * @param {string} description 
+ * @param {String} name 
+ * @param {String} description 
  * @returns {object}
+ * 
+ * 
+ * This function takes in the userId , name and description
+ * Returns a quizId 
  */
 
-function adminQuizDescriptionUpdate (userId, quizId, description) {
-    return {};
+function adminQuizCreate( userId, name, description ) {
+    return {
+        quizId: 2
+    }
 }
 
 
@@ -37,6 +52,9 @@ function adminQuizDescriptionUpdate (userId, quizId, description) {
 function adminQuizRemove(userId, quizId) {
     return {};
 }
+
+
+
 
 /**
  * <This function gets all of the relevant information about current quiz>
@@ -56,6 +74,6 @@ function adminQuizInfo (userId, quizId) {
         timeCreated: 1683125870,
         timeLastEdited: 1683125871,
         description: 'This is my quiz',
+
     }
 }
-
