@@ -34,7 +34,7 @@ function adminAuthRegister( email, password, nameFirst, nameLast ) {
 */
 
 
-function adminAuthLogin(email, password) {
+function adminAuthLogin( email, password ) {
   return {
     userId: 1 
   }

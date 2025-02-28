@@ -1,4 +1,4 @@
-/*
+/** 
  * 
  * @param {number} userId 
  * @returns {Object}
@@ -8,20 +8,39 @@
  *  return a quiz object with quizId and name.
  */
 function adminQuizList(userId) {
-    return { 
-        quizzes: [
-        {
-          quizId: 1,
-          name: 'My Quiz',
-        }
-      ]
-    }
+  return { 
+    quizzes: [
+      {
+        quizId: 1,
+        name: 'My Quiz',
+      }
+    ]
+  };
 }
 
 
 
 
 /**
+ * 
+ * @param {number} userId 
+ * @param {String} name 
+ * @param {String} description 
+ * @returns {object}
+ * 
+ * 
+ * This function takes in the userId , name and description
+ * Returns a quizId 
+ */
+
+function adminQuizCreate( userId, name, description ) {
+  return {
+    quizId: 2
+  }
+}
+
+
+/** 
  * <This function is used to permanently remove a particular quiz>
  * 
  * @param {number} userId - this parameter is user id
