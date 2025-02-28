@@ -22,6 +22,25 @@ function adminQuizList(userId) {
 
 
 /**
+ * 
+ * @param {number} userId 
+ * @param {String} name 
+ * @param {String} description 
+ * @returns {object}
+ * 
+ * 
+ * This function takes in the userId , name and description
+ * Returns a quizId 
+ */
+
+function adminQuizCreate( userId, name, description ) {
+    return {
+        quizId: 2
+    }
+}
+
+
+/** 
  * <This function is used to permanently remove a particular quiz>
  * 
  * @param {number} userId - this parameter is user id
