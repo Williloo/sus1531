@@ -38,7 +38,7 @@ describe('tests for adminAuthRegister', () => {
     describe('error tests for NameFirst', () => {
         test('NameFirst is less than 2 characters', () => {
             expect(adminAuthRegister('randomemail@gmail.com', 'hello', 
-            'J', 'P0')).toStrictEqual({error: expect.any(String)})
+            'J', 'Panda')).toStrictEqual({error: expect.any(String)})
         })
         test('NameFirst is more than 20 characters', () => {
             expect(adminAuthRegister('randomemail@gmail.com', 'hello', 
