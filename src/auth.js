@@ -13,6 +13,7 @@
 * @property { number } userId - The user id of the user that has been registered
 */
 function adminAuthRegister( email, password, nameFirst, nameLast ) {
+  
   return {
     userId: 1
   }
