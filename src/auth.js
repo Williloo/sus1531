@@ -14,23 +14,29 @@
 */
 
 import { getData } from './dataStore.js';
-import { validator } from 'validator'
+import validator from 'validator';
 
-function adminAuthRegister( email, password, nameFirst, nameLast ) {
+export function adminAuthRegister( email, password, nameFirst, nameLast ) {
   
   let data = getData();
-  for (user of data.users) {
-    if (email === user.email) {
-      return { error: 'Email address is already in use'}; 
+  if (data.users.length !== 0) {
+    for (let user of data.users) {
+      if (email === user.email) {
+        return { error: 'Email address is already in use'}; 
+      }
     }
   }
 
-  const regex = /^[a-zA-Z-' ]+$/;
-  if (!(regex.test(nameFirst))) {
+  const userRegex = /^[a-zA-Z-' ]+$/;
+  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)/;
+  if (!(userRegex.test(nameFirst))) {
     return { error: 'First Name contains invalid characters'}; 
   }
-  else if (!(regex.test(nameLast))) {
+  else if (!(userRegex.test(nameLast))) {
     return { error: 'Last Name contains invalid characters'}; 
+  }
+  else if (!(passwordRegex.test(password))) {
+    return { error: 'Password does not contain at least one number and at least one letter.'};
   }
   else if (!(validator.isEmail(email))) {
     return { error: 'Invalid email'}; 
@@ -53,12 +59,13 @@ function adminAuthRegister( email, password, nameFirst, nameLast ) {
 
   const userId = data.users.length;
   const newUser = {
-    email,
-    password,
+    userId,
     nameFirst,
     nameLast,
+    email,
+    password,
   }
-  data.users.append(newUser);
+  data.users.push(newUser);
 
   return { userId }
 }

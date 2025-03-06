@@ -1,9 +1,5 @@
 import {
     adminAuthRegister,
-    adminAuthLogin,
-    adminUserDetails,
-    adminUserDetailsUpdate,
-    adminUserPasswordUpdate
 } from './auth.js'
 
 import {
@@ -59,7 +55,7 @@ describe('tests for adminAuthRegister', () => {
                 'Joshua', 'Pozz')).toStrictEqual({error: expect.any(String)})
         })
         test('Email address is used by another user.', () => {
-            adminAuthLogin('studentunsw@gmail.com','thisagoodpassword198',
+            adminAuthRegister('studentunsw@gmail.com','thisagoodpassword198',
                 'Joshua', 'Pozz')
             expect(adminAuthRegister('studentunsw@gmail.com', 'thisagooddifferentpassword198', 
                 'Panda', 'Po')).toStrictEqual({error: expect.any(String)})
