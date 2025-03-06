@@ -1,10 +1,10 @@
 import {
     adminAuthRegister,
-} from './auth.js'
+} from '../auth.js'
 
 import {
     clear
-} from './other.js'
+} from '../other.js'
 
 describe('tests for adminAuthRegister', () => {
     describe('error tests for Password', () => {
