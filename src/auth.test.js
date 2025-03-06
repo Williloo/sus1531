@@ -6,6 +6,10 @@ import {
     adminUserPasswordUpdate
 } from './auth.js'
 
+import {
+    clear
+} from './other.js'
+
 describe('tests for adminAuthRegister', () => {
     describe('error tests for Password', () => {
         test('Password is less than 8 characters', () => {
