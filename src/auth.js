@@ -12,10 +12,55 @@
 * @typedef { Object }
 * @property { number } userId - The user id of the user that has been registered
 */
+
+import { getData } from './dataStore.js';
+import { validator } from 'validator'
+
 function adminAuthRegister( email, password, nameFirst, nameLast ) {
-  return {
-    userId: 1
+  
+  let data = getData();
+  for (user of data.users) {
+    if (email === user.email) {
+      return { error: 'Email address is already in use'}; 
+    }
   }
+
+  const regex = /^[a-zA-Z-' ]+$/;
+  if (!(regex.test(nameFirst))) {
+    return { error: 'First Name contains invalid characters'}; 
+  }
+  else if (!(regex.test(nameLast))) {
+    return { error: 'Last Name contains invalid characters'}; 
+  }
+  else if (!(validator.isEmail(email))) {
+    return { error: 'Invalid email'}; 
+  }
+  else if (password.length < 8) {
+    return { error: 'Password is less than 8 characters'};
+  }
+  else if (nameFirst.length < 2) {
+    return { error: 'First Name is less than 2 characters'};
+  }
+  else if (nameFirst.length > 20) {
+    return { error: 'First Name is greater than 20 characters'};
+  }
+  else if (nameLast.length < 2) {
+    return { error: 'Last Name is less than 2 characters'};
+  }
+  else if (nameLast.length > 20) {
+    return { error: 'Last Name is greater than 20 characters'};
+  }
+
+  const userId = data.users.length;
+  const newUser = {
+    email,
+    password,
+    nameFirst,
+    nameLast,
+  }
+  data.users.append(newUser);
+
+  return { userId }
 }
 
 /**
