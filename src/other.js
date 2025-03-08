@@ -4,5 +4,11 @@
  * @returns { Object } - Empty object
 */
 function clear(  ) {
+  
+  data = {
+    users: [],
+    quizzes: []
+  }
+
   return {  }
 }
