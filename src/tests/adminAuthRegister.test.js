@@ -67,6 +67,4 @@ describe('tests for adminAuthRegister', () => {
       'Joshua', 'Pozzolungo')).toStrictEqual({userId: expect.any(Number)})
     })
   })
-})
-
-
+});

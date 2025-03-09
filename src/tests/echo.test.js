@@ -1,4 +1,3 @@
-// Do not delete this file before iteration 3
 import { echo } from './echo.js';
 
 test('Test successful echo', () => {
