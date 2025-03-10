@@ -1,5 +1,9 @@
 import {
   adminAuthRegister,
+  adminAuthLogin,
+  adminUserDetails,
+  adminUserDetailsUpdate,
+  adminUserPasswordUpdate
 } from '../auth.js'
 
 import {
@@ -7,6 +11,11 @@ import {
 } from '../other.js'
 
 describe('tests for adminAuthRegister', () => {
+
+  beforeEach(() => {
+    clear();
+  });
+  
   describe('error tests for Password', () => {
     test('Password is less than 8 characters', () => {
       expect(adminAuthRegister('randomemail@gmail.com', 'hi1974', 
@@ -68,3 +77,7 @@ describe('tests for adminAuthRegister', () => {
     })
   })
 });
+
+
+
+
