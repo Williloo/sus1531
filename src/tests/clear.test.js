@@ -1,6 +1,6 @@
 import {
   clear
-} from './others';
+} from '../others';
 
 import {
   adminAuthRegister,
@@ -8,7 +8,7 @@ import {
   adminUserDetails,
   adminUserDetailsUpdate,
   adminUserPasswordUpdate
-} from './auth';
+} from '../auth';
 
 import {
   adminQuizList,
@@ -17,7 +17,7 @@ import {
   adminQuizInfo,
   adminQuizNameUpdate,
   adminQuizDescriptionUpdate
-} from './quiz';
+} from '../quiz';
 
 let userId;
 let quizId;
