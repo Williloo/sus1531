@@ -3,8 +3,12 @@
  *
  * @returns { Object } - Empty object
 */
-function clear(  ) {
+
+import { getData } from './dataStore.js';
+
+export function clear(  ) {
   
+  let data = getData();
   data = {
     users: [],
     quizzes: []
