@@ -1,6 +1,6 @@
-import { adminQuizList, adminQuizCreate} from './quiz.js';
-import { adminAuthRegister} from './auth.js';
-import {clear} from './others.js';
+import { adminQuizList, adminQuizCreate} from '../quiz.js';
+import { adminAuthRegister} from '../auth.js';
+import {clear} from '../others.js';
 
 describe('Tests for adminQuizList', () => {
     beforeEach(() => {
