@@ -1,6 +1,6 @@
 import {
   clear
-} from '../others';
+} from '../other';
 
 import {
   adminAuthRegister,
