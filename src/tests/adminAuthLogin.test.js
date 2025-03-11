@@ -35,6 +35,11 @@ describe('tests for adminAuthLogin', () => {
       'Joshua', 'Pozzolungo');
       expect(adminAuthLogin('jpozzolungo@gmail.com', 'thisisagoodpassword1974')).toStrictEqual(id)
     })
+    test('email address is case insensitive', () => {
+      const id = adminAuthRegister('jpozzolungo@gmail.com', 'thisisagoodpassword1974',
+      'Joshua', 'Pozzolungo');
+      expect(adminAuthLogin('JPOZZOLUNGO@GMAIL.COM', 'thisisagoodpassword1974')).toStrictEqual(id)
+    })
   })
 })
 
