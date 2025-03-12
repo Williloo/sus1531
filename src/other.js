@@ -17,10 +17,5 @@ export function clear(  ) {
     data.quizzes.pop()
   }
 
-  // data = {
-  //   users: [],
-  //   quizzes: []
-  // }
-
   return {  }
 }
