@@ -64,6 +64,8 @@ export function adminAuthRegister( email, password, nameFirst, nameLast ) {
     nameLast,
     email,
     password,
+    numSuccessfulLogins : 0,
+    numFailedPasswordsSinceLastLogin : 0
   }
   data.users.push(newUser);
 
