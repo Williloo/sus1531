@@ -9,10 +9,18 @@ import { getData } from './dataStore.js';
 export function clear(  ) {
   
   let data = getData();
-  data = {
-    users: [],
-    quizzes: []
+  while (data.users.length != 0) {
+    data.users.pop()
   }
+
+  while (data.quizzes.length != 0) {
+    data.quizzes.pop()
+  }
+
+  // data = {
+  //   users: [],
+  //   quizzes: []
+  // }
 
   return {  }
 }
