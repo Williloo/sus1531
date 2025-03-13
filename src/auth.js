@@ -105,14 +105,22 @@ function adminAuthLogin( email, password ) {
  * @property { number } numSuccessfulLogins - Number of successful logins of the user
  * @property { number } numFailedPasswordsSinceLastLogin - Number of failed password attempts of the user since the last login
  */
-function adminUserDetails( userId ) {
+export function adminUserDetails( userId ) {
+  let store = getData()
+
+  if (userId < 0 || userId >= store.users.length) {
+    return { error: "Invalid User Id" }
+  }
+
+  let user = store.users[userId]
+
   return { user:
     {
-      userId: 1,
-      name: 'Hayden Smith',
-      email: 'hayden.smith@unsw.edu.au',
-      numSuccessfulLogins: 3,
-      numFailedPasswordsSinceLastLogin: 1,
+      userId: userId,
+      name: user.nameFirst + ' ' + user.nameLast,
+      email: user.email,
+      numSuccessfulLogins: user.numSuccessfulLogins,
+      numFailedPasswordsSinceLastLogin: user.numFailedPasswordsSinceLastLogin,
     }
   }
 }
