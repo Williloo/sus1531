@@ -90,6 +90,32 @@ function adminQuizNameUpdate( userId, quizId, name ) {
  * 
  * @returns { Object }
  */
-function adminQuizDescriptionUpdate( userId, quizId, description ) {
+export function adminQuizDescriptionUpdate( userId, quizId, description ) {
+  let data = getData();
+ 
+  let userExists = data.users.some(user => user.userId === userId);
+  if (!userExists) {
+    return { error: 'userId is not a valid user.' };
+  }
+  
+  let quiz = data.quizzes.find(quiz => quiz.quizId === quizId);
+  
+  if (!quiz) {
+    return { error: 'Quiz ID does not refer to a valid quiz.' };
+  }
+  
+  if (quiz.creatorId !== userId) {
+    return { error: 'Quiz ID does not refer to a quiz that this user owns.' };
+  }
+
+  if (description.length > 100) {
+    return { error: 'Description is more than 100 characters in length.' };
+  }
+  
+  let quizIndex = data.quizzes.findIndex(q => q.quizId === quizId);
+  data.quizzes[quizIndex].description = description;
+  data.quizzes[quizIndex].timeLastEdited = Math.floor(Date.now() / 1000);
+  setData(data);
+  
   return {   };
 }
