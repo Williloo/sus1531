@@ -82,7 +82,7 @@ export function adminAuthRegister( email, password, nameFirst, nameLast ) {
 * @typedef { Object }
 * @property { number } userId - The userId of the user loogging in
 */
-function adminAuthLogin( email, password ) {
+export function adminAuthLogin( email, password ) {
   let data = getData()
 
   for (const user of data.users) {
