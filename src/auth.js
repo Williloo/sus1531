@@ -138,7 +138,47 @@ export function adminUserDetails( userId ) {
  * 
  * @returns { Object } - Empty object
  */
-function adminUserDetailsUpdate( userId, email, nameFirst, nameLast ) {
+export function adminUserDetailsUpdate( userId, email, nameFirst, nameLast ) {
+  let store = getData();
+
+  if (userId < 0 || userId >= store.users.length) {
+    return { error: "Invalid User Id" }
+  }
+  
+  for (let user of store.users) {
+    if (email === user.email) {
+      return { error: 'Email address is already in use'}; 
+    }
+  }
+
+  const userRegex = /^[a-zA-Z-' ]+$/;
+  if (!(userRegex.test(nameFirst))) {
+    return { error: 'First Name contains invalid characters'}; 
+  }
+  else if (!(userRegex.test(nameLast))) {
+    return { error: 'Last Name contains invalid characters'}; 
+  }
+  else if (!(validator.isEmail(email))) {
+    return { error: 'Invalid email'}; 
+  }
+  else if (nameFirst.length < 2) {
+    return { error: 'First Name is less than 2 characters'};
+  }
+  else if (nameFirst.length > 20) {
+    return { error: 'First Name is greater than 20 characters'};
+  }
+  else if (nameLast.length < 2) {
+    return { error: 'Last Name is less than 2 characters'};
+  }
+  else if (nameLast.length > 20) {
+    return { error: 'Last Name is greater than 20 characters'};
+  }
+
+  let user = store.users[userId]
+  user.email = email
+  user.nameFirst = nameFirst
+  user.nameLast = nameLast
+
   return {  }
 }
 
