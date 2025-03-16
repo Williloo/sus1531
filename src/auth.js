@@ -84,10 +84,23 @@ export function adminAuthRegister( email, password, nameFirst, nameLast ) {
 * @typedef { Object }
 * @property { number } userId - The userId of the user loogging in
 */
-function adminAuthLogin( email, password ) {
-  return {
-    userId: 1 
+export function adminAuthLogin( email, password ) {
+  let data = getData()
+
+  for (const user of data.users) {
+    if (email.toLowerCase() === user.email.toLowerCase()) {
+      if (password === user.password) {
+        user.numSuccessfulLogins++;
+        return { userId: user.userId }
+      }
+      else {
+        user.numFailedPasswordsSinceLastLogin++;
+        return { error: 'Password is not correct for given email'}
+      }
+    }
   }
+
+  return { error: 'Email address does not exist'};
 }
 
 /**
