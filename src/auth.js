@@ -99,7 +99,7 @@ export function adminAuthLogin( email, password ) {
       }
     }
   }
-  
+
   return { error: 'Email address does not exist'};
 }
 
