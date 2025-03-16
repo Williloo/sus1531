@@ -90,9 +90,11 @@ export function adminAuthLogin( email, password ) {
   for (const user of data.users) {
     if (email.toLowerCase() === user.email.toLowerCase()) {
       if (password === user.password) {
+        user.numSuccessfulLogins++;
         return { userId: user.userId }
       }
       else {
+        user.numFailedPasswordsSinceLastLogin++;
         return { error: 'Password is not correct for given email'}
       }
     }
