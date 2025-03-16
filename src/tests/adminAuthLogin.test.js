@@ -31,14 +31,14 @@ describe('tests for adminAuthLogin', () => {
 
   describe('success tests', () => {
     test('correct return value', () => {
-      const id = adminAuthRegister('rpozzolungo@gmail.com', 'thisisagoodpassword1974',
+      const id = adminAuthRegister('jpozzolungo@gmail.com', 'thisisagoodpassword1974',
       'Joshua', 'Pozzolungo');
-      expect(adminAuthLogin('rpozzolungo@gmail.com', 'thisisagoodpassword1974')).toStrictEqual(id)
+      expect(adminAuthLogin('jpozzolungo@gmail.com', 'thisisagoodpassword1974')).toStrictEqual(id)
     })
     test('email address is case insensitive', () => {
-      const id = adminAuthRegister('apozzolungo@gmail.com', 'thisisagoodpassword1974',
+      const id = adminAuthRegister('jpozzolungo@gmail.com', 'thisisagoodpassword1974',
       'Joshua', 'Pozzolungo');
-      expect(adminAuthLogin('APOZZOLUNGO@GMAIL.COM', 'thisisagoodpassword1974')).toStrictEqual(id)
+      expect(adminAuthLogin('JPOZZOLUNGO@GMAIL.COM', 'thisisagoodpassword1974')).toStrictEqual(id)
     })
   })
 })
