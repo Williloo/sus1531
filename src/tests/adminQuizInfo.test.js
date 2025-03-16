@@ -37,12 +37,19 @@ describe('tests for adminQuizInfo', () => {
     })
    
     test('Quiz ID Not Owned By Input User ID', () => {
+        /**create another user ID to successfully create another quiz ID*/
+        const newId = adminAuthRegister(
+            'Haoyuuuzz@gmail.com', 
+            'thisisagoodpassword2025',
+            'Haoyu', 
+            'Zhuang'
+        );
         /*create a quiz with a user id that is different from the userId 
         that is about to be input in the adminQuizInfo function*/
         const anotherQuizId = adminQuizCreate(
-            userId + 1, 
-            'test_quiz', 
-            'This quiz is for testing adminQuizInfo function'
+            newId, 
+            'test_quiz 2', 
+            'This quiz is for testing if the quiz Id is owned by input userid'
         );
         expect(adminQuizInfo(userId, anotherQuizId))
         .toStrictEqual({error: 'Quiz Id not owned by this userId'});
