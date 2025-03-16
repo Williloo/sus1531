@@ -25,10 +25,50 @@ function adminQuizList( userId ) {
  * 
  * @returns { Object } - Empty object
  */
-function adminQuizCreate( userId, name, description ) {
-  return {
-    quizId: 2
+export function adminQuizCreate( userId, name, description ) {
+
+  let data = getData();
+ 
+  let userExists = data.users.some(user => user.userId === userId);
+  if (!userExists) {
+    return { error: 'userId is not a valid user.' };
   }
+  
+  const userRegex = /^[a-zA-Z-' ]+$/;
+
+  if (!(userRegex.test(name))) {
+    return { error: 'Name contains invalid characters'}; 
+  }
+  else if (name.length < 3) {
+    return { error: 'Name is too short'}
+  }
+  else if (name.length > 30) {
+    return { error: 'Name is too long'}
+  }
+  
+  let userQuizzes = data.quizzes.filter(quiz => quiz.creatorId === userId);
+  if (userQuizzes.some(quiz => quiz.name === name)) {
+    return { error: 'Name is already used by the same user' };
+  }
+
+  if (description.length > 100) {
+    return { error: 'Description is too long' };
+  }
+
+  const quizId = data.quizzes.length + 1;
+  const timestamp = Math.floor(Date.now() / 1000);
+  const newQuiz = {
+    quizId,
+    creatorId: userId,
+    name,
+    timeCreated: timestamp,
+    timeLastEdited: timestamp,
+    description
+  };
+
+  data.quizzes.push(newQuiz);
+
+  return {quizId};
 }
 
 /** 
