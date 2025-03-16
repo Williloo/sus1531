@@ -9,7 +9,6 @@
             nameFirst: string,
             nameLast: string,
             email: string,
-            password: string,
             numSuccessfulLogins: number,
             numFailedPasswordsSinceLastLogin : number
           }
