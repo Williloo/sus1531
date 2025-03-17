@@ -85,8 +85,21 @@ export function adminQuizCreate( userId, name, description ) {
  * 
  * @returns { Object } - Empty object
  */
-function adminQuizRemove( userId, quizId ) {
-  return {  };
+
+export function adminQuizRemove( userId, quizId ) {
+  let data = getData();
+  if (data.users.some(user => user.userId === userId) === false) {
+    return {error: 'Not A Valid User'};
+  } 
+  const arrayIndex = data.quizzes.findIndex(quiz => quiz.quizId === quizId);
+  if(arrayIndex === -1) {
+    return {error: 'Not A Valid Quiz'};
+  } 
+  if(data.quizzes[arrayIndex].userId !== userId) {
+    return {error: 'Quiz Id not owned by this userId'};
+  }
+  data.quizzes.splice(arrayIndex, 1);
+  return {};
 }
 
 /**
