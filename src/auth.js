@@ -111,7 +111,7 @@ export function adminUserDetails( userId ) {
   let store = getData()
 
   if (!checkUserExists(userId, store.users)) {
-    return { error: "Invalid User Id" }
+    return { error: 'Invalid User Id' }
   }
 
   let user = store.users[userId]
@@ -142,7 +142,7 @@ export function adminUserDetailsUpdate( userId, email, nameFirst, nameLast ) {
   let store = getData()
 
   if (!checkUserExists(userId, store.users)) {
-    return { error: "Invalid User Id" }
+    return { error: 'Invalid User Id' }
   }
   
   for (let user of store.users) {
@@ -185,16 +185,16 @@ export function adminUserPasswordUpdate( userId, oldPassword, newPassword ) {
   let store = getData()
 
   if (!checkUserExists(userId, store.users)) {
-    return { error: "Invalid User Id" }
+    return { error: 'Invalid User Id' }
   }
 
   let user = store.users[userId]
   if (user.password !== oldPassword) {
-    return { error: "Invalid password" }
+    return { error: 'Invalid password' }
   }
 
   if (oldPassword === newPassword) {
-    return { error: "Invalid new password" }
+    return { error: 'Invalid new password' }
   }
 
   if (!user.hasOwnProperty('pastPasswords')) {
@@ -202,11 +202,11 @@ export function adminUserPasswordUpdate( userId, oldPassword, newPassword ) {
   }
 
   if (user.pastPasswords.includes(newPassword)) {
-    return { error: "Invalid new password" }
+    return { error: 'Invalid new password' }
   }
 
   if (!checkPassword(newPassword)) {
-    return { error: "Invalid new password"}
+    return { error: 'Invalid new password' }
   }
 
   user.pastPasswords.push(user.password)
