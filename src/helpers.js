@@ -98,6 +98,22 @@ export function checkQuizName( name ) {
 }
 
 /**
+ * Function to check whether a user has already created a quiz
+ * 
+ * @param { number } userId - userId of user that created the quiz
+ * @param { string } name - name of quiz
+ * @param { array } quizzes - array of quizzes we search through
+ * @returns { Boolean } - whether the quiz exists or not
+ */
+export function checkUserExists( userId, name, quizzes ) {
+  let quizExists = quizzes.some(
+    quiz => quiz.creatorId === userId && quiz.name === name
+  )
+
+  return quizExists
+}
+
+/**
  * Function to access a quiz by its creator's userId and its quizId
  * 
  * @param { number } userId - userId of the quiz's creator
