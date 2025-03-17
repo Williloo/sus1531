@@ -5,14 +5,18 @@
  * 
  * @returns { Object } - Empty object
  */
-function adminQuizList( userId ) {
-  return { quizzes: [
-      {
-        quizId: 1,
-        name: 'My Quiz',
-      }
-    ]
+export function adminQuizList( userId ) {
+  let data = getData();
+
+  let userExists = data.users.some(user => user.userId === userId);
+
+  if (!userExists) {
+    return { error: 'userId is not a valid user.' };
   }
+  
+  let userQuizzes = data.quizzes.filter(quiz => quiz.ownerId === userId);
+  return { quizzes: userQuizzes.map(({ quizId, name }) => ({ quizId, name })) };
+
 }
 
 /**
