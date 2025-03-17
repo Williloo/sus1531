@@ -1,10 +1,10 @@
-import { getData } from './dataStore.js';
+import { getData } from './dataStore.js'
 import { 
   checkUserExists,
   checkUserName,
   checkPassword,
-} from './helpers.js';
-import validator from 'validator';
+} from './helpers.js'
+import validator from 'validator'
 
 /**
 * Register a user with an email, password and names 
@@ -21,19 +21,19 @@ import validator from 'validator';
 * @property { number } userId - The user id of the user that has been registered
 */
 export function adminAuthRegister( email, password, nameFirst, nameLast ) {
-  let data = getData();
+  let data = getData()
   for (let user of data.users) {
     if (email === user.email) {
-      return { error: 'Email address is already in use' }; 
+      return { error: 'Email address is already in use' }
     }
   }
 
   if (!checkUserName(nameFirst)) {
-    return { error: 'Invalid first name' }; 
+    return { error: 'Invalid first name' }
   }
 
   if (!checkUserName(nameLast)) {
-    return { error: 'Invalid last name' }; 
+    return { error: 'Invalid last name' }
   }
   
   if (!checkPassword(password)) {
@@ -41,10 +41,10 @@ export function adminAuthRegister( email, password, nameFirst, nameLast ) {
   }
 
   if (!(validator.isEmail(email))) {
-    return { error: 'Invalid email' }; 
+    return { error: 'Invalid email' }
   }
 
-  const userId = data.users.length;
+  const userId = data.users.length
   const newUser = {
     userId,
     nameFirst,
@@ -54,7 +54,7 @@ export function adminAuthRegister( email, password, nameFirst, nameLast ) {
     numSuccessfulLogins : 0,
     numFailedPasswordsSinceLastLogin : 0
   }
-  data.users.push(newUser);
+  data.users.push(newUser)
 
   return { userId }
 }
@@ -77,7 +77,7 @@ export function adminAuthLogin( email, password ) {
   for (const user of data.users) {
     if (email.toLowerCase() === user.email.toLowerCase()) {
       if (password === user.password) {
-        user.numSuccessfulLogins++;
+        user.numSuccessfulLogins++
         return { userId: user.userId }
       }
       else {
@@ -87,7 +87,7 @@ export function adminAuthLogin( email, password ) {
     }
   }
 
-  return { error: 'Email address does not exist' };
+  return { error: 'Email address does not exist' }
 }
 
 /**
@@ -139,7 +139,7 @@ export function adminUserDetails( userId ) {
  * @returns { Object } - Empty object
  */
 export function adminUserDetailsUpdate( userId, email, nameFirst, nameLast ) {
-  let store = getData();
+  let store = getData()
 
   if (!checkUserExists(userId, store.users)) {
     return { error: "Invalid User Id" }
@@ -152,15 +152,15 @@ export function adminUserDetailsUpdate( userId, email, nameFirst, nameLast ) {
   }
 
   if (!checkUserName(nameFirst)) {
-    return { error: 'Invalid first name' }; 
+    return { error: 'Invalid first name' }
   }
 
   if (!checkUserName(nameLast)) {
-    return { error: 'Invalid last name' }; 
+    return { error: 'Invalid last name' }
   }
   
   if (!(validator.isEmail(email))) {
-    return { error: 'Invalid email' }; 
+    return { error: 'Invalid email' }
   }
 
   let user = store.users[userId]
