@@ -89,11 +89,11 @@ export function adminQuizRemove( userId, quizId ) {
   if (!checkUserExists(userId, data.users)) {
     return {error: 'Not A Valid User'};
   } 
-  const arrayIndex = data.quizzes.findIndex(quiz => quiz.creatorId === quizId);
+  const arrayIndex = data.quizzes.findIndex(quiz => quiz.quizId === quizId);
   if(arrayIndex === -1) {
     return {error: 'Not A Valid Quiz'};
   } 
-  if(data.quizzes[arrayIndex].userId !== userId) {
+  if(data.quizzes[arrayIndex].creatorId !== userId) {
     return {error: 'Quiz Id not owned by this userId'};
   }
   data.quizzes.splice(arrayIndex, 1);
@@ -136,7 +136,7 @@ export function adminQuizInfo ( userId, quizId ) {
    * added later on that we do not need to return for this function.
   */
   return {
-    quizId: quiz.creatorId,
+    quizId: quiz.quizId,
     name: quiz.name,
     timeCreated: quiz.timeCreated,
     timeLastEdited: quiz.timeLastEdited,
@@ -162,7 +162,7 @@ export function adminQuizNameUpdate( userId, quizId, name ) {
     return { error: 'userId is not a valid user.' };
   }
   
-  let quiz = data.quizzes.find(quiz => quiz.creatorId === quizId);
+  let quiz = data.quizzes.find(quiz => quiz.quizId === quizId);
   if (!quiz) {
     return { error: 'Quiz ID does not refer to a valid quiz.' };
   }
