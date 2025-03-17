@@ -2,6 +2,7 @@ import { getData } from './dataStore.js';
 import { 
   checkUserExists,
   checkUserName,
+  checkPassword,
 } from './helpers.js';
 import validator from 'validator';
 
@@ -30,9 +31,6 @@ export function adminAuthRegister( email, password, nameFirst, nameLast ) {
     }
   }
 
-  const userRegex = /^[a-zA-Z-' ]+$/;
-  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)/;
-
   if (!checkUserName(nameFirst)) {
     return { error: 'Invalid first name'}; 
   }
@@ -41,14 +39,12 @@ export function adminAuthRegister( email, password, nameFirst, nameLast ) {
     return { error: 'Invalid last name'}; 
   }
   
-  if (!(passwordRegex.test(password))) {
-    return { error: 'Password does not contain at least one number and at least one letter.'};
+  if (!checkPassword(password)) {
+    return { error: 'Invalid password'}
   }
-  else if (!(validator.isEmail(email))) {
+
+  if (!(validator.isEmail(email))) {
     return { error: 'Invalid email'}; 
-  }
-  else if (password.length < 8) {
-    return { error: 'Password is less than 8 characters'};
   }
 
   const userId = data.users.length;
@@ -212,14 +208,8 @@ export function adminUserPasswordUpdate( userId, oldPassword, newPassword ) {
     return { error: "Invalid new password" }
   }
 
-  if (newPassword.length < 8) {
-    return { error: "New password longer than  8 characters" }
-  }
-
-  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)/
-
-  if (!passwordRegex.test(newPassword)) {
-    return { error: "New password does not contain a letter or a number" }
+  if (!checkPassword(password)) {
+    return { error: "Invalid new password"}
   }
 
   user.pastPasswords.push(user.password)
