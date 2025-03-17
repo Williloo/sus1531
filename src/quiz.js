@@ -1,5 +1,8 @@
 import { getData } from './dataStore.js';
-import { checkUserExists } from './helpers.js';
+import { 
+  checkUserExists,
+  checkQuizName,
+} from './helpers.js';
 
 /** 
  * This function provides a list of all the quizzes owned by the currently logged in user
@@ -38,16 +41,8 @@ export function adminQuizCreate( userId, name, description ) {
     return { error: 'userId is not a valid user.' };
   }
   
-  const userRegex = /^[a-zA-Z0-9 ]*$/;
-
-  if (!(userRegex.test(name))) {
-    return { error: 'Name contains invalid characters'}; 
-  }
-  else if (name.length < 3) {
-    return { error: 'Name is too short'}
-  }
-  else if (name.length > 30) {
-    return { error: 'Name is too long'}
+  if (!checkQuizName(name)) {
+    return { error: 'Invalid quiz name' }
   }
   
   let userQuizzes = data.quizzes.filter(quiz => quiz.creatorId === userId);
@@ -171,13 +166,8 @@ export function adminQuizNameUpdate( userId, quizId, name ) {
     return { error: 'Quiz ID does not refer to a quiz that this user owns.' };
   }
   
-  if (name.length < 3 || name.length > 30) {
-    return { error: 'Name is either less than 3 characters long or more than 30 characters long.' };
-  }
-  
-  let nameRegex = /^[a-zA-Z0-9 ]+$/;
-  if (!nameRegex.test(name)) {
-    return { error: 'Name contains invalid characters. Valid characters are alphanumeric and spaces.' };
+  if (!checkQuizName(name)) {
+    return {error: 'Invalid quiz name' }
   }
   
   let nameExists = data.quizzes.some(q => 

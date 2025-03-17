@@ -18,7 +18,7 @@ export function checkUserExists( userId, users ) {
  * @returns { Boolean } - whether the user's name is valid
  */
 export function checkUserName( name ) {
-  const userRegex = /^[a-zA-Z\s\-']*$/
+  const userRegex = /^[a-zA-Z\s]*$/
 
   if (!userRegex.test(name)) {
     return false
@@ -50,6 +50,30 @@ export function checkPassword( password ) {
   }
 
   if (!numbersRegex.test(password)) {
+    return false
+  }
+
+  return true
+}
+
+/**
+ * Function to check whether a quiz name is valid
+ * 
+ * @param { string } name - quiz name to check
+ * @returns { Boolean } - whether the quiz name is valid
+ */
+export function checkQuizName( name ) {
+  const quizNameRegex = /^[a-zA-Z0-9\s]*$/
+
+  if (!quizNameRegex.test(name)) {
+    return false
+  }
+  
+  if (name.length < 3) {
+    return false
+  }
+  
+  if (name.length > 30) {
     return false
   }
 
