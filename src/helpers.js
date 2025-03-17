@@ -41,6 +41,10 @@ export function checkPassword( password ) {
   const lettersRegex = /[a-zA-Z]/
   const numbersRegex = /\d/
 
+  if (password.length < 8) {
+    return false
+  }
+
   if (!lettersRegex.test(password)) {
     return false
   }
