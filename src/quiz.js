@@ -38,7 +38,7 @@ export function adminQuizCreate( userId, name, description ) {
     return { error: 'userId is not a valid user.' };
   }
   
-  const userRegex = /^[a-zA-Z-' ]+$/;
+  const userRegex = /^[a-zA-Z0-9 ]*$/;
 
   if (!(userRegex.test(name))) {
     return { error: 'Name contains invalid characters'}; 
