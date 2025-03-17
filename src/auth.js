@@ -22,12 +22,15 @@ import validator from 'validator'
 */
 export function adminAuthRegister( email, password, nameFirst, nameLast ) {
   let data = getData()
+
+  // Check if email already exists
   for (let user of data.users) {
     if (email === user.email) {
       return { error: 'Email address is already in use' }
     }
   }
 
+  // Check if names are valid
   if (!checkUserName(nameFirst)) {
     return { error: 'Invalid first name' }
   }
@@ -36,14 +39,17 @@ export function adminAuthRegister( email, password, nameFirst, nameLast ) {
     return { error: 'Invalid last name' }
   }
   
+  // Check if password is valid
   if (!checkPassword(password)) {
     return { error: 'Invalid password' }
   }
 
+  // Check if email is valid
   if (!validator.isEmail(email)) {
     return { error: 'Invalid email' }
   }
 
+  // Add new user to data
   const userId = data.users.length
   const newUser = {
     userId,
@@ -56,6 +62,7 @@ export function adminAuthRegister( email, password, nameFirst, nameLast ) {
   }
   data.users.push(newUser)
 
+  // Return new userId
   return { userId }
 }
 
@@ -75,7 +82,9 @@ export function adminAuthLogin( email, password ) {
   let data = getData()
 
   for (const user of data.users) {
+    // Check if emails matches
     if (email.toLowerCase() === user.email.toLowerCase()) {
+      // Check if passwords match
       if (password === user.password) {
         user.numSuccessfulLogins++
         return { userId: user.userId }
@@ -87,6 +96,7 @@ export function adminAuthLogin( email, password ) {
     }
   }
 
+  // Invalid email address
   return { error: 'Email address does not exist' }
 }
 
@@ -110,12 +120,14 @@ export function adminAuthLogin( email, password ) {
 export function adminUserDetails( userId ) {
   let store = getData()
 
+  // Check if userId exists
   if (!checkUserExists(userId, store.users)) {
     return { error: 'Invalid User Id' }
   }
 
   let user = store.users[userId]
 
+  // Return information about the user
   return { user:
     {
       userId: userId,
@@ -141,16 +153,19 @@ export function adminUserDetails( userId ) {
 export function adminUserDetailsUpdate( userId, email, nameFirst, nameLast ) {
   let store = getData()
 
+  // Check if userId exists
   if (!checkUserExists(userId, store.users)) {
     return { error: 'Invalid User Id' }
   }
   
+  // Check if email already in use
   for (let user of store.users) {
     if (email === user.email) {
       return { error: 'Email address is already in use' }; 
     }
   }
 
+  // Check if names are valid
   if (!checkUserName(nameFirst)) {
     return { error: 'Invalid first name' }
   }
@@ -159,10 +174,12 @@ export function adminUserDetailsUpdate( userId, email, nameFirst, nameLast ) {
     return { error: 'Invalid last name' }
   }
   
+  // Check if email is valid
   if (!validator.isEmail(email)) {
     return { error: 'Invalid email' }
   }
 
+  // Update user details
   let user = store.users[userId]
   user.email = email
   user.nameFirst = nameFirst
@@ -184,31 +201,38 @@ export function adminUserDetailsUpdate( userId, email, nameFirst, nameLast ) {
 export function adminUserPasswordUpdate( userId, oldPassword, newPassword ) {
   let store = getData()
 
+  // Check if userId exists
   if (!checkUserExists(userId, store.users)) {
     return { error: 'Invalid User Id' }
   }
 
   let user = store.users[userId]
+  // Check if correct old password
   if (user.password !== oldPassword) {
     return { error: 'Invalid password' }
   }
 
+  // Check if password is unchanged
   if (oldPassword === newPassword) {
     return { error: 'Invalid new password' }
   }
 
+  // Generate new property 'pastPasswords' if passwords have not been changed before
   if (!user.hasOwnProperty('pastPasswords')) {
     user.pastPasswords = []
   }
 
+  // Check if password has been used before
   if (user.pastPasswords.includes(newPassword)) {
     return { error: 'Invalid new password' }
   }
 
+  // Check if new password is valid
   if (!checkPassword(newPassword)) {
     return { error: 'Invalid new password' }
   }
 
+  // Update user password
   user.pastPasswords.push(user.password)
   user.password = newPassword
 
