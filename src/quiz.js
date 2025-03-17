@@ -20,8 +20,11 @@ export function adminQuizList( userId ) {
   }
   
   let userQuizzes = data.quizzes.filter(quiz => quiz.creatorId === userId);
-  return { quizzes: userQuizzes.map(({ quizId, name }) => ({ quizId, name })) };
-
+  return { 
+    quizzes: userQuizzes.map(
+      ({ quizId, name }) => ({ quizId, name })
+    )
+  };
 }
 
 /**
@@ -35,7 +38,6 @@ export function adminQuizList( userId ) {
  * @returns { Object } - Empty object
  */
 export function adminQuizCreate( userId, name, description ) {
-
   let data = getData();
  
   if (!checkUserExists(userId, data.users)) {
@@ -57,6 +59,7 @@ export function adminQuizCreate( userId, name, description ) {
 
   const quizId = data.quizzes.length + 1;
   const timestamp = Math.floor(Date.now() / 1000);
+
   const newQuiz = {
     quizId,
     creatorId: userId,
@@ -65,10 +68,9 @@ export function adminQuizCreate( userId, name, description ) {
     timeLastEdited: timestamp,
     description
   };
-
   data.quizzes.push(newQuiz);
 
-  return {quizId};
+  return { quizId };
 }
 
 /** 
@@ -82,19 +84,20 @@ export function adminQuizCreate( userId, name, description ) {
 
 export function adminQuizRemove( userId, quizId ) {
   let data = getData();
+
   if (!checkUserExists(userId, data.users)) {
-    return {error: 'Not A Valid User'};
+    return { error: 'Not A Valid User' };
   } 
 
   let quiz = findQuiz(userId, quizId, data.quizzes)
   if (!quiz) {
-    return {error: "Quiz does not exist" }
+    return { error: "Quiz does not exist" }
   }
 
   const index = data.quizzes.indexOf(quiz)
-
   data.quizzes.splice(index, 1);
-  return {};
+
+  return {  };
 }
 
 /**
@@ -115,8 +118,9 @@ export function adminQuizRemove( userId, quizId ) {
 export function adminQuizInfo ( userId, quizId ) {
   let data = getData();
   if (!checkUserExists(userId, data.users)) {
-    return {error: 'Not A Valid User'};
+    return { error: 'Not A Valid User' };
   } 
+  
   /**assume quizId is one of the element name for data.quizzes*/
   let quiz = findQuiz(userId, quizId, data.quizzes)
   if (!quiz) {
@@ -136,8 +140,6 @@ export function adminQuizInfo ( userId, quizId ) {
     timeLastEdited: quiz.timeLastEdited,
     description: quiz.description,
   }
-
-
 }
 
 /**
@@ -162,11 +164,11 @@ export function adminQuizNameUpdate( userId, quizId, name ) {
   }
   
   if (!checkQuizName(name)) {
-    return {error: 'Invalid quiz name' }
+    return { error: 'Invalid quiz name' }
   }
-  
-  let nameExists = data.quizzes.some(q => 
-    q.name === name && q.quizId !== quizId && q.creatorId === userId
+
+  let nameExists = data.quizzes.some(
+    q => q.name === name && q.quizId !== quizId && q.creatorId === userId
   );
   if (nameExists) {
     return { error: 'Name is already used by the current logged in user for another quiz.' };
@@ -175,7 +177,7 @@ export function adminQuizNameUpdate( userId, quizId, name ) {
   quiz.name = name;
   quiz.timeLastEdited = Math.floor(Date.now() / 1000);
 
-  return {   };
+  return {  };
 }
 
 /**
@@ -198,7 +200,6 @@ export function adminQuizDescriptionUpdate( userId, quizId, description ) {
   if (!quiz) {
     return { error: 'Quiz does not exist' }
   }
-  
 
   if (description.length > 100) {
     return { error: 'Description is more than 100 characters in length.' };
@@ -207,5 +208,5 @@ export function adminQuizDescriptionUpdate( userId, quizId, description ) {
   quiz.description = description;
   quiz.timeLastEdited = Math.floor(Date.now() / 1000);
   
-  return {   };
+  return {  };
 }
