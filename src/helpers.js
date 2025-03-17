@@ -30,3 +30,24 @@ export function checkUserName( name ) {
 
   return true
 }
+
+/**
+ * Function to check whether a password is valid
+ * 
+ * @param { string } password - password to check
+ * @returns { Boolean } - whether the password is valid
+ */
+export function checkUserName( password ) {
+  const lettersRegex = /[a-zA-Z]/
+  const numbersRegex = /\d/
+
+  if (!lettersRegex.test(password)) {
+    return false
+  }
+
+  if (!numbersRegex.test(password)) {
+    return false
+  }
+
+  return true
+}
