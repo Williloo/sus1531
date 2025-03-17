@@ -13,13 +13,13 @@ import {
  * @returns { Object } - Empty object
  */
 export function adminQuizList( userId ) {
-  let data = getData()
+  let store = getData()
 
-  if (!checkUserExists(userId, data.users)) {
+  if (!checkUserExists(userId, store.users)) {
     return { error: 'userId is not a valid user.' }
   }
   
-  let userQuizzes = data.quizzes.filter(quiz => quiz.creatorId === userId)
+  let userQuizzes = store.quizzes.filter(quiz => quiz.creatorId === userId)
   return { 
     quizzes: userQuizzes.map(
       ({ quizId, name }) => ({ quizId, name })
@@ -38,9 +38,9 @@ export function adminQuizList( userId ) {
  * @returns { Object } - Empty object
  */
 export function adminQuizCreate( userId, name, description ) {
-  let data = getData()
+  let store = getData()
  
-  if (!checkUserExists(userId, data.users)) {
+  if (!checkUserExists(userId, store.users)) {
     return { error: 'userId is not a valid user.' }
   }
   
@@ -48,7 +48,7 @@ export function adminQuizCreate( userId, name, description ) {
     return { error: 'Invalid quiz name' }
   }
   
-  let userQuizzes = data.quizzes.filter(quiz => quiz.creatorId === userId)
+  let userQuizzes = store.quizzes.filter(quiz => quiz.creatorId === userId)
   if (userQuizzes.some(quiz => quiz.name === name)) {
     return { error: 'Name is already used by the same user' }
   }
@@ -57,7 +57,7 @@ export function adminQuizCreate( userId, name, description ) {
     return { error: 'Description is too long' }
   }
 
-  const quizId = data.quizzes.length + 1
+  const quizId = store.quizzes.length + 1
   const timestamp = Math.floor(Date.now() / 1000)
 
   const newQuiz = {
@@ -68,7 +68,7 @@ export function adminQuizCreate( userId, name, description ) {
     timeLastEdited: timestamp,
     description
   }
-  data.quizzes.push(newQuiz)
+  store.quizzes.push(newQuiz)
 
   return { quizId }
 }
@@ -82,19 +82,19 @@ export function adminQuizCreate( userId, name, description ) {
  * @returns { Object } - Empty object
  */
 export function adminQuizRemove( userId, quizId ) {
-  let data = getData()
+  let store = getData()
 
-  if (!checkUserExists(userId, data.users)) {
+  if (!checkUserExists(userId, store.users)) {
     return { error: 'Not A Valid User' }
   } 
 
-  let quiz = findQuiz(userId, quizId, data.quizzes)
+  let quiz = findQuiz(userId, quizId, store.quizzes)
   if (!quiz) {
     return { error: "Quiz does not exist" }
   }
 
-  const index = data.quizzes.indexOf(quiz)
-  data.quizzes.splice(index, 1)
+  const index = store.quizzes.indexOf(quiz)
+  store.quizzes.splice(index, 1)
 
   return {  }
 }
@@ -115,13 +115,13 @@ export function adminQuizRemove( userId, quizId ) {
  * @property { string } description - The description of the quiz
  */
 export function adminQuizInfo ( userId, quizId ) {
-  let data = getData()
-  if (!checkUserExists(userId, data.users)) {
+  let store = getData()
+  if (!checkUserExists(userId, store.users)) {
     return { error: 'Not A Valid User' }
   } 
 
-  /**assume quizId is one of the element name for data.quizzes*/
-  let quiz = findQuiz(userId, quizId, data.quizzes)
+  /**assume quizId is one of the element name for store.quizzes*/
+  let quiz = findQuiz(userId, quizId, store.quizzes)
   if (!quiz) {
     return { error: 'Quiz does not exist' }
   }
@@ -151,13 +151,13 @@ export function adminQuizInfo ( userId, quizId ) {
  * @returns { Object } - Empty object
  */
 export function adminQuizNameUpdate( userId, quizId, name ) {
-  let data = getData()
+  let store = getData()
 
-  if (!checkUserExists(userId, data.users)) {
+  if (!checkUserExists(userId, store.users)) {
     return { error: 'userId is not a valid user.' }
   }
   
-  let quiz = findQuiz(userId, quizId, data.quizzes)
+  let quiz = findQuiz(userId, quizId, store.quizzes)
   if (!quiz) {
     return { error: 'Quiz does not exist' }
   }
@@ -166,7 +166,7 @@ export function adminQuizNameUpdate( userId, quizId, name ) {
     return { error: 'Invalid quiz name' }
   }
 
-  let nameExists = data.quizzes.some(
+  let nameExists = store.quizzes.some(
     q => q.name === name && q.quizId !== quizId && q.creatorId === userId
   )
   if (nameExists) {
@@ -189,13 +189,13 @@ export function adminQuizNameUpdate( userId, quizId, name ) {
  * @returns { Object }
  */
 export function adminQuizDescriptionUpdate( userId, quizId, description ) {
-  let data = getData()
+  let store = getData()
  
-  if (!checkUserExists(userId, data.users)) {
+  if (!checkUserExists(userId, store.users)) {
     return { error: 'userId is not a valid user.' }
   }
   
-  let quiz = findQuiz(userId, quizId, data.quizzes)
+  let quiz = findQuiz(userId, quizId, store.quizzes)
   if (!quiz) {
     return { error: 'Quiz does not exist' }
   }
