@@ -10,3 +10,23 @@ export function checkUserExists( userId, users ) {
     user => user.userId === userId
   )
 }
+
+/**
+ * Function to check whether a user's name is valid
+ * 
+ * @param { string } name - name to check
+ * @returns { Boolean } - whether the user's name is valid
+ */
+export function checkUserName( name ) {
+  const userRegex = /^[a-zA-Z\s\-']*$/
+
+  if (!userRegex.test(name)) {
+    return false
+  }
+
+  if (name.length < 2 || name.length > 20) {
+    return false
+  }
+
+  return true
+}
