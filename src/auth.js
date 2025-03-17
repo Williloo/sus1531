@@ -21,10 +21,10 @@ import validator from 'validator'
 * @property { number } userId - The user id of the user that has been registered
 */
 export function adminAuthRegister( email, password, nameFirst, nameLast ) {
-  let data = getData()
+  let store = getData()
 
   // Check if email already exists
-  for (let user of data.users) {
+  for (let user of store.users) {
     if (email === user.email) {
       return { error: 'Email address is already in use' }
     }
@@ -49,8 +49,16 @@ export function adminAuthRegister( email, password, nameFirst, nameLast ) {
     return { error: 'Invalid email' }
   }
 
-  // Add new user to data
-  const userId = data.users.length
+  // Initialise property usersCreated in store if not existent
+  if (!store.hasOwnProperty('usersCreated')) {
+    store.usersCreated = 0
+  }
+
+  // Generate new userId
+  const userId = store.usersCreated
+  store.usersCreated++
+
+  // Add user to store
   const newUser = {
     userId,
     nameFirst,
@@ -60,7 +68,7 @@ export function adminAuthRegister( email, password, nameFirst, nameLast ) {
     numSuccessfulLogins : 0,
     numFailedPasswordsSinceLastLogin : 0
   }
-  data.users.push(newUser)
+  store.users.push(newUser)
 
   // Return new userId
   return { userId }
@@ -79,9 +87,9 @@ export function adminAuthRegister( email, password, nameFirst, nameLast ) {
 * @property { number } userId - The userId of the user loogging in
 */
 export function adminAuthLogin( email, password ) {
-  let data = getData()
+  let store = getData()
 
-  for (const user of data.users) {
+  for (const user of store.users) {
     // Check if emails matches
     if (email.toLowerCase() === user.email.toLowerCase()) {
       // Check if passwords match
