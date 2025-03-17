@@ -21,30 +21,27 @@ import validator from 'validator';
 * @property { number } userId - The user id of the user that has been registered
 */
 export function adminAuthRegister( email, password, nameFirst, nameLast ) {
-  
   let data = getData();
-  if (data.users.length !== 0) {
-    for (let user of data.users) {
-      if (email === user.email) {
-        return { error: 'Email address is already in use'}; 
-      }
+  for (let user of data.users) {
+    if (email === user.email) {
+      return { error: 'Email address is already in use' }; 
     }
   }
 
   if (!checkUserName(nameFirst)) {
-    return { error: 'Invalid first name'}; 
+    return { error: 'Invalid first name' }; 
   }
 
   if (!checkUserName(nameLast)) {
-    return { error: 'Invalid last name'}; 
+    return { error: 'Invalid last name' }; 
   }
   
   if (!checkPassword(password)) {
-    return { error: 'Invalid password'}
+    return { error: 'Invalid password' }
   }
 
   if (!(validator.isEmail(email))) {
-    return { error: 'Invalid email'}; 
+    return { error: 'Invalid email' }; 
   }
 
   const userId = data.users.length;
@@ -85,12 +82,12 @@ export function adminAuthLogin( email, password ) {
       }
       else {
         user.numFailedPasswordsSinceLastLogin++;
-        return { error: 'Password is not correct for given email'}
+        return { error: 'Password is not correct for given email' }
       }
     }
   }
 
-  return { error: 'Email address does not exist'};
+  return { error: 'Email address does not exist' };
 }
 
 /**
@@ -150,20 +147,20 @@ export function adminUserDetailsUpdate( userId, email, nameFirst, nameLast ) {
   
   for (let user of store.users) {
     if (email === user.email) {
-      return { error: 'Email address is already in use'}; 
+      return { error: 'Email address is already in use' }; 
     }
   }
 
   if (!checkUserName(nameFirst)) {
-    return { error: 'Invalid first name'}; 
+    return { error: 'Invalid first name' }; 
   }
 
   if (!checkUserName(nameLast)) {
-    return { error: 'Invalid last name'}; 
+    return { error: 'Invalid last name' }; 
   }
   
   if (!(validator.isEmail(email))) {
-    return { error: 'Invalid email'}; 
+    return { error: 'Invalid email' }; 
   }
 
   let user = store.users[userId]
