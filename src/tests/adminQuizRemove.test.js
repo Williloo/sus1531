@@ -13,7 +13,7 @@ import {
   
 let userId;
 let quizId;
-beforeEach('Success Register', () =>{
+beforeEach(() =>{
     clear();
     /*Used Input from adminAuthRegister.test.js to ensure a successfull return*/
     userId = adminAuthRegister(
@@ -21,12 +21,12 @@ beforeEach('Success Register', () =>{
         'thisisagoodpassword1974',
         'Joshua', 
         'Pozzolungo'
-    );
+    ).userId;
     quizId = adminQuizCreate(
         userId, 
-        'test_quiz', 
+        'test quiz', 
         'This quiz is for testing adminQuizRemove function'
-    );
+    ).quizId;
 });
 
 describe('tests for adminQuizRemove', () => {
@@ -47,14 +47,14 @@ describe('tests for adminQuizRemove', () => {
             'thisisagoodpassword2025',
             'Haoyu', 
             'Zhuang'
-        );
+        ).userId;
         /*create a quiz with a user id that is different from the userId 
         that is about to be input in the adminQuizRemove function*/
         const anotherQuizId = adminQuizCreate(
             newId, 
-            'test_quiz 2', 
+            'test quiz 2', 
             'This quiz is for testing if the quiz Id is owned by input userid'
-        );
+        ).quizId;
         expect(adminQuizRemove(userId, anotherQuizId))
         .toStrictEqual({error: 'Quiz Id not owned by this userId'});
     })

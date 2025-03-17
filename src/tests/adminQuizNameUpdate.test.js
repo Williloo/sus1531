@@ -1,6 +1,6 @@
 import {
   clear
-} from '../others';
+} from '../other';
 
 import {
   adminAuthRegister,
@@ -19,7 +19,7 @@ let quizId;
 
 beforeEach(() => {
   clear();
-  let result = adminAuthRegister('hayden.smith@unsw.edu.au', 'myPassword', 'Hayden', 'Smith');
+  let result = adminAuthRegister('hayden.smith@unsw.edu.au', 'myPassword1', 'Hayden', 'Smith');
   userId = result.userId;
   let quizResult = adminQuizCreate(userId, 'Quiz Name', 'This is a quiz description');
   quizId = quizResult.quizId;

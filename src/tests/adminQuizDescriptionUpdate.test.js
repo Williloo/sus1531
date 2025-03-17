@@ -1,6 +1,6 @@
 import {
   clear
-} from '../others';
+} from '../other';
   
 import {
   adminAuthRegister,
@@ -18,21 +18,23 @@ let quizId;
 
 beforeEach(() => {
   clear();
-  let result = adminAuthRegister('hayden.smith@unsw.edu.au', 'myPassword', 'Hayden', 'Smith');
-  userId = result.userId;
-  let quizResult = adminQuizCreate(userId, 'Test Quiz', 'Original description');
-  quizId = quizResult.quizId;
+  userId = adminAuthRegister('hayden.smith@unsw.edu.au', 'myPassword1', 'Hayden', 'Smith').userId;
+  quizId = adminQuizCreate(userId, 'Test Quiz', 'Original description').quizId;
 });
 
 describe('adminQuizDescriptionUpdate', () => {
   describe('Success cases', () => {
     test('Quiz description updated to a new description', () => {
       let quizInfo = adminQuizInfo(userId, quizId);
+
       expect(quizInfo.description).toBe('Original description');
+
       let originalTime = quizInfo.timeLastEdited;
       let newDescription = 'This is an updated description';
+
       expect(adminQuizDescriptionUpdate(userId, quizId, newDescription)).toStrictEqual({});
       quizInfo = adminQuizInfo(userId, quizId);
+
       expect(quizInfo.description).toBe(newDescription);
       expect(quizInfo.timeLastEdited).toBeGreaterThanOrEqual(quizInfo.timeCreated);
       expect(quizInfo.timeLastEdited).toBeGreaterThanOrEqual(originalTime);

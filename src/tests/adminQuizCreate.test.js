@@ -1,10 +1,13 @@
 import { adminAuthRegister } from '../auth.js';
 import { adminQuizCreate } from '../quiz.js';
-import { clear } from '../others.js';
+import { clear } from '../other.js';
 
 describe('Tests for adminQuizCreate', () => {
+    let user
+
     beforeEach(() => {
         clear();
+        user = adminAuthRegister('validemail@gmail.com', 'Password123', 'John', 'Doe')
     });
 
     describe('Error cases', () => {
@@ -15,28 +18,28 @@ describe('Tests for adminQuizCreate', () => {
         });
 
         test('Name contains invalid characters', () => {
-            const { userId } = adminAuthRegister('validemail@gmail.com', 'Password123', 'John', 'Doe');
+            let userId = user.userId
             expect(adminQuizCreate(userId, 'Invalid@Name!', 'Valid description')).toStrictEqual({
                 error: expect.any(String)
             });
         });
 
         test('Name is too short', () => {
-            const { userId } = adminAuthRegister('validemail@gmail.com', 'Password123', 'John', 'Doe');
+            let userId = user.userId
             expect(adminQuizCreate(userId, 'AB', 'Valid description')).toStrictEqual({
                 error: expect.any(String)
             });
         });
 
         test('Name is too long', () => {
-            const { userId } = adminAuthRegister('validemail@gmail.com', 'Password123', 'John', 'Doe');
+            let userId = user.userId
             expect(adminQuizCreate(userId, 'A'.repeat(31), 'Valid description')).toStrictEqual({
                 error: expect.any(String)
             });
         });
 
         test('Name is already used by the same user', () => {
-            const { userId } = adminAuthRegister('validemail@gmail.com', 'Password123', 'John', 'Doe');
+            let userId = user.userId
             adminQuizCreate(userId, 'Duplicate Quiz', 'Valid description'); // First creation succeeds
             expect(adminQuizCreate(userId, 'Duplicate Quiz', 'Another description')).toStrictEqual({
                 error: expect.any(String)
@@ -44,7 +47,7 @@ describe('Tests for adminQuizCreate', () => {
         });
 
         test('Description is too long', () => {
-            const { userId } = adminAuthRegister('validemail@gmail.com', 'Password123', 'John', 'Doe');
+            let userId = user.userId
             expect(adminQuizCreate(userId, 'Valid Name', 'A'.repeat(101))).toStrictEqual({
                 error: expect.any(String)
             });
@@ -53,7 +56,7 @@ describe('Tests for adminQuizCreate', () => {
 
     describe('Success cases', () => {
         test('Valid quiz creation', () => {
-            const { userId } = adminAuthRegister('validemail@gmail.com', 'Password123', 'John', 'Doe');
+            let userId = user.userId
             const result = adminQuizCreate(userId, 'My Quiz', 'This is a valid quiz description.');
             expect(result).toStrictEqual({
                 quizId: expect.any(Number)
@@ -61,7 +64,7 @@ describe('Tests for adminQuizCreate', () => {
         });
 
         test('Valid quiz creation with empty description', () => {
-            const { userId } = adminAuthRegister('validemail@gmail.com', 'Password123', 'John', 'Doe');
+            let userId = user.userId
             const result = adminQuizCreate(userId, 'Another Quiz', '');
             expect(result).toStrictEqual({
                 quizId: expect.any(Number)

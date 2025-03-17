@@ -1,10 +1,12 @@
 import { adminQuizList, adminQuizCreate} from '../quiz.js';
 import { adminAuthRegister} from '../auth.js';
-import {clear} from '../others.js';
+import {clear} from '../other.js';
 
+let userId
 describe('Tests for adminQuizList', () => {
     beforeEach(() => {
         clear();
+        userId = adminAuthRegister('validemail@gmail.com', 'Password123', 'Yash', 'Mittal').userId;
     });
 
     describe('Error cases', () => {
@@ -15,14 +17,12 @@ describe('Tests for adminQuizList', () => {
 
     describe('Success cases', () => {
         test('Valid user with no quizzes', () => {
-            const { userId } = adminAuthRegister('validemail@gmail.com', 'Password123', 'Yash', 'Mittal');
             expect(adminQuizList(userId)).toStrictEqual({ quizzes: [] });
         });
 
         test('Valid user with quizzes', () => {
-            const { userId } = adminAuthRegister('validemail@gmail.com', 'Password123', 'Yash', 'Mittal');
-            adminQuizCreate(userId, 'Quiz 1');
-            adminQuizCreate(userId, 'Quiz 2');
+            adminQuizCreate(userId, 'Quiz 1', '');
+            adminQuizCreate(userId, 'Quiz 2', '');
 
             expect(adminQuizList(userId)).toStrictEqual({
                 quizzes: [
