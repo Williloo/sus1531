@@ -87,10 +87,12 @@ export function adminAuthLogin( email, password ) {
       // Check if passwords match
       if (password === user.password) {
         user.numSuccessfulLogins++
+        user.numFailedPasswordsSinceLastLogin = 0
+
         return { userId: user.userId }
       }
       else {
-        user.numFailedPasswordsSinceLastLogin++;
+        user.numFailedPasswordsSinceLastLogin++
         return { error: 'Password is not correct for given email' }
       }
     }
