@@ -1,74 +1,90 @@
-import { adminAuthRegister } from '../auth.js';
-import { adminQuizCreate } from '../quiz.js';
-import { clear } from '../other.js';
+import {
+  adminAuthRegister,
+} from '../auth.js'
 
-describe('Tests for adminQuizCreate', () => {
-    let user
+import {
+  adminQuizCreate,
+} from '../quiz.js'
 
-    beforeEach(() => {
-        clear();
-        user = adminAuthRegister('validemail@gmail.com', 'Password123', 'John', 'Doe')
-    });
+import {
+  clear,
+} from '../other.js'
 
-    describe('Error cases', () => {
-        test('Invalid userId', () => {
-            expect(adminQuizCreate(-1, 'Valid Name', 'Valid description')).toStrictEqual({
-                error: expect.any(String)
-            });
-        });
+let user
+describe('tests for adminQuizCreate', () => {
+  beforeEach(() => {
+    clear()
+    user = adminAuthRegister('validemail@gmail.com', 'Password123', 'John', 'Doe')
+  })
 
-        test('Name contains invalid characters', () => {
-            let userId = user.userId
-            expect(adminQuizCreate(userId, 'Invalid@Name!', 'Valid description')).toStrictEqual({
-                error: expect.any(String)
-            });
-        });
+  describe('error cases', () => {
+    test('invalid userId', () => {
+      let userId = user.userId
 
-        test('Name is too short', () => {
-            let userId = user.userId
-            expect(adminQuizCreate(userId, 'AB', 'Valid description')).toStrictEqual({
-                error: expect.any(String)
-            });
-        });
+      expect(adminQuizCreate(userId-1, 'Valid Name', 'Valid description')).toStrictEqual(
+        { error: expect.any(String) }
+      )
+    })
 
-        test('Name is too long', () => {
-            let userId = user.userId
-            expect(adminQuizCreate(userId, 'A'.repeat(31), 'Valid description')).toStrictEqual({
-                error: expect.any(String)
-            });
-        });
+    test('name contains invalid characters', () => {
+      let userId = user.userId
 
-        test('Name is already used by the same user', () => {
-            let userId = user.userId
-            adminQuizCreate(userId, 'Duplicate Quiz', 'Valid description'); // First creation succeeds
-            expect(adminQuizCreate(userId, 'Duplicate Quiz', 'Another description')).toStrictEqual({
-                error: expect.any(String)
-            });
-        });
+      expect(adminQuizCreate(userId, 'Invalid@Name!', 'Valid description')).toStrictEqual(
+        { error: expect.any(String) }
+      )
+    })
 
-        test('Description is too long', () => {
-            let userId = user.userId
-            expect(adminQuizCreate(userId, 'Valid Name', 'A'.repeat(101))).toStrictEqual({
-                error: expect.any(String)
-            });
-        });
-    });
+    test('name is too short', () => {
+      let userId = user.userId
 
-    describe('Success cases', () => {
-        test('Valid quiz creation', () => {
-            let userId = user.userId
-            const result = adminQuizCreate(userId, 'My Quiz', 'This is a valid quiz description.');
-            expect(result).toStrictEqual({
-                quizId: expect.any(Number)
-            });
-        });
+      expect(adminQuizCreate(userId, 'AB', 'Valid description')).toStrictEqual(
+        { error: expect.any(String) }
+      )
+    })
 
-        test('Valid quiz creation with empty description', () => {
-            let userId = user.userId
-            const result = adminQuizCreate(userId, 'Another Quiz', '');
-            expect(result).toStrictEqual({
-                quizId: expect.any(Number)
-            });
-        });
-    });
-});
+    test('name is too long', () => {
+      let userId = user.userId
+
+      expect(adminQuizCreate(userId, 'A'.repeat(31), 'Valid description')).toStrictEqual(
+        { error: expect.any(String) }
+      )
+    })
+
+    test('name is already used by the same user', () => {
+      let userId = user.userId
+
+      adminQuizCreate(userId, 'Duplicate Quiz', 'Valid description')
+      expect(adminQuizCreate(userId, 'Duplicate Quiz', 'Another description')).toStrictEqual(
+        { error: expect.any(String) }
+      )
+    })
+
+    test('description is too long', () => {
+      let userId = user.userId
+
+      expect(adminQuizCreate(userId, 'Valid Name', 'A'.repeat(101))).toStrictEqual(
+        { error: expect.any(String) }
+      )
+    })
+  })
+
+  describe('success cases', () => {
+    test('valid quiz creation', () => {
+      let userId = user.userId
+
+      const result = adminQuizCreate(userId, 'My Quiz', 'This is a valid quiz description.')
+      expect(result).toStrictEqual(
+        { quizId: expect.any(Number) }
+      )
+    })
+
+    test('valid quiz creation with empty description', () => {
+      let userId = user.userId
+
+      const result = adminQuizCreate(userId, 'Another Quiz', '')
+      expect(result).toStrictEqual(
+        { quizId: expect.any(Number) }
+      )
+    })
+  })
+})

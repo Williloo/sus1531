@@ -1,25 +1,25 @@
 import {
   adminAuthRegister,
   adminUserDetails,
-  adminUserDetailsUpdate
+  adminUserDetailsUpdate,
 } from '../auth.js'
   
 import {
-  clear
+  clear,
 } from '../other.js'
   
 let user
 
-beforeEach(() => {
-  clear();
-  user = adminAuthRegister( "123@gmail.com", "password123", "my", "name" )
-});
-
 describe('tests for adminUserDetailUpdate', () => {
+  beforeEach(() => {
+    clear()
+    user = adminAuthRegister('123@gmail.com', 'password123', 'my', 'name')
+  })
+
   test('error test for invalid userId', () => {
     let invalidUid = user.userId + 1
 
-    expect(adminUserDetailsUpdate(invalidUid, "123@gmail.com", "my", "name")).toStrictEqual(
+    expect(adminUserDetailsUpdate(invalidUid, '123@gmail.com', 'my', 'name')).toStrictEqual(
       { error: expect.any(String) }
     )
   })
@@ -105,8 +105,8 @@ describe('tests for adminUserDetailUpdate', () => {
         {
           user: {
             userId: uid,
-            name: "Joshua Pozzolungo",
-            email: "jpozzolungo@gmail.com",
+            name: 'Joshua Pozzolungo',
+            email: 'jpozzolungo@gmail.com',
             numSuccessfulLogins: 0,
             numFailedPasswordsSinceLastLogin: 0,
           } 
