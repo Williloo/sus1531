@@ -7,10 +7,14 @@ import {
 import {
     adminQuizCreate,
 } from '../quiz.js';
-
+import {
+    clear
+} from '../other.js'
+  
 let userId;
 let quizId;
 beforeEach('Success Register', () =>{
+    clear();
     /*Used Input from adminAuthRegister.test.js to ensure a successfull return*/
     userId = adminAuthRegister(
         'jpozzolungo@gmail.com', 
@@ -53,5 +57,9 @@ describe('tests for adminQuizRemove', () => {
         );
         expect(adminQuizRemove(userId, anotherQuizId))
         .toStrictEqual({error: 'Quiz Id not owned by this userId'});
+    })
+
+    test('successfully remove quiz', () => {
+        expect(adminQuizRemove(userId, quizId)).toStrictEqual({});
     })
 })
