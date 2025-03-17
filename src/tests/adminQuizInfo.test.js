@@ -12,7 +12,7 @@ import {
 } from '../other.js'
 let userId;
 let quizId;
-beforeEach('Success Register', () =>{
+beforeEach(() =>{
     clear();
     /*Used Input from adminAuthRegister.test.js to ensure a successfull return*/
     userId = adminAuthRegister(
@@ -20,12 +20,12 @@ beforeEach('Success Register', () =>{
         'thisisagoodpassword1974',
         'Joshua', 
         'Pozzolungo'
-    );
+    ).userId;
     quizId = adminQuizCreate(
         userId, 
-        'test_quiz', 
+        'test quiz', 
         'This quiz is for testing adminQuizInfo function'
-    );
+    ).quizId;
 });
 
 describe('tests for adminQuizInfo', () => {
@@ -46,14 +46,15 @@ describe('tests for adminQuizInfo', () => {
             'thisisagoodpassword2025',
             'Haoyu', 
             'Zhuang'
-        );
+        ).userId;
         /*create a quiz with a user id that is different from the userId 
         that is about to be input in the adminQuizInfo function*/
         const anotherQuizId = adminQuizCreate(
             newId, 
-            'test_quiz 2', 
+            'test quiz 2', 
             'This quiz is for testing if the quiz Id is owned by input userid'
-        );
+        ).quizId;
+
         expect(adminQuizInfo(userId, anotherQuizId))
         .toStrictEqual({error: 'Quiz Id not owned by this userId'});
     })
@@ -62,9 +63,9 @@ describe('tests for adminQuizInfo', () => {
         expect(adminQuizInfo(userId,quizId)).toStrictEqual(
             {
                 quizId: quizId,
-                name:'test_quiz',
-                timeCreated: expect.any(number),
-                timeLastEdited: expect.any(number),
+                name:'test quiz',
+                timeCreated: expect.any(Number),
+                timeLastEdited: expect.any(Number),
                 description: 'This quiz is for testing adminQuizInfo function'
             }
         )
