@@ -165,6 +165,42 @@ function adminUserDetailsUpdate( userId, email, nameFirst, nameLast ) {
  * 
  * @returns { Object } - Empty object
  */
-function adminUserPasswordUpdate( userId, oldPassword, newPassword ) {
+export function adminUserPasswordUpdate( userId, oldPassword, newPassword ) {
+  let store = getData()
+
+  if (userId < 0 || userId >= store.users.length) {
+    return { error: "Invalid User Id" }
+  }
+
+  let user = store.users[userId]
+  if (user.password !== oldPassword) {
+    return { error: "Invalid password" }
+  }
+
+  if (oldPassword === newPassword) {
+    return { error: "Invalid new password" }
+  }
+
+  if (!user.hasOwnProperty('pastPasswords')) {
+    user.pastPasswords = []
+  }
+
+  if (user.pastPasswords.includes(newPassword)) {
+    return { error: "Invalid new password" }
+  }
+
+  if (newPassword.length < 8) {
+    return { error: "New password longer than  8 characters" }
+  }
+
+  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)/
+
+  if (!passwordRegex.test(newPassword)) {
+    return { error: "New password does not contain a letter or a number" }
+  }
+
+  user.pastPasswords.push(user.password)
+  user.password = newPassword
+
   return {  }
 }
