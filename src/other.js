@@ -1,20 +1,21 @@
+import { getData } from './dataStore.js'
+
 /**
  * The function reset the state of the application back to the start
  *
  * @returns { Object } - Empty object
 */
-
-import { getData } from './dataStore.js';
-
 export function clear(  ) {
-  
-  let data = getData();
-  while (data.users.length != 0) {
-    data.users.pop()
+  let store = getData()
+
+  // Remove all users
+  while (store.users.length != 0) {
+    store.users.pop()
   }
 
-  while (data.quizzes.length != 0) {
-    data.quizzes.pop()
+  // Remove all quizzes
+  while (store.quizzes.length != 0) {
+    store.quizzes.pop()
   }
 
   return {  }
