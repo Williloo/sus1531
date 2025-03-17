@@ -30,7 +30,7 @@ describe('tests for adminUserDetails', () => {
           userId: uid,
           name: 'my name',
           email: '123@gmail.com',
-          numSuccessfulLogins: 0,
+          numSuccessfulLogins: 1,
           numFailedPasswordsSinceLastLogin: 0,
         } 
       }
@@ -47,7 +47,7 @@ describe('tests for adminUserDetails', () => {
           userId: uid1,
           name: 'my name',
           email: '123@gmail.com',
-          numSuccessfulLogins: 0,
+          numSuccessfulLogins: 1,
           numFailedPasswordsSinceLastLogin: 0,
         } 
       }
@@ -58,7 +58,7 @@ describe('tests for adminUserDetails', () => {
           userId: uid2,
           name: 'your moniker',
           email: '456@gmail.com',
-          numSuccessfulLogins: 0,
+          numSuccessfulLogins: 1,
           numFailedPasswordsSinceLastLogin: 0,
         } 
       }
