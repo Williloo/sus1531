@@ -107,7 +107,7 @@ describe('tests for adminUserDetailUpdate', () => {
             userId: uid,
             name: 'Joshua Pozzolungo',
             email: 'jpozzolungo@gmail.com',
-            numSuccessfulLogins: 0,
+            numSuccessfulLogins: 1,
             numFailedPasswordsSinceLastLogin: 0,
           } 
         }
