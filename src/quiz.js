@@ -121,7 +121,44 @@ function adminQuizInfo ( userId, quizId ) {
  * 
  * @returns { Object } - Empty object
  */
-function adminQuizNameUpdate( userId, quizId, name ) {
+export function adminQuizNameUpdate( userId, quizId, name ) {
+  let data = getData();
+
+  let userExists = data.users.some(user => user.userId === userId);
+  if (!userExists) {
+    return { error: 'userId is not a valid user.' };
+  }
+  
+  let quiz = data.quizzes.find(quiz => quiz.quizId === quizId);
+  if (!quiz) {
+    return { error: 'Quiz ID does not refer to a valid quiz.' };
+  }
+  
+  if (quiz.creatorId !== userId) {
+    return { error: 'Quiz ID does not refer to a quiz that this user owns.' };
+  }
+  
+  if (name.length < 3 || name.length > 30) {
+    return { error: 'Name is either less than 3 characters long or more than 30 characters long.' };
+  }
+  
+  let nameRegex = /^[a-zA-Z0-9 ]+$/;
+  if (!nameRegex.test(name)) {
+    return { error: 'Name contains invalid characters. Valid characters are alphanumeric and spaces.' };
+  }
+  
+  let nameExists = data.quizzes.some(q => 
+    q.name === name && q.quizId !== quizId && q.creatorId === userId
+  );
+  if (nameExists) {
+    return { error: 'Name is already used by the current logged in user for another quiz.' };
+  }
+  
+  let quizIndex = data.quizzes.findIndex(q => q.quizId === quizId);
+  data.quizzes[quizIndex].name = name;
+  data.quizzes[quizIndex].timeLastEdited = Math.floor(Date.now() / 1000);
+  setData(data);
+
   return {   };
 }
 
