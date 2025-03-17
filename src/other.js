@@ -18,5 +18,9 @@ export function clear(  ) {
     store.quizzes.pop()
   }
 
+  // Reset quiz and user created values to 0
+  store.quizCreated = 0
+  store.usersCreated = 0
+
   return {  }
 }
