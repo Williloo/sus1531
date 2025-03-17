@@ -16,7 +16,7 @@ export function adminQuizList( userId ) {
     return { error: 'userId is not a valid user.' };
   }
   
-  let userQuizzes = data.quizzes.filter(quiz => quiz.ownerId === userId);
+  let userQuizzes = data.quizzes.filter(quiz => quiz.creatorId === userId);
   return { quizzes: userQuizzes.map(({ quizId, name }) => ({ quizId, name })) };
 
 }
@@ -40,7 +40,7 @@ export function adminQuizCreate( userId, name, description ) {
     return { error: 'userId is not a valid user.' };
   }
   
-  const userRegex = /^[a-zA-Z-' ]+$/;
+  const userRegex = /^[a-zA-Z0-9 ]*$/;
 
   if (!(userRegex.test(name))) {
     return { error: 'Name contains invalid characters'}; 
@@ -95,7 +95,7 @@ export function adminQuizRemove( userId, quizId ) {
   if(arrayIndex === -1) {
     return {error: 'Not A Valid Quiz'};
   } 
-  if(data.quizzes[arrayIndex].userId !== userId) {
+  if(data.quizzes[arrayIndex].creatorId !== userId) {
     return {error: 'Quiz Id not owned by this userId'};
   }
   data.quizzes.splice(arrayIndex, 1);
@@ -117,7 +117,7 @@ export function adminQuizRemove( userId, quizId ) {
  * @property { number } timeLastEdited - The time the quiz was last editted
  * @property { string } description - The description of the quiz
  */
-function adminQuizInfo ( userId, quizId ) {
+export function adminQuizInfo ( userId, quizId ) {
   let data = getData();
   if (data.users.some(user => user.userId === userId) === false) {
     return {error: 'Not A Valid User'};
@@ -127,7 +127,7 @@ function adminQuizInfo ( userId, quizId ) {
   if (quiz === undefined) {
     return {error: 'Not A Valid Quiz'};
   } 
-  if(quiz.userId !== userId) {
+  if(quiz.creatorId !== userId) {
     return {error: 'Quiz Id not owned by this userId'};
   }
 
@@ -193,7 +193,6 @@ export function adminQuizNameUpdate( userId, quizId, name ) {
   let quizIndex = data.quizzes.findIndex(q => q.quizId === quizId);
   data.quizzes[quizIndex].name = name;
   data.quizzes[quizIndex].timeLastEdited = Math.floor(Date.now() / 1000);
-  setData(data);
 
   return {   };
 }
@@ -232,7 +231,6 @@ export function adminQuizDescriptionUpdate( userId, quizId, description ) {
   let quizIndex = data.quizzes.findIndex(q => q.quizId === quizId);
   data.quizzes[quizIndex].description = description;
   data.quizzes[quizIndex].timeLastEdited = Math.floor(Date.now() / 1000);
-  setData(data);
   
   return {   };
 }

@@ -123,9 +123,9 @@ export function adminAuthLogin( email, password ) {
 export function adminUserDetails( userId ) {
   let store = getData()
 
-  if (userId < 0 || userId >= store.users.length) {
-    return { error: "Invalid User Id" }
-  }
+  if (!store.users.some(user => user.userId === userId)) {
+    return {error: 'Not A Valid User'};
+  } 
 
   let user = store.users[userId]
 
@@ -154,9 +154,9 @@ export function adminUserDetails( userId ) {
 export function adminUserDetailsUpdate( userId, email, nameFirst, nameLast ) {
   let store = getData();
 
-  if (userId < 0 || userId >= store.users.length) {
-    return { error: "Invalid User Id" }
-  }
+  if (!store.users.some(user => user.userId === userId)) {
+    return {error: 'Not A Valid User'};
+  } 
   
   for (let user of store.users) {
     if (email === user.email) {
@@ -208,9 +208,9 @@ export function adminUserDetailsUpdate( userId, email, nameFirst, nameLast ) {
 export function adminUserPasswordUpdate( userId, oldPassword, newPassword ) {
   let store = getData()
 
-  if (userId < 0 || userId >= store.users.length) {
-    return { error: "Invalid User Id" }
-  }
+  if (!store.users.some(user => user.userId === userId)) {
+    return {error: 'Not A Valid User'};
+  } 
 
   let user = store.users[userId]
   if (user.password !== oldPassword) {
