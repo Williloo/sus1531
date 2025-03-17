@@ -40,7 +40,7 @@ export function adminAuthRegister( email, password, nameFirst, nameLast ) {
     return { error: 'Invalid password' }
   }
 
-  if (!(validator.isEmail(email))) {
+  if (!validator.isEmail(email)) {
     return { error: 'Invalid email' }
   }
 
@@ -159,7 +159,7 @@ export function adminUserDetailsUpdate( userId, email, nameFirst, nameLast ) {
     return { error: 'Invalid last name' }
   }
   
-  if (!(validator.isEmail(email))) {
+  if (!validator.isEmail(email)) {
     return { error: 'Invalid email' }
   }
 
