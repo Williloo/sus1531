@@ -15,11 +15,15 @@ import {
 export function adminQuizList( userId ) {
   let store = getData()
 
+  // Check if userId exists
   if (!checkUserExists(userId, store.users)) {
     return { error: 'userId is not a valid user.' }
   }
   
+  // Find all quizzes made by the user
   let userQuizzes = store.quizzes.filter(quiz => quiz.creatorId === userId)
+  
+  // Return only quizId and name of each quiz
   return { 
     quizzes: userQuizzes.map(
       ({ quizId, name }) => ({ quizId, name })
@@ -39,20 +43,26 @@ export function adminQuizList( userId ) {
  */
 export function adminQuizCreate( userId, name, description ) {
   let store = getData()
- 
+  
+  //Check if userId is valid
   if (!checkUserExists(userId, store.users)) {
     return { error: 'userId is not a valid user.' }
   }
   
+  // Check if quizName is valid
   if (!checkQuizName(name)) {
     return { error: 'Invalid quiz name' }
   }
   
-  let userQuizzes = store.quizzes.filter(quiz => quiz.creatorId === userId)
-  if (userQuizzes.some(quiz => quiz.name === name)) {
+  // Check if user already created quiz with same name
+  let quizExists = store.quizzes.some(
+    quiz => quiz.creatorId === userId && quiz.name === name
+  )
+  if (quizExists) {
     return { error: 'Name is already used by the same user' }
   }
 
+  // Check description length
   if (description.length > 100) {
     return { error: 'Description is too long' }
   }
@@ -60,6 +70,7 @@ export function adminQuizCreate( userId, name, description ) {
   const quizId = store.quizzes.length + 1
   const timestamp = Math.floor(Date.now() / 1000)
 
+  // Add new quiz to store
   const newQuiz = {
     quizId,
     creatorId: userId,
@@ -84,15 +95,18 @@ export function adminQuizCreate( userId, name, description ) {
 export function adminQuizRemove( userId, quizId ) {
   let store = getData()
 
+  // Check if valid userId
   if (!checkUserExists(userId, store.users)) {
     return { error: 'Not A Valid User' }
   } 
 
+  // Search for existing quiz
   let quiz = findQuiz(userId, quizId, store.quizzes)
   if (!quiz) {
     return { error: "Quiz does not exist" }
   }
 
+  // Find index of quiz and remove from data
   const index = store.quizzes.indexOf(quiz)
   store.quizzes.splice(index, 1)
 
@@ -116,22 +130,19 @@ export function adminQuizRemove( userId, quizId ) {
  */
 export function adminQuizInfo ( userId, quizId ) {
   let store = getData()
+
+  // Check if valid userId
   if (!checkUserExists(userId, store.users)) {
     return { error: 'Not A Valid User' }
   } 
 
-  /**assume quizId is one of the element name for store.quizzes*/
+  // Search for existing quiz
   let quiz = findQuiz(userId, quizId, store.quizzes)
   if (!quiz) {
     return { error: 'Quiz does not exist' }
   }
 
-  /**
-   * assume all elements in quiz object is initialised in adminQuizCreate
-   * 
-   * I can just return Quiz, but there might be some other variable being 
-   * added later on that we do not need to return for this function.
-  */
+  // Return information about the quiz
   return {
     quizId: quiz.quizId,
     name: quiz.name,
@@ -153,19 +164,23 @@ export function adminQuizInfo ( userId, quizId ) {
 export function adminQuizNameUpdate( userId, quizId, name ) {
   let store = getData()
 
+  // Check if valid userId
   if (!checkUserExists(userId, store.users)) {
     return { error: 'userId is not a valid user.' }
   }
   
+  // Search for existing quiz
   let quiz = findQuiz(userId, quizId, store.quizzes)
   if (!quiz) {
     return { error: 'Quiz does not exist' }
   }
   
+  // Check if valid quizName
   if (!checkQuizName(name)) {
     return { error: 'Invalid quiz name' }
   }
 
+  // Check if user already created quiz with same name
   let nameExists = store.quizzes.some(
     q => q.name === name && q.quizId !== quizId && q.creatorId === userId
   )
@@ -173,6 +188,7 @@ export function adminQuizNameUpdate( userId, quizId, name ) {
     return { error: 'Name is already used by the current logged in user for another quiz.' }
   }
   
+  // Update name and time modified of quiz
   quiz.name = name
   quiz.timeLastEdited = Math.floor(Date.now() / 1000)
 
@@ -190,20 +206,24 @@ export function adminQuizNameUpdate( userId, quizId, name ) {
  */
 export function adminQuizDescriptionUpdate( userId, quizId, description ) {
   let store = getData()
- 
+  
+  // Check if valid userId
   if (!checkUserExists(userId, store.users)) {
     return { error: 'userId is not a valid user.' }
   }
   
+  // Search for existing quiz
   let quiz = findQuiz(userId, quizId, store.quizzes)
   if (!quiz) {
     return { error: 'Quiz does not exist' }
   }
 
+  // Check if description length is valid
   if (description.length > 100) {
     return { error: 'Description is more than 100 characters in length.' }
   }
   
+  // Update description and time modified
   quiz.description = description
   quiz.timeLastEdited = Math.floor(Date.now() / 1000)
   
