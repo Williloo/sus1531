@@ -31,7 +31,7 @@ describe('tests for adminQuizNameUpdate', () => {
       )
       
       expect(adminQuizInfo(userId, quizId).name).toStrictEqual('Updated Quiz Name')
-      expect(adminQuizInfo(userId, quizId).timeLastEdited).toStrictEqualGreaterThanOrEqual(originalTime)
+      expect(adminQuizInfo(userId, quizId).timeLastEdited).toBeGreaterThanOrEqual(originalTime)
     })
     
     test('accepts name with numbers and spaces', () => {      
