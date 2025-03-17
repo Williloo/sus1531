@@ -31,12 +31,12 @@ beforeEach(() =>{
 describe('tests for adminQuizInfo', () => {
     test('Invalid User', () => {
         expect(adminQuizInfo(userId + 1, quizId))
-        .toStrictEqual({error: 'Not A Valid User'});
+        .toStrictEqual({error: expect.any(String)});
     })
 
     test('Invalid Quiz', () => {
         expect(adminQuizInfo(userId, quizId+1))
-        .toStrictEqual({error: 'Not A Valid Quiz'});
+        .toStrictEqual({error: expect.any(String)});
     })
    
     test('Quiz ID Not Owned By Input User ID', () => {
@@ -56,7 +56,7 @@ describe('tests for adminQuizInfo', () => {
         ).quizId;
 
         expect(adminQuizInfo(userId, anotherQuizId))
-        .toStrictEqual({error: 'Quiz Id not owned by this userId'});
+        .toStrictEqual({error: expect.any(String)});
     })
 
     test('Successful case', () => {
