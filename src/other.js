@@ -6,12 +6,12 @@ import { getData } from './dataStore.js'
  * @returns { Object } - Empty object
 */
 export function clear(  ) {
-  let data = getData()
-  while (data.users.length != 0) {
-    data.users.pop()
+  let store = getData()
+  while (store.users.length != 0) {
+    store.users.pop()
   }
 
-  while (data.quizzes.length != 0) {
+  while (store.quizzes.length != 0) {
     data.quizzes.pop()
   }
 
