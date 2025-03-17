@@ -7,10 +7,13 @@ import { getData } from './dataStore.js'
 */
 export function clear(  ) {
   let store = getData()
+
+  // Remove all users
   while (store.users.length != 0) {
     store.users.pop()
   }
 
+  // Remove all quizzes
   while (store.quizzes.length != 0) {
     store.quizzes.pop()
   }
