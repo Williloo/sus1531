@@ -67,7 +67,15 @@ export function adminQuizCreate( userId, name, description ) {
     return { error: 'Description is too long' }
   }
 
-  const quizId = store.quizzes.length + 1
+  // Initialise property quizCreated in store if not existent
+  if (!store.hasOwnProperty('quizCreated')) {
+    store.quizCreated = 0
+  }
+
+  // Generate new userId
+  const quizId = store.quizCreated
+  store.quizCreated++
+
   const timestamp = Math.floor(Date.now() / 1000)
 
   // Add new quiz to store
