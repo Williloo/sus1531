@@ -1,5 +1,8 @@
 import { getData } from './dataStore.js';
-import { checkUserExists } from './helpers.js';
+import { 
+  checkUserExists,
+  checkUserName,
+} from './helpers.js';
 import validator from 'validator';
 
 /**
@@ -29,13 +32,16 @@ export function adminAuthRegister( email, password, nameFirst, nameLast ) {
 
   const userRegex = /^[a-zA-Z-' ]+$/;
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)/;
-  if (!(userRegex.test(nameFirst))) {
-    return { error: 'First Name contains invalid characters'}; 
+
+  if (!checkUserName(nameFirst)) {
+    return { error: 'Invalid first name'}; 
   }
-  else if (!(userRegex.test(nameLast))) {
-    return { error: 'Last Name contains invalid characters'}; 
+
+  if (!checkUserName(nameLast)) {
+    return { error: 'Invalid last name'}; 
   }
-  else if (!(passwordRegex.test(password))) {
+  
+  if (!(passwordRegex.test(password))) {
     return { error: 'Password does not contain at least one number and at least one letter.'};
   }
   else if (!(validator.isEmail(email))) {
@@ -43,18 +49,6 @@ export function adminAuthRegister( email, password, nameFirst, nameLast ) {
   }
   else if (password.length < 8) {
     return { error: 'Password is less than 8 characters'};
-  }
-  else if (nameFirst.length < 2) {
-    return { error: 'First Name is less than 2 characters'};
-  }
-  else if (nameFirst.length > 20) {
-    return { error: 'First Name is greater than 20 characters'};
-  }
-  else if (nameLast.length < 2) {
-    return { error: 'Last Name is less than 2 characters'};
-  }
-  else if (nameLast.length > 20) {
-    return { error: 'Last Name is greater than 20 characters'};
   }
 
   const userId = data.users.length;
@@ -164,27 +158,16 @@ export function adminUserDetailsUpdate( userId, email, nameFirst, nameLast ) {
     }
   }
 
-  const userRegex = /^[a-zA-Z-' ]+$/;
-  if (!(userRegex.test(nameFirst))) {
-    return { error: 'First Name contains invalid characters'}; 
+  if (!checkUserName(nameFirst)) {
+    return { error: 'Invalid first name'}; 
   }
-  else if (!(userRegex.test(nameLast))) {
-    return { error: 'Last Name contains invalid characters'}; 
+
+  if (!checkUserName(nameLast)) {
+    return { error: 'Invalid last name'}; 
   }
-  else if (!(validator.isEmail(email))) {
+  
+  if (!(validator.isEmail(email))) {
     return { error: 'Invalid email'}; 
-  }
-  else if (nameFirst.length < 2) {
-    return { error: 'First Name is less than 2 characters'};
-  }
-  else if (nameFirst.length > 20) {
-    return { error: 'First Name is greater than 20 characters'};
-  }
-  else if (nameLast.length < 2) {
-    return { error: 'Last Name is less than 2 characters'};
-  }
-  else if (nameLast.length > 20) {
-    return { error: 'Last Name is greater than 20 characters'};
   }
 
   let user = store.users[userId]
