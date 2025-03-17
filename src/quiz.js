@@ -115,7 +115,7 @@ export function adminQuizRemove( userId, quizId ) {
  * @property { number } timeLastEdited - The time the quiz was last editted
  * @property { string } description - The description of the quiz
  */
-function adminQuizInfo ( userId, quizId ) {
+export function adminQuizInfo ( userId, quizId ) {
   let data = getData();
   if (!checkUserExists(userId, data.users)) {
     return {error: 'Not A Valid User'};
