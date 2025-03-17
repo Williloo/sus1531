@@ -1,4 +1,4 @@
-import { getData } from './dataStore.js';
+import { getData } from './dataStore.js'
 
 /**
  * The function reset the state of the application back to the start
@@ -6,7 +6,7 @@ import { getData } from './dataStore.js';
  * @returns { Object } - Empty object
 */
 export function clear(  ) {
-  let data = getData();
+  let data = getData()
   while (data.users.length != 0) {
     data.users.pop()
   }
