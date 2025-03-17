@@ -1,4 +1,5 @@
 import { getData } from './dataStore.js';
+import { checkUserExists } from './helpers.js';
 
 /** 
  * This function provides a list of all the quizzes owned by the currently logged in user
@@ -10,9 +11,7 @@ import { getData } from './dataStore.js';
 export function adminQuizList( userId ) {
   let data = getData();
 
-  let userExists = data.users.some(user => user.userId === userId);
-
-  if (!userExists) {
+  if (!checkUserExists(userId, data.users)) {
     return { error: 'userId is not a valid user.' };
   }
   
@@ -35,8 +34,7 @@ export function adminQuizCreate( userId, name, description ) {
 
   let data = getData();
  
-  let userExists = data.users.some(user => user.userId === userId);
-  if (!userExists) {
+  if (!checkUserExists(userId, data.users)) {
     return { error: 'userId is not a valid user.' };
   }
   
@@ -88,7 +86,7 @@ export function adminQuizCreate( userId, name, description ) {
 
 export function adminQuizRemove( userId, quizId ) {
   let data = getData();
-  if (data.users.some(user => user.userId === userId) === false) {
+  if (!checkUserExists(userId, data.users)) {
     return {error: 'Not A Valid User'};
   } 
   const arrayIndex = data.quizzes.findIndex(quiz => quiz.quizId === quizId);
@@ -119,7 +117,7 @@ export function adminQuizRemove( userId, quizId ) {
  */
 function adminQuizInfo ( userId, quizId ) {
   let data = getData();
-  if (data.users.some(user => user.userId === userId) === false) {
+  if (!checkUserExists(userId, data.users)) {
     return {error: 'Not A Valid User'};
   } 
   /**assume quizId is one of the element name for data.quizzes*/
@@ -160,8 +158,7 @@ function adminQuizInfo ( userId, quizId ) {
 export function adminQuizNameUpdate( userId, quizId, name ) {
   let data = getData();
 
-  let userExists = data.users.some(user => user.userId === userId);
-  if (!userExists) {
+  if (!checkUserExists(userId, data.users)) {
     return { error: 'userId is not a valid user.' };
   }
   
@@ -210,8 +207,7 @@ export function adminQuizNameUpdate( userId, quizId, name ) {
 export function adminQuizDescriptionUpdate( userId, quizId, description ) {
   let data = getData();
  
-  let userExists = data.users.some(user => user.userId === userId);
-  if (!userExists) {
+  if (!checkUserExists(userId, data.users)) {
     return { error: 'userId is not a valid user.' };
   }
   
