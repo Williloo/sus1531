@@ -2,6 +2,7 @@ import { getData } from './dataStore.js';
 import { 
   checkUserExists,
   checkQuizName,
+  findQuiz,
 } from './helpers.js';
 
 /** 
@@ -116,12 +117,9 @@ export function adminQuizInfo ( userId, quizId ) {
     return {error: 'Not A Valid User'};
   } 
   /**assume quizId is one of the element name for data.quizzes*/
-  let quiz = data.quizzes.find(q => q.quizId === quizId);
-  if (quiz === undefined) {
-    return {error: 'Not A Valid Quiz'};
-  } 
-  if(quiz.creatorId !== userId) {
-    return {error: 'Quiz Id not owned by this userId'};
+  let quiz = findQuiz(userId, quizId, data.quizzes)
+  if (!quiz) {
+    return { error: 'Quiz does not exist' }
   }
 
   /**
@@ -157,13 +155,9 @@ export function adminQuizNameUpdate( userId, quizId, name ) {
     return { error: 'userId is not a valid user.' };
   }
   
-  let quiz = data.quizzes.find(quiz => quiz.quizId === quizId);
+  let quiz = findQuiz(userId, quizId, data.quizzes)
   if (!quiz) {
-    return { error: 'Quiz ID does not refer to a valid quiz.' };
-  }
-  
-  if (quiz.creatorId !== userId) {
-    return { error: 'Quiz ID does not refer to a quiz that this user owns.' };
+    return { error: 'Quiz does not exist' }
   }
   
   if (!checkQuizName(name)) {
@@ -177,10 +171,8 @@ export function adminQuizNameUpdate( userId, quizId, name ) {
     return { error: 'Name is already used by the current logged in user for another quiz.' };
   }
   
-  let quizIndex = data.quizzes.findIndex(q => q.quizId === quizId);
-  data.quizzes[quizIndex].name = name;
-  data.quizzes[quizIndex].timeLastEdited = Math.floor(Date.now() / 1000);
-  //setData(data);
+  quiz.name = name;
+  quiz.timeLastEdited = Math.floor(Date.now() / 1000);
 
   return {   };
 }
@@ -201,24 +193,18 @@ export function adminQuizDescriptionUpdate( userId, quizId, description ) {
     return { error: 'userId is not a valid user.' };
   }
   
-  let quiz = data.quizzes.find(quiz => quiz.quizId === quizId);
-  
+  let quiz = findQuiz(userId, quizId, data.quizzes)
   if (!quiz) {
-    return { error: 'Quiz ID does not refer to a valid quiz.' };
+    return { error: 'Quiz does not exist' }
   }
   
-  if (quiz.creatorId !== userId) {
-    return { error: 'Quiz ID does not refer to a quiz that this user owns.' };
-  }
 
   if (description.length > 100) {
     return { error: 'Description is more than 100 characters in length.' };
   }
   
-  let quizIndex = data.quizzes.findIndex(q => q.quizId === quizId);
-  data.quizzes[quizIndex].description = description;
-  data.quizzes[quizIndex].timeLastEdited = Math.floor(Date.now() / 1000);
-  //setData(data);
+  quiz.description = description;
+  quiz.timeLastEdited = Math.floor(Date.now() / 1000);
   
   return {   };
 }
