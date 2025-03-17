@@ -79,3 +79,25 @@ export function checkQuizName( name ) {
 
   return true
 }
+
+/**
+ * Function to access a quiz by its creator's userId and its quizId
+ * 
+ * @param { number } userId - userId of the quiz's creator
+ * @param { number } quizId - quizId of the quiz
+ * @param { Array } quizzes - array of quizzes to search through
+ * @returns { null | quiz } - null object if quiz doesn't exist, or quiz object
+ */
+export function findQuiz( userId, quizId, quizzes ) {
+  let quiz = quizzes.find(quiz => quiz.quizId === quizId)
+
+  if (!quiz) {
+    return null
+  }
+
+  if (quiz.creatorId !== userId) {
+    return null
+  }
+
+  return quiz
+}
