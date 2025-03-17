@@ -12,7 +12,7 @@ export function clear(  ) {
   }
 
   while (store.quizzes.length != 0) {
-    data.quizzes.pop()
+    store.quizzes.pop()
   }
 
   return {  }
