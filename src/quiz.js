@@ -1,3 +1,5 @@
+import { getData } from './dataStore.js';
+
 /** 
  * This function provides a list of all the quizzes owned by the currently logged in user
  * 
@@ -96,20 +98,41 @@ function adminQuizRemove( userId, quizId ) {
  * @returns { Object }
  * 
  * @typedef { Object }
- * @property { number } quizId - The quizId of the quix
+ * @property { number } quizId - The quizId of the quiz
  * @property { string } name - The name of the quiz
  * @property { number } timeCreated - The time that the quiz was created
  * @property { number } timeLastEdited - The time the quiz was last editted
  * @property { string } description - The description of the quiz
  */
 function adminQuizInfo ( userId, quizId ) {
-  return {
-    quizId: 1,
-    name: 'My Quiz',
-    timeCreated: 1683125870,
-    timeLastEdited: 1683125871,
-    description: 'This is my quiz',
+  let data = getData();
+  if (data.users.some(user => user.userId === userId) === false) {
+    return {error: 'Not A Valid User'};
+  } 
+  /**assume quizId is one of the element name for data.quizzes*/
+  let quiz = data.quizzes.find(q => q.quizId === quizId);
+  if (quiz === undefined) {
+    return {error: 'Not A Valid Quiz'};
+  } 
+  if(quiz.userId !== userId) {
+    return {error: 'Quiz Id not owned by this userId'};
   }
+
+  /**
+   * assume all elements in quiz object is initialised in adminQuizCreate
+   * 
+   * I can just return Quiz, but there might be some other variable being 
+   * added later on that we do not need to return for this function.
+  */
+  return {
+    quizId: quiz.quizId,
+    name: quiz.name,
+    timeCreated: quiz.timeCreated,
+    timeLastEdited: quiz.timeLastEdited,
+    description: quiz.description,
+  }
+
+
 }
 
 /**
