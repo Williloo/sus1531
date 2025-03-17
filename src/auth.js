@@ -3,6 +3,7 @@ import {
   checkUserExists,
   checkUserName,
   checkPassword,
+  findUser,
 } from './helpers.js'
 import validator from 'validator'
 
@@ -135,7 +136,11 @@ export function adminUserDetails( userId ) {
     return { error: 'Invalid User Id' }
   }
 
-  let user = store.users[userId]
+  // Find the user
+  let user = findUser(userId, store.users)
+  if (!user) {
+    return { error: 'User does not exist'}
+  }
 
   // Return information about the user
   return { user:
@@ -189,8 +194,13 @@ export function adminUserDetailsUpdate( userId, email, nameFirst, nameLast ) {
     return { error: 'Invalid email' }
   }
 
+  // Find the user
+  let user = findUser(userId, store.users)
+  if (!user) {
+    return { error: 'User does not exist'}
+  }
+
   // Update user details
-  let user = store.users[userId]
   user.email = email
   user.nameFirst = nameFirst
   user.nameLast = nameLast
@@ -216,7 +226,12 @@ export function adminUserPasswordUpdate( userId, oldPassword, newPassword ) {
     return { error: 'Invalid User Id' }
   }
 
-  let user = store.users[userId]
+  // Find the user
+  let user = findUser(userId, store.users)
+  if (!user) {
+    return { error: 'User does not exist'}
+  }
+  
   // Check if correct old password
   if (user.password !== oldPassword) {
     return { error: 'Invalid password' }

@@ -2,13 +2,30 @@
  * Function to check whether user exists in an array of users
  * 
  * @param { number } userId - userId of user that we wish to verify
- * @param { array } users - array ofo users we search through to check if user exists 
+ * @param { array } users - array of users we search through to check if user exists 
  * @returns { Boolean } - whether the user exists or not
  */
 export function checkUserExists( userId, users ) {
   return users.some(
     user => user.userId === userId
   )
+}
+
+/**
+ * Function to access a user by userId
+ * 
+ * @param { number } userId - userId of the user we wish to access
+ * @param { array } users - array of users we search through to access the user
+ * @returns { null | quiz } - null object if user doesn't exist, or user object
+ */
+export function findUser( userId, users ) {
+  let user = users.find(user => user.userId === userId)
+
+  if (!user) {
+    return null
+  }
+
+  return user
 }
 
 /**
