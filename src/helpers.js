@@ -105,7 +105,7 @@ export function checkQuizName( name ) {
  * @param { array } quizzes - array of quizzes we search through
  * @returns { Boolean } - whether the quiz exists or not
  */
-export function checkUserExists( userId, name, quizzes ) {
+export function checkQuizExists( userId, name, quizzes ) {
   let quizExists = quizzes.some(
     quiz => quiz.creatorId === userId && quiz.name === name
   )

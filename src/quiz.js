@@ -2,6 +2,7 @@ import { getData } from './dataStore.js'
 import { 
   checkUserExists,
   checkQuizName,
+  checkQuizExists,
   findQuiz,
 } from './helpers.js'
 
@@ -55,10 +56,7 @@ export function adminQuizCreate( userId, name, description ) {
   }
   
   // Check if user already created quiz with same name
-  let quizExists = store.quizzes.some(
-    quiz => quiz.creatorId === userId && quiz.name === name
-  )
-  if (quizExists) {
+  if (checkQuizExists(userId, name, store.quizzes)) {
     return { error: 'Name is already used by the same user' }
   }
 
@@ -189,10 +187,7 @@ export function adminQuizNameUpdate( userId, quizId, name ) {
   }
 
   // Check if user already created quiz with same name
-  let nameExists = store.quizzes.some(
-    q => q.name === name && q.quizId !== quizId && q.creatorId === userId
-  )
-  if (nameExists) {
+  if (checkQuizExists(userId, name, store.quizzes)) {
     return { error: 'Name is already used by the current logged in user for another quiz.' }
   }
   
