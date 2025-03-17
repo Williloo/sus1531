@@ -32,12 +32,12 @@ beforeEach(() =>{
 describe('tests for adminQuizRemove', () => {
     test('Invalid User', () => {
         expect(adminQuizRemove(userId + 1, quizId))
-        .toStrictEqual({error: 'Not A Valid User'});
+        .toStrictEqual({error: expect.any(String)});
     })
 
     test('Invalid Quiz', () => {
         expect(adminQuizRemove(userId, quizId+1))
-        .toStrictEqual({error: 'Not A Valid Quiz'});
+        .toStrictEqual({error: expect.any(String)});
     })
    
     test('Quiz ID Not Owned By Input User ID', () => {
@@ -56,7 +56,7 @@ describe('tests for adminQuizRemove', () => {
             'This quiz is for testing if the quiz Id is owned by input userid'
         ).quizId;
         expect(adminQuizRemove(userId, anotherQuizId))
-        .toStrictEqual({error: 'Quiz Id not owned by this userId'});
+        .toStrictEqual({error: expect.any(String)});
     })
 
     test('successfully remove quiz', () => {

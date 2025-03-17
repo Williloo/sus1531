@@ -85,14 +85,15 @@ export function adminQuizRemove( userId, quizId ) {
   if (!checkUserExists(userId, data.users)) {
     return {error: 'Not A Valid User'};
   } 
-  const arrayIndex = data.quizzes.findIndex(quiz => quiz.quizId === quizId);
-  if(arrayIndex === -1) {
-    return {error: 'Not A Valid Quiz'};
-  } 
-  if(data.quizzes[arrayIndex].creatorId !== userId) {
-    return {error: 'Quiz Id not owned by this userId'};
+
+  let quiz = findQuiz(userId, quizId, data.quizzes)
+  if (!quiz) {
+    return {error: "Quiz does not exist" }
   }
-  data.quizzes.splice(arrayIndex, 1);
+
+  const index = data.quizzes.indexOf(quiz)
+
+  data.quizzes.splice(index, 1);
   return {};
 }
 
