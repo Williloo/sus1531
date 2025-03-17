@@ -1,3 +1,7 @@
+import { getData } from './dataStore.js';
+import { checkUserExists } from './helpers.js';
+import validator from 'validator';
+
 /**
 * Register a user with an email, password and names 
 * then return their userId value.
@@ -12,10 +16,6 @@
 * @typedef { Object }
 * @property { number } userId - The user id of the user that has been registered
 */
-
-import { getData } from './dataStore.js';
-import validator from 'validator';
-
 export function adminAuthRegister( email, password, nameFirst, nameLast ) {
   
   let data = getData();
@@ -123,7 +123,7 @@ export function adminAuthLogin( email, password ) {
 export function adminUserDetails( userId ) {
   let store = getData()
 
-  if (userId < 0 || userId >= store.users.length) {
+  if (!checkUserExists(userId, store.users)) {
     return { error: "Invalid User Id" }
   }
 
@@ -154,7 +154,7 @@ export function adminUserDetails( userId ) {
 export function adminUserDetailsUpdate( userId, email, nameFirst, nameLast ) {
   let store = getData();
 
-  if (userId < 0 || userId >= store.users.length) {
+  if (!checkUserExists(userId, store.users)) {
     return { error: "Invalid User Id" }
   }
   
@@ -208,7 +208,7 @@ export function adminUserDetailsUpdate( userId, email, nameFirst, nameLast ) {
 export function adminUserPasswordUpdate( userId, oldPassword, newPassword ) {
   let store = getData()
 
-  if (userId < 0 || userId >= store.users.length) {
+  if (!checkUserExists(userId, store.users)) {
     return { error: "Invalid User Id" }
   }
 
