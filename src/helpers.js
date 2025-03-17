@@ -63,15 +63,17 @@ export function checkPassword( password ) {
  * @returns { Boolean } - whether the quiz name is valid
  */
 export function checkQuizName( name ) {
-  const quizNameRegex = /^[a-zA-Z\s]*$/
+  const quizNameRegex = /^[a-zA-Z0-9\s]*$/
 
   if (!quizNameRegex.test(name)) {
     return false
   }
-  else if (name.length < 3) {
+  
+  if (name.length < 3) {
     return false
   }
-  else if (name.length > 30) {
+  
+  if (name.length > 30) {
     return false
   }
 
