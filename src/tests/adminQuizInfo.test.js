@@ -7,10 +7,13 @@ import {
 import {
     adminQuizCreate,
 } from '../quiz.js';
-
+import {
+    clear
+} from '../other.js'
 let userId;
 let quizId;
 beforeEach('Success Register', () =>{
+    clear();
     /*Used Input from adminAuthRegister.test.js to ensure a successfull return*/
     userId = adminAuthRegister(
         'jpozzolungo@gmail.com', 
@@ -53,5 +56,17 @@ describe('tests for adminQuizInfo', () => {
         );
         expect(adminQuizInfo(userId, anotherQuizId))
         .toStrictEqual({error: 'Quiz Id not owned by this userId'});
+    })
+
+    test('Successful case', () => {
+        expect(adminQuizInfo(userId,quizId)).toStrictEqual(
+            {
+                quizId: quizId,
+                name:'test_quiz',
+                timeCreated: expect.any(number),
+                timeLastEdited: expect.any(number),
+                description: 'This quiz is for testing adminQuizInfo function'
+            }
+        )
     })
 })
