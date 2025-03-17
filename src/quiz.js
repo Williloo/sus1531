@@ -1,9 +1,9 @@
-import { getData } from './dataStore.js';
+import { getData } from './dataStore.js'
 import { 
   checkUserExists,
   checkQuizName,
   findQuiz,
-} from './helpers.js';
+} from './helpers.js'
 
 /** 
  * This function provides a list of all the quizzes owned by the currently logged in user
@@ -13,18 +13,18 @@ import {
  * @returns { Object } - Empty object
  */
 export function adminQuizList( userId ) {
-  let data = getData();
+  let data = getData()
 
   if (!checkUserExists(userId, data.users)) {
-    return { error: 'userId is not a valid user.' };
+    return { error: 'userId is not a valid user.' }
   }
   
-  let userQuizzes = data.quizzes.filter(quiz => quiz.creatorId === userId);
+  let userQuizzes = data.quizzes.filter(quiz => quiz.creatorId === userId)
   return { 
     quizzes: userQuizzes.map(
       ({ quizId, name }) => ({ quizId, name })
     )
-  };
+  }
 }
 
 /**
@@ -38,27 +38,27 @@ export function adminQuizList( userId ) {
  * @returns { Object } - Empty object
  */
 export function adminQuizCreate( userId, name, description ) {
-  let data = getData();
+  let data = getData()
  
   if (!checkUserExists(userId, data.users)) {
-    return { error: 'userId is not a valid user.' };
+    return { error: 'userId is not a valid user.' }
   }
   
   if (!checkQuizName(name)) {
     return { error: 'Invalid quiz name' }
   }
   
-  let userQuizzes = data.quizzes.filter(quiz => quiz.creatorId === userId);
+  let userQuizzes = data.quizzes.filter(quiz => quiz.creatorId === userId)
   if (userQuizzes.some(quiz => quiz.name === name)) {
-    return { error: 'Name is already used by the same user' };
+    return { error: 'Name is already used by the same user' }
   }
 
   if (description.length > 100) {
-    return { error: 'Description is too long' };
+    return { error: 'Description is too long' }
   }
 
-  const quizId = data.quizzes.length + 1;
-  const timestamp = Math.floor(Date.now() / 1000);
+  const quizId = data.quizzes.length + 1
+  const timestamp = Math.floor(Date.now() / 1000)
 
   const newQuiz = {
     quizId,
@@ -67,10 +67,10 @@ export function adminQuizCreate( userId, name, description ) {
     timeCreated: timestamp,
     timeLastEdited: timestamp,
     description
-  };
-  data.quizzes.push(newQuiz);
+  }
+  data.quizzes.push(newQuiz)
 
-  return { quizId };
+  return { quizId }
 }
 
 /** 
@@ -81,12 +81,11 @@ export function adminQuizCreate( userId, name, description ) {
  * 
  * @returns { Object } - Empty object
  */
-
 export function adminQuizRemove( userId, quizId ) {
-  let data = getData();
+  let data = getData()
 
   if (!checkUserExists(userId, data.users)) {
-    return { error: 'Not A Valid User' };
+    return { error: 'Not A Valid User' }
   } 
 
   let quiz = findQuiz(userId, quizId, data.quizzes)
@@ -95,9 +94,9 @@ export function adminQuizRemove( userId, quizId ) {
   }
 
   const index = data.quizzes.indexOf(quiz)
-  data.quizzes.splice(index, 1);
+  data.quizzes.splice(index, 1)
 
-  return {  };
+  return {  }
 }
 
 /**
@@ -116,11 +115,11 @@ export function adminQuizRemove( userId, quizId ) {
  * @property { string } description - The description of the quiz
  */
 export function adminQuizInfo ( userId, quizId ) {
-  let data = getData();
+  let data = getData()
   if (!checkUserExists(userId, data.users)) {
-    return { error: 'Not A Valid User' };
+    return { error: 'Not A Valid User' }
   } 
-  
+
   /**assume quizId is one of the element name for data.quizzes*/
   let quiz = findQuiz(userId, quizId, data.quizzes)
   if (!quiz) {
@@ -152,10 +151,10 @@ export function adminQuizInfo ( userId, quizId ) {
  * @returns { Object } - Empty object
  */
 export function adminQuizNameUpdate( userId, quizId, name ) {
-  let data = getData();
+  let data = getData()
 
   if (!checkUserExists(userId, data.users)) {
-    return { error: 'userId is not a valid user.' };
+    return { error: 'userId is not a valid user.' }
   }
   
   let quiz = findQuiz(userId, quizId, data.quizzes)
@@ -169,15 +168,15 @@ export function adminQuizNameUpdate( userId, quizId, name ) {
 
   let nameExists = data.quizzes.some(
     q => q.name === name && q.quizId !== quizId && q.creatorId === userId
-  );
+  )
   if (nameExists) {
-    return { error: 'Name is already used by the current logged in user for another quiz.' };
+    return { error: 'Name is already used by the current logged in user for another quiz.' }
   }
   
-  quiz.name = name;
-  quiz.timeLastEdited = Math.floor(Date.now() / 1000);
+  quiz.name = name
+  quiz.timeLastEdited = Math.floor(Date.now() / 1000)
 
-  return {  };
+  return {  }
 }
 
 /**
@@ -190,10 +189,10 @@ export function adminQuizNameUpdate( userId, quizId, name ) {
  * @returns { Object }
  */
 export function adminQuizDescriptionUpdate( userId, quizId, description ) {
-  let data = getData();
+  let data = getData()
  
   if (!checkUserExists(userId, data.users)) {
-    return { error: 'userId is not a valid user.' };
+    return { error: 'userId is not a valid user.' }
   }
   
   let quiz = findQuiz(userId, quizId, data.quizzes)
@@ -202,11 +201,11 @@ export function adminQuizDescriptionUpdate( userId, quizId, description ) {
   }
 
   if (description.length > 100) {
-    return { error: 'Description is more than 100 characters in length.' };
+    return { error: 'Description is more than 100 characters in length.' }
   }
   
-  quiz.description = description;
-  quiz.timeLastEdited = Math.floor(Date.now() / 1000);
+  quiz.description = description
+  quiz.timeLastEdited = Math.floor(Date.now() / 1000)
   
-  return {  };
+  return {  }
 }
