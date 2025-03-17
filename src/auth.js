@@ -208,7 +208,7 @@ export function adminUserPasswordUpdate( userId, oldPassword, newPassword ) {
     return { error: "Invalid new password" }
   }
 
-  if (!checkPassword(password)) {
+  if (!checkPassword(newPassword)) {
     return { error: "Invalid new password"}
   }
 
