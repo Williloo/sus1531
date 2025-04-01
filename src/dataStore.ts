@@ -21,7 +21,8 @@ export interface Quiz {
 export interface Data {
   users: User[],
   usersCreated: number,
-  quizzes: Quiz[]
+  quizzes: Quiz[],
+  quizCreated: number
 };
 
 export interface Error {
@@ -42,13 +43,22 @@ export interface UserDetails {
   }
 }
 
+export interface QuizDetails {
+  quizId: number,
+  name: string,
+  timeCreated?: number,
+  timeLastEdited?: number,
+  description?: string
+}
+
 export type EmptyObject = Record<never, never>;
 
 // YOU MAY MODIFY THIS OBJECT ABOVE
 const data: Data = {
   users: [],
   usersCreated: 0,
-  quizzes: []
+  quizzes: [],
+  quizCreated: 0
 }
 
 // YOU SHOULDNT NEED TO MODIFY THE FUNCTIONS BELOW IN ITERATION 1
