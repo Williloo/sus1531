@@ -1,10 +1,10 @@
-import { getData, Data, User, Error, Session, UserDetails,EmptyObject } from './dataStore'
+import { getData, Data, User, Error, Session, UserDetails, EmptyObject } from './dataStore'
 import { 
   checkUserExists,
   checkUserName,
   checkPassword,
   findUser,
-} from './helpers.js'
+} from './helpers'
 import validator from 'validator'
 
 /**
