@@ -20,12 +20,34 @@ export interface Quiz {
 
 export interface Data {
   users: User[],
+  usersCreated: number,
   quizzes: Quiz[]
 };
-  
+
+export interface Error {
+  error_msg: string
+}
+
+export interface Session {
+  userId: number
+}
+
+export interface UserDetails {
+  user: {
+    userId: number,
+    name: string,
+    email: string,
+    numSuccessfulLogins: number,
+    numFailedPasswordsSinceLastLogin: number,
+  }
+}
+
+export type EmptyObject = Record<never, never>;
+
 // YOU MAY MODIFY THIS OBJECT ABOVE
 const data: Data = {
   users: [],
+  usersCreated: 0,
   quizzes: []
 }
 
