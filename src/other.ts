@@ -1,5 +1,5 @@
 import {
-  getData,
+  getData, updateData,
   Data, EmptyObject
 } from './dataStore';
 
@@ -24,6 +24,9 @@ export function clear(): EmptyObject {
   // Reset quiz and user created values to 0
   store.quizCreated = 0;
   store.usersCreated = 0;
+
+  // Update Data after Done
+  updateData(store);
 
   return {};
 }

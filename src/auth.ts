@@ -1,4 +1,8 @@
-import { getData, Data, User, Error, Session, UserDetails, EmptyObject } from './dataStore';
+import {
+  getData, updateData,
+  Data, User, Error, Session, UserDetails, EmptyObject
+} from './dataStore';
+
 import {
   checkUserExists,
   checkUserName,
@@ -69,6 +73,9 @@ export function adminAuthRegister(
   };
   store.users.push(newUser);
 
+  // Update Data after Done
+  updateData(store);
+
   // Return new userId
   return { userId };
 }
@@ -95,6 +102,9 @@ export function adminAuthLogin(email: string, password: string): Error | Session
       if (password === user.password) {
         user.numSuccessfulLogins++;
         user.numFailedPasswordsSinceLastLogin = 0;
+
+        // Update Data after Done
+        updateData(store);
 
         return { userId: user.userId };
       } else {
@@ -206,6 +216,9 @@ export function adminUserDetailsUpdate(
   user.nameFirst = nameFirst;
   user.nameLast = nameLast;
 
+  // Update Data after Done
+  updateData(store);
+
   return {};
 }
 
@@ -259,5 +272,7 @@ export function adminUserPasswordUpdate(
   user.pastPasswords.push(user.password);
   user.password = newPassword;
 
+  // Update Data after Done
+  updateData(store);
   return {};
 }

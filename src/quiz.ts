@@ -1,5 +1,5 @@
 import {
-  getData,
+  getData, updateData,
   Data, Quiz, Error, QuizDetails, EmptyObject
 } from './dataStore';
 
@@ -87,6 +87,9 @@ export function adminQuizCreate(
   };
   store.quizzes.push(newQuiz);
 
+  // Update Data after Done
+  updateData(store);
+
   return { quizId };
 }
 
@@ -120,6 +123,9 @@ export function adminQuizRemove(
   );
   store.quizzes.splice(index, 1);
 
+  // Update Data after Done
+  updateData(store);
+
   return {};
 }
 
@@ -151,6 +157,9 @@ export function adminQuizInfo (userId: number, quizId: number): Error | QuizDeta
   if (!quiz) {
     return { error_msg: 'Quiz does not exist' };
   }
+
+  // Update Data after Done
+  updateData(store);
 
   // Return information about the quiz
   return {
@@ -201,6 +210,9 @@ export function adminQuizNameUpdate(
   quiz.name = name;
   quiz.timeLastEdited = Math.floor(Date.now() / 1000);
 
+  // Update Data after Done
+  updateData(store);
+
   return {};
 }
 
@@ -237,6 +249,9 @@ export function adminQuizDescriptionUpdate(
   // Update description and time modified
   quiz.description = description;
   quiz.timeLastEdited = Math.floor(Date.now() / 1000);
+
+  // Update Data after Done
+  updateData(store);
 
   return {};
 }

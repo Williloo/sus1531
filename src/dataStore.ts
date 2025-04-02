@@ -55,12 +55,20 @@ export interface QuizDetails {
 export type EmptyObject = Record<never, never>;
 
 // YOU MAY MODIFY THIS OBJECT ABOVE
-const data: Data = {
+import fs from 'fs';
+const defaultData: Data = {
   users: [],
   usersCreated: 0,
   quizzes: [],
   quizCreated: 0
 };
+
+const storedDataString: string = fs.readFileSync('src/store.json').toString();
+if (storedDataString === '') {
+  fs.writeFileSync('src/store.json', JSON.stringify(defaultData));
+}
+
+const data: Data = JSON.parse(fs.readFileSync('src/store.json').toString());
 
 // YOU SHOULDNT NEED TO MODIFY THE FUNCTIONS BELOW IN ITERATION 1
 
@@ -80,4 +88,8 @@ function getData(): Data {
   return data;
 }
 
-export { getData };
+function updateData(store: Data): void {
+  fs.writeFileSync('src/store.json', JSON.stringify(store));
+}
+
+export { getData, updateData };
