@@ -24,7 +24,7 @@ export interface Data {
   usersCreated: number,
   quizzes: Quiz[],
   quizCreated: number
-};
+}
 
 export interface Error {
   error_msg: string
@@ -60,7 +60,7 @@ const data: Data = {
   usersCreated: 0,
   quizzes: [],
   quizCreated: 0
-}
+};
 
 // YOU SHOULDNT NEED TO MODIFY THE FUNCTIONS BELOW IN ITERATION 1
 
@@ -81,4 +81,3 @@ function getData(): Data {
 }
 
 export { getData };
-  

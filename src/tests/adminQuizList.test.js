@@ -1,41 +1,41 @@
-import { 
+import {
   adminQuizList,
   adminQuizCreate,
-} from '../quiz'
+} from '../quiz';
 
 import {
   adminAuthRegister
-} from '../auth'
+} from '../auth';
 
 import {
   clear
-} from '../other'
+} from '../other';
 
-let userId
+let userId;
 describe('tests for adminQuizList', () => {
   beforeEach(() => {
-    clear()
-    userId = adminAuthRegister('validemail@gmail.com', 'Password123', 'Yash', 'Mittal').userId
-  })
+    clear();
+    userId = adminAuthRegister('validemail@gmail.com', 'Password123', 'Yash', 'Mittal').userId;
+  });
 
   describe('error_msg cases', () => {
     test('invalid userId', () => {
       expect(adminQuizList(-1)).toStrictEqual(
         { error_msg: expect.any(String) }
-      )
-    })
-  })
+      );
+    });
+  });
 
   describe('success cases', () => {
     test('valid user with no quizzes', () => {
       expect(adminQuizList(userId)).toStrictEqual(
         { quizzes: [] }
-      )
-    })
+      );
+    });
 
     test('valid user with quizzes', () => {
-      adminQuizCreate(userId, 'Quiz 1', '')
-      adminQuizCreate(userId, 'Quiz 2', '')
+      adminQuizCreate(userId, 'Quiz 1', '');
+      adminQuizCreate(userId, 'Quiz 2', '');
 
       expect(adminQuizList(userId)).toStrictEqual(
         {
@@ -44,7 +44,7 @@ describe('tests for adminQuizList', () => {
             { quizId: expect.any(Number), name: 'Quiz 2' },
           ]
         }
-      )
-    })
-  })
-})
+      );
+    });
+  });
+});
