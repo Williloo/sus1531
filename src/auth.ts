@@ -1,9 +1,9 @@
-import { 
+import {
   getData, updateData,
   Data, User, Error, Session, UserDetails, EmptyObject
 } from './dataStore';
 
-import { 
+import {
   checkUserExists,
   checkUserName,
   checkPassword,
@@ -74,7 +74,7 @@ export function adminAuthRegister(
   store.users.push(newUser);
 
   // Update Data after Done
-  updateData(store)
+  updateData(store);
 
   // Return new userId
   return { userId };
@@ -215,7 +215,7 @@ export function adminUserDetailsUpdate(
   user.email = email;
   user.nameFirst = nameFirst;
   user.nameLast = nameLast;
-  
+
   // Update Data after Done
   updateData(store);
 

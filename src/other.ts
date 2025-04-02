@@ -1,4 +1,4 @@
-import { 
+import {
   getData, updateData,
   Data, EmptyObject
 } from './dataStore';

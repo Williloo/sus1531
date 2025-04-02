@@ -159,7 +159,7 @@ export function adminQuizInfo (userId: number, quizId: number): Error | QuizDeta
   }
 
   // Update Data after Done
-  updateData(store)
+  updateData(store);
 
   // Return information about the quiz
   return {
@@ -247,11 +247,11 @@ export function adminQuizDescriptionUpdate(
   }
 
   // Update description and time modified
-  quiz.description = description
-  quiz.timeLastEdited = Math.floor(Date.now() / 1000)
-  
+  quiz.description = description;
+  quiz.timeLastEdited = Math.floor(Date.now() / 1000);
+
   // Update Data after Done
   updateData(store);
-  
+
   return {};
 }
