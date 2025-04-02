@@ -6,7 +6,8 @@ export interface User {
   email: string,
   password: string,
   numSuccessfulLogins: number,
-  numFailedPasswordsSinceLastLogin: number
+  numFailedPasswordsSinceLastLogin: number,
+  pastPasswords: string[]
 }
 
 export interface Quiz {

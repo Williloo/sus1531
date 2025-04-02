@@ -56,13 +56,14 @@ export function adminAuthRegister( email: string, password: string, nameFirst: s
 
   // Add user to store
   const newUser: User = {
-    userId,
-    nameFirst,
-    nameLast,
-    email,
-    password,
+    userId: userId,
+    nameFirst: nameFirst,
+    nameLast: nameLast,
+    email: email,
+    password: password,
     numSuccessfulLogins : 1,
-    numFailedPasswordsSinceLastLogin : 0
+    numFailedPasswordsSinceLastLogin : 0,
+    pastPasswords: []
   }
   store.users.push(newUser)
 
@@ -132,7 +133,7 @@ export function adminUserDetails( userId: number ): Error | UserDetails {
   }
 
   // Find the user
-  let user = findUser(userId, store.users)
+  let user: null | User = findUser(userId, store.users)
   if (!user) {
     return { error_msg: 'User does not exist'}
   }
@@ -190,7 +191,7 @@ export function adminUserDetailsUpdate( userId: number, email: string, nameFirst
   }
 
   // Find the user
-  let user: User = findUser(userId, store.users)
+  let user: null | User = findUser(userId, store.users)
   if (!user) {
     return { error_msg: 'User does not exist'}
   }
@@ -222,7 +223,7 @@ export function adminUserPasswordUpdate( userId: number, oldPassword: string, ne
   }
 
   // Find the user
-  let user = findUser(userId, store.users)
+  let user: null | User = findUser(userId, store.users)
   if (!user) {
     return { error_msg: 'User does not exist'}
   }
@@ -235,11 +236,6 @@ export function adminUserPasswordUpdate( userId: number, oldPassword: string, ne
   // Check if password is unchanged
   if (oldPassword === newPassword) {
     return { error_msg: 'Invalid new password' }
-  }
-
-  // Generate new property 'pastPasswords' if passwords have not been changed before
-  if (!user.hasOwnProperty('pastPasswords')) {
-    user.pastPasswords = []
   }
 
   // Check if password has been used before
