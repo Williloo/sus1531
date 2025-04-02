@@ -1,58 +1,60 @@
-import { getData, Data, User, Error, Session, UserDetails, EmptyObject } from './dataStore'
-import { 
+import { getData, Data, User, Error, Session, UserDetails, EmptyObject } from './dataStore';
+import {
   checkUserExists,
   checkUserName,
   checkPassword,
   findUser,
-} from './helpers'
-import validator from 'validator'
+} from './helpers';
+import validator from 'validator';
 
 /**
-* Register a user with an email, password and names 
+* Register a user with an email, password and names
 * then return their userId value.
 *
 * @param { string } email - The email fo the user being registered
 * @param { string } password - The password of the user being registered
 * @param { string } nameFirst - The first name of the user being registered
 * @param { string } nameLast - The last name of the user being registered
-* 
+*
 * @returns { Object }
 *
 * @typedef { Object }
 * @property { number } userId - The user id of the user that has been registered
 */
-export function adminAuthRegister( email: string, password: string, nameFirst: string, nameLast: string ): Error | Session {
-  let store: Data = getData()
+export function adminAuthRegister(
+  email: string, password: string, nameFirst: string, nameLast: string
+): Error | Session {
+  const store: Data = getData();
 
   // Check if email already exists
-  for (let user of store.users) {
+  for (const user of store.users) {
     if (email === user.email) {
-      return { error_msg: 'Email address is already in use' }
+      return { error_msg: 'Email address is already in use' };
     }
   }
 
   // Check if names are valid
   if (!checkUserName(nameFirst)) {
-    return { error_msg: 'Invalid first name' }
+    return { error_msg: 'Invalid first name' };
   }
 
   if (!checkUserName(nameLast)) {
-    return { error_msg: 'Invalid last name' }
+    return { error_msg: 'Invalid last name' };
   }
-  
+
   // Check if password is valid
   if (!checkPassword(password)) {
-    return { error_msg: 'Invalid password' }
+    return { error_msg: 'Invalid password' };
   }
 
   // Check if email is valid
   if (!validator.isEmail(email)) {
-    return { error_msg: 'Invalid email' }
+    return { error_msg: 'Invalid email' };
   }
 
   // Generate new userId
-  const userId: number = store.usersCreated
-  store.usersCreated++
+  const userId: number = store.usersCreated;
+  store.usersCreated++;
 
   // Add user to store
   const newUser: User = {
@@ -61,85 +63,86 @@ export function adminAuthRegister( email: string, password: string, nameFirst: s
     nameLast: nameLast,
     email: email,
     password: password,
-    numSuccessfulLogins : 1,
-    numFailedPasswordsSinceLastLogin : 0,
+    numSuccessfulLogins: 1,
+    numFailedPasswordsSinceLastLogin: 0,
     pastPasswords: []
-  }
-  store.users.push(newUser)
+  };
+  store.users.push(newUser);
 
   // Return new userId
-  return { userId }
+  return { userId };
 }
 
 /**
-* Given a registered user's email and password, 
+* Given a registered user's email and password,
 * return their userId value.
 *
 * @param { string } email - The email of the user logging in
 * @param { string } password - The password of the user logging in
 *
-* @returns { Object } 
+* @returns { Object }
 *
 * @typedef { Object }
 * @property { number } userId - The userId of the user loogging in
 */
-export function adminAuthLogin( email: string, password: string ): Error | Session {
-  let store: Data = getData()
+export function adminAuthLogin(email: string, password: string): Error | Session {
+  const store: Data = getData();
 
   for (const user of store.users) {
     // Check if emails matches
     if (email.toLowerCase() === user.email.toLowerCase()) {
       // Check if passwords match
       if (password === user.password) {
-        user.numSuccessfulLogins++
-        user.numFailedPasswordsSinceLastLogin = 0
+        user.numSuccessfulLogins++;
+        user.numFailedPasswordsSinceLastLogin = 0;
 
-        return { userId: user.userId }
-      }
-      else {
-        user.numFailedPasswordsSinceLastLogin++
-        return { error_msg: 'Password is not correct for given email' }
+        return { userId: user.userId };
+      } else {
+        user.numFailedPasswordsSinceLastLogin++;
+        return { error_msg: 'Password is not correct for given email' };
       }
     }
   }
 
   // Invalid email address
-  return { error_msg: 'Email address does not exist' }
+  return { error_msg: 'Email address does not exist' };
 }
 
 /**
  * This function takes an userId and returns information about the user
  * in an user object
- * 
+ *
  * @param { number } userId - The Id of the user whose details are returned
- * 
+ *
  * @returns { Object }
- * 
+ *
  * @typedef { Object }
  * @property { User } user - Object containing information about the user
- * 
+ *
  * @property { number } userId - The userId of the user
- * @property { string } name - The user's first and last name concatenated with a single space between them
+ * @property { string } name - The user's first and last name concatenated with a space between them
  * @property { string } email - The email of the user
  * @property { number } numSuccessfulLogins - Number of successful logins of the user
- * @property { number } numFailedPasswordsSinceLastLogin - Number of failed password attempts of the user since the last login
+ * @property { number } numFailedPasswordsSinceLastLogin - Number of failed password attempts
+ *                                                         of the user since the last login
  */
-export function adminUserDetails( userId: number ): Error | UserDetails {
-  let store: Data = getData()
+export function adminUserDetails(userId: number): Error | UserDetails {
+  const store: Data = getData();
 
   // Check if userId exists
   if (!checkUserExists(userId, store.users)) {
-    return { error_msg: 'Invalid User Id' }
+    return { error_msg: 'Invalid User Id' };
   }
 
   // Find the user
-  let user: null | User = findUser(userId, store.users)
+  const user: null | User = findUser(userId, store.users);
   if (!user) {
-    return { error_msg: 'User does not exist'}
+    return { error_msg: 'User does not exist' };
   }
 
   // Return information about the user
-  return { user:
+  return {
+    user:
     {
       userId: userId,
       name: user.nameFirst + ' ' + user.nameLast,
@@ -147,61 +150,63 @@ export function adminUserDetails( userId: number ): Error | UserDetails {
       numSuccessfulLogins: user.numSuccessfulLogins,
       numFailedPasswordsSinceLastLogin: user.numFailedPasswordsSinceLastLogin,
     }
-  }
+  };
 }
 
 /**
  * Given a set of properties and the userId of an admin user, this function
  * updates those properties of the user
- * 
+ *
  * @param { number } userId - The userId of the user
  * @param { string } email - The email of the user
  * @param { string } nameFirst - The first name of the user
  * @param { string } nameLast - The last name of the user
- * 
+ *
  * @returns { Object } - Empty object
  */
-export function adminUserDetailsUpdate( userId: number, email: string, nameFirst: string, nameLast: string ): Error | EmptyObject {
-  let store: Data = getData()
+export function adminUserDetailsUpdate(
+  userId: number, email: string, nameFirst: string, nameLast: string
+): Error | EmptyObject {
+  const store: Data = getData();
 
   // Check if userId exists
   if (!checkUserExists(userId, store.users)) {
-    return { error_msg: 'Invalid User Id' }
+    return { error_msg: 'Invalid User Id' };
   }
-  
+
   // Check if email already in use
-  for (let user of store.users) {
+  for (const user of store.users) {
     if (email === user.email) {
-      return { error_msg: 'Email address is already in use' }; 
+      return { error_msg: 'Email address is already in use' };
     }
   }
 
   // Check if names are valid
   if (!checkUserName(nameFirst)) {
-    return { error_msg: 'Invalid first name' }
+    return { error_msg: 'Invalid first name' };
   }
 
   if (!checkUserName(nameLast)) {
-    return { error_msg: 'Invalid last name' }
+    return { error_msg: 'Invalid last name' };
   }
-  
+
   // Check if email is valid
   if (!validator.isEmail(email)) {
-    return { error_msg: 'Invalid email' }
+    return { error_msg: 'Invalid email' };
   }
 
   // Find the user
-  let user: null | User = findUser(userId, store.users)
+  const user: null | User = findUser(userId, store.users);
   if (!user) {
-    return { error_msg: 'User does not exist'}
+    return { error_msg: 'User does not exist' };
   }
 
   // Update user details
-  user.email = email
-  user.nameFirst = nameFirst
-  user.nameLast = nameLast
+  user.email = email;
+  user.nameFirst = nameFirst;
+  user.nameLast = nameLast;
 
-  return {  }
+  return {};
 }
 
 /**
@@ -211,46 +216,48 @@ export function adminUserDetailsUpdate( userId: number, email: string, nameFirst
  * @param { number } userId - The userId of the user
  * @param { string } oldPassword - The old password of the user
  * @param { string } newPassword - The new password of the user
- * 
+ *
  * @returns { Object } - Empty object
  */
-export function adminUserPasswordUpdate( userId: number, oldPassword: string, newPassword: string ): EmptyObject {
-  let store: Data = getData()
+export function adminUserPasswordUpdate(
+  userId: number, oldPassword: string, newPassword: string
+): EmptyObject {
+  const store: Data = getData();
 
   // Check if userId exists
   if (!checkUserExists(userId, store.users)) {
-    return { error_msg: 'Invalid User Id' }
+    return { error_msg: 'Invalid User Id' };
   }
 
   // Find the user
-  let user: null | User = findUser(userId, store.users)
+  const user: null | User = findUser(userId, store.users);
   if (!user) {
-    return { error_msg: 'User does not exist'}
+    return { error_msg: 'User does not exist' };
   }
-  
+
   // Check if correct old password
   if (user.password !== oldPassword) {
-    return { error_msg: 'Invalid password' }
+    return { error_msg: 'Invalid password' };
   }
 
   // Check if password is unchanged
   if (oldPassword === newPassword) {
-    return { error_msg: 'Invalid new password' }
+    return { error_msg: 'Invalid new password' };
   }
 
   // Check if password has been used before
   if (user.pastPasswords.includes(newPassword)) {
-    return { error_msg: 'Invalid new password' }
+    return { error_msg: 'Invalid new password' };
   }
 
   // Check if new password is valid
   if (!checkPassword(newPassword)) {
-    return { error_msg: 'Invalid new password' }
+    return { error_msg: 'Invalid new password' };
   }
 
   // Update user password
-  user.pastPasswords.push(user.password)
-  user.password = newPassword
+  user.pastPasswords.push(user.password);
+  user.password = newPassword;
 
-  return {  }
+  return {};
 }
