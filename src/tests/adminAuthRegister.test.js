@@ -1,80 +1,80 @@
 import {
   adminAuthRegister,
-} from '../auth.js'
+} from '../auth'
 
 import {
   clear,
-} from '../other.js'
+} from '../other'
 
 describe('tests for adminAuthRegister', () => {
   beforeEach(() => {
     clear()
   })
   
-  describe('error tests for Password', () => {
+  describe('error_msg tests for Password', () => {
     test('password is less than 8 characters', () => {
       expect(adminAuthRegister('randomemail@gmail.com', 'hi1974', 'Bob', 'Builder')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
 
     test('password does not contain at least one number', () => {
       expect(adminAuthRegister('randomemail@gmail.com', 'mypasswordisgood', 'Bob', 'Builder')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
 
     test('password does not contain at least one letter', () => {
       expect(adminAuthRegister('randomemail@gmail.com', '197420062802', 'Bob', 'Builder')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
   })
 
-  describe('error tests for NameLast', () => {
+  describe('error_msg tests for NameLast', () => {
     test('nameLast is less than 2 characters', () => {
       expect(adminAuthRegister('randomemail@gmail.com', 'hello', 'Panda', 'P')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
 
     test('nameLast is more than 20 characters', () => {
       expect(adminAuthRegister('randomemail@gmail.com', 'hello', 'Josh', 'Thisisaverylongnameyouseemenow')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
 
     test('nameLast contains invalid characters', () => {
       expect(adminAuthRegister('randomemail@gmail.com', 'hello', 'Panda', 'mylastname||~~')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
   })
 
-  describe('error tests for NameFirst', () => {
+  describe('error_msg tests for NameFirst', () => {
     test('nameFirst is less than 2 characters', () => {
       expect(adminAuthRegister('randomemail@gmail.com', 'hello', 'J', 'Panda')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
 
     test('nameFirst is more than 20 characters', () => {
       expect(adminAuthRegister('randomemail@gmail.com', 'hello', 'Thisisaverylongnameyouseemenow', 'Po')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
 
     test('nameFirst contains invalid characters', () => {
       expect(adminAuthRegister('randomemail@gmail.com', 'hello', 'invalid}{|!', 'Po')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
   })
 
-  describe('error tests for email', () => {
+  describe('error_msg tests for email', () => {
     test('does not satisfy validator function', () => {
       expect(adminAuthRegister('notavalidemail//', 'thisagoodpassword198', 'Joshua', 'Pozz')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
 
@@ -82,7 +82,7 @@ describe('tests for adminAuthRegister', () => {
       adminAuthRegister('studentunsw@gmail.com','thisagoodpassword198','Joshua', 'Pozz')
       
       expect(adminAuthRegister('studentunsw@gmail.com', 'thisagooddifferentpassword198', 'Panda', 'Po')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
   })

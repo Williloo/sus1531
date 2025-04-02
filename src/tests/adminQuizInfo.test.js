@@ -1,15 +1,15 @@
 import {
   adminQuizInfo,
   adminQuizCreate,
-} from '../quiz.js'
+} from '../quiz'
 
 import {
   adminAuthRegister,
-} from '../auth.js'
+} from '../auth'
 
 import {
   clear
-} from '../other.js'
+} from '../other'
 
 let userId
 let quizId
@@ -23,13 +23,13 @@ describe('tests for adminQuizInfo', () => {
 
   test('invalid User', () => {
     expect(adminQuizInfo(userId + 1, quizId)).toStrictEqual(
-      { error: expect.any(String) }
+      { error_msg: expect.any(String) }
     )
   })
 
   test('invalid Quiz', () => {
     expect(adminQuizInfo(userId, quizId+1)).toStrictEqual(
-      { error: expect.any(String) }
+      { error_msg: expect.any(String) }
     )
   })
   
@@ -38,7 +38,7 @@ describe('tests for adminQuizInfo', () => {
     const anotherQuizId = adminQuizCreate(newId, 'test quiz 2', 'This quiz is for testing if the quiz Id is owned by input userid').quizId
 
     expect(adminQuizInfo(userId, anotherQuizId)).toStrictEqual(
-      { error: expect.any(String) }
+      { error_msg: expect.any(String) }
     )
   })
 

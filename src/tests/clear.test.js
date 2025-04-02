@@ -37,7 +37,7 @@ describe('trests for clear', () => {
     clear()
     
     expect(adminUserDetails(userId)).toStrictEqual(
-      { error: expect.any(String) }
+      { error_msg: expect.any(String) }
     )
   })
 
@@ -47,7 +47,7 @@ describe('trests for clear', () => {
     clear()
     
     expect(adminUserDetails(loginId)).toStrictEqual(
-      { error: expect.any(String) }
+      { error_msg: expect.any(String) }
     )
   })
 
@@ -56,7 +56,7 @@ describe('trests for clear', () => {
     clear()
     
     expect(adminUserDetails(userId)).toStrictEqual(
-      { error: expect.any(String) }
+      { error_msg: expect.any(String) }
     )
   })
 
@@ -65,7 +65,7 @@ describe('trests for clear', () => {
     clear()
 
     expect(adminUserDetails(userId)).toStrictEqual(
-      { error: expect.any(String) }
+      { error_msg: expect.any(String) }
     )
   })
 
@@ -75,11 +75,11 @@ describe('trests for clear', () => {
     clear()
 
     expect(adminQuizList(userId)).toStrictEqual(
-      { error: expect.any(String) }
+      { error_msg: expect.any(String) }
     )
 
     expect(adminQuizInfo(userId, quizId)).toStrictEqual(
-      { error: expect.any(String) }
+      { error_msg: expect.any(String) }
     )
   })
 
@@ -90,11 +90,11 @@ describe('trests for clear', () => {
     clear()
 
     expect(adminQuizList(userId)).toStrictEqual(
-      { error: expect.any(String) }
+      { error_msg: expect.any(String) }
     )
 
     expect(adminQuizInfo(userId, quizId)).toStrictEqual(
-      { error: expect.any(String) }
+      { error_msg: expect.any(String) }
     )
   })
 
@@ -105,11 +105,11 @@ describe('trests for clear', () => {
     clear()
 
     expect(adminQuizList(userId)).toStrictEqual(
-      { error: expect.any(String) }
+      { error_msg: expect.any(String) }
     )
 
     expect(adminQuizInfo(userId, quizId)).toStrictEqual(
-      { error: expect.any(String) }
+      { error_msg: expect.any(String) }
     )
   })
 
@@ -120,11 +120,11 @@ describe('trests for clear', () => {
     clear()
 
     expect(adminQuizList(userId)).toStrictEqual(
-      { error: expect.any(String) }
+      { error_msg: expect.any(String) }
     )
 
     expect(adminQuizInfo(userId, quizId)).toStrictEqual(
-      { error: expect.any(String) }
+      { error_msg: expect.any(String) }
     )
   })
 })

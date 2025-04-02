@@ -64,49 +64,49 @@ describe('tests for adminQuizDescriptionUpdate', () => {
     })
   })
 
-  describe('error cases', () => {
-    test('invalid userId provided would return error', () => {
+  describe('error_msg cases', () => {
+    test('invalid userId provided would return error_msg', () => {
       let invalidUserId = userId + 100
       let result = adminQuizDescriptionUpdate(invalidUserId, quizId, 'New description')
 
       expect(result).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
       
       let quizInfo = adminQuizInfo(userId, quizId)
       expect(quizInfo.description).toStrictEqual('Original description')
     })
 
-    test('invalid quizId provided would return error', () => {
+    test('invalid quizId provided would return error_msg', () => {
       let invalidQuizId = quizId + 100
       let result = adminQuizDescriptionUpdate(userId, invalidQuizId, 'New description')
 
       expect(result).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
       
       let quizInfo = adminQuizInfo(userId, quizId)
       expect(quizInfo.description).toStrictEqual('Original description')
     })
 
-    test('trying to update description of a quiz that is not owned by an user will return error', () => {
+    test('trying to update description of a quiz that is not owned by an user will return error_msg', () => {
       let secondUserResult = adminAuthRegister('another@example.com', 'Password123', 'Another', 'User')
       let secondUserId = secondUserResult.userId
       let result = adminQuizDescriptionUpdate(secondUserId, quizId, 'New description')
 
       expect(result).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
       
       let quizInfo = adminQuizInfo(userId, quizId)
       expect(quizInfo.description).toStrictEqual('Original description')
     })
 
-    test('new description longer than 100 characters should return an error', () => {
+    test('new description longer than 100 characters should return an error_msg', () => {
       let longDescription = 'a'.repeat(101)
       let result = adminQuizDescriptionUpdate(userId, quizId, longDescription)
       expect(result).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
 
       let quizInfo = adminQuizInfo(userId, quizId)

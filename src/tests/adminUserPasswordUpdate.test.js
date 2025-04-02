@@ -1,12 +1,12 @@
 import {
   clear,
-} from '../other.js'
+} from '../other'
 
 import {
   adminAuthRegister,
   adminAuthLogin,
   adminUserPasswordUpdate,
-} from '../auth.js'
+} from '../auth'
 
 let user
 
@@ -20,7 +20,7 @@ describe('tests for adminUserPasswordUpdate', () => {
     let invalidUid = user.userId + 1
 
     expect(adminUserPasswordUpdate(invalidUid)).toStrictEqual(
-      { error: expect.any(String) }
+      { error_msg: expect.any(String) }
     )
   })
 
@@ -28,7 +28,7 @@ describe('tests for adminUserPasswordUpdate', () => {
     let uid = user.userId
 
     expect(adminUserPasswordUpdate(uid, 'password456', 'some random old text')).toStrictEqual(
-      { error: expect.any(String) }
+      { error_msg: expect.any(String) }
     )
   })
 
@@ -36,7 +36,7 @@ describe('tests for adminUserPasswordUpdate', () => {
     let uid = user.userId
 
     expect(adminUserPasswordUpdate(uid, 'password123', 'password123')).toStrictEqual(
-      { error: expect.any(String) }
+      { error_msg: expect.any(String) }
     )
   })
 
@@ -45,7 +45,7 @@ describe('tests for adminUserPasswordUpdate', () => {
     adminUserPasswordUpdate(uid, 'password123', 'password456')
 
     expect(adminUserPasswordUpdate(uid, 'password456', 'password123')).toStrictEqual(
-      { error: expect.any(String) }
+      { error_msg: expect.any(String) }
     )
   })
 
@@ -53,7 +53,7 @@ describe('tests for adminUserPasswordUpdate', () => {
     let uid = user.userId
 
     expect(adminUserPasswordUpdate(uid, 'password123', 'short')).toStrictEqual(
-      { error: expect.any(String) }
+      { error_msg: expect.any(String) }
     )
   })
 
@@ -62,7 +62,7 @@ describe('tests for adminUserPasswordUpdate', () => {
       let uid = user.userId
 
       expect(adminUserPasswordUpdate(uid, 'password123', '1234567')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
 
@@ -70,7 +70,7 @@ describe('tests for adminUserPasswordUpdate', () => {
       let uid = user.userId
 
       expect(adminUserPasswordUpdate(uid, 'password123', 'abcdefg')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
   })

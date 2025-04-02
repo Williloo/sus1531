@@ -2,11 +2,11 @@ import {
   adminAuthRegister,
   adminUserDetails,
   adminUserDetailsUpdate,
-} from '../auth.js'
+} from '../auth'
   
 import {
   clear,
-} from '../other.js'
+} from '../other'
   
 let user
 
@@ -16,20 +16,20 @@ describe('tests for adminUserDetailUpdate', () => {
     user = adminAuthRegister('123@gmail.com', 'password123', 'my', 'name')
   })
 
-  test('error test for invalid userId', () => {
+  test('error_msg test for invalid userId', () => {
     let invalidUid = user.userId + 1
 
     expect(adminUserDetailsUpdate(invalidUid, '123@gmail.com', 'my', 'name')).toStrictEqual(
-      { error: expect.any(String) }
+      { error_msg: expect.any(String) }
     )
   })
 
-  describe('error tests for NameLast', () => {
+  describe('error_msg tests for NameLast', () => {
     test('NameLast is less than 2 characters', () => {
       let uid = user.userId
 
       expect(adminUserDetailsUpdate(uid, 'randomemail@gmail.com', 'Panda', 'P')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
 
@@ -37,7 +37,7 @@ describe('tests for adminUserDetailUpdate', () => {
       let uid = user.userId
 
       expect(adminUserDetailsUpdate(uid, 'randomemail@gmail.com', 'Josh', 'Thisisaverylongnameyouseemenow')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
 
@@ -45,17 +45,17 @@ describe('tests for adminUserDetailUpdate', () => {
       let uid = user.userId
 
       expect(adminUserDetailsUpdate(uid, 'randomemail@gmail.com', 'Panda', 'mylastname||~~')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
   })
 
-  describe('error tests for NameFirst', () => {
+  describe('error_msg tests for NameFirst', () => {
     test('NameFirst is less than 2 characters', () => {
       let uid = user.userId
 
       expect(adminUserDetailsUpdate(uid, 'randomemail@gmail.com', 'J', 'Panda')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
 
@@ -63,7 +63,7 @@ describe('tests for adminUserDetailUpdate', () => {
       let uid = user.userId
 
       expect(adminUserDetailsUpdate(uid, 'randomemail@gmail.com', 'Thisisaverylongnameyouseemenow', 'Po')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
 
@@ -71,17 +71,17 @@ describe('tests for adminUserDetailUpdate', () => {
       let uid = user.userId
 
       expect(adminUserDetailsUpdate(uid, 'randomemail@gmail.com', 'invalid}{|!', 'Po')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
   })
 
-  describe('error tests for email', () => {
+  describe('error_msg tests for email', () => {
     test('does not satisfy validator function', () => {
       let uid = user.userId
 
       expect(adminUserDetailsUpdate(uid, 'notavalidemail//', 'Joshua', 'Pozz')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
 
@@ -90,7 +90,7 @@ describe('tests for adminUserDetailUpdate', () => {
 
       adminAuthRegister('studentunsw@gmail.com','thisagoodpassword198', 'Joshua', 'Pozz')
       expect(adminUserDetailsUpdate(uid, 'studentunsw@gmail.com', 'Panda', 'Po')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
   })
