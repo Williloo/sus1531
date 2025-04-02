@@ -1,4 +1,8 @@
-import { getData, Data, Quiz, Error, QuizDetails, EmptyObject } from './dataStore'
+import {
+  getData, updateData,
+  Data, Quiz, Error, QuizDetails, EmptyObject
+} from './dataStore'
+
 import { 
   checkUserExists,
   checkQuizName,
@@ -83,6 +87,9 @@ export function adminQuizCreate( userId: number, name: string, description: stri
   }
   store.quizzes.push(newQuiz)
 
+  // Update Data after Done
+  updateData(store)
+
   return { quizId }
 }
 
@@ -113,6 +120,9 @@ export function adminQuizRemove( userId: number, quizId: number ): Error | Empty
     quiz => quiz.quizId === quiz.quizId
   )
   store.quizzes.splice(index, 1)
+
+  // Update Data after Done
+  updateData(store)
 
   return {  }
 }
@@ -145,6 +155,9 @@ export function adminQuizInfo ( userId: number, quizId: number ): Error | QuizDe
   if (!quiz) {
     return { error_msg: 'Quiz does not exist' }
   }
+
+  // Update Data after Done
+  updateData(store)
 
   // Return information about the quiz
   return {
@@ -193,6 +206,9 @@ export function adminQuizNameUpdate( userId: number, quizId: number, name: strin
   quiz.name = name
   quiz.timeLastEdited = Math.floor(Date.now() / 1000)
 
+  // Update Data after Done
+  updateData(store)
+
   return {  }
 }
 
@@ -227,6 +243,9 @@ export function adminQuizDescriptionUpdate( userId: number, quizId: number, desc
   // Update description and time modified
   quiz.description = description
   quiz.timeLastEdited = Math.floor(Date.now() / 1000)
+  
+  // Update Data after Done
+  updateData(store)
   
   return {  }
 }
