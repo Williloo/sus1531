@@ -1,4 +1,4 @@
-import { getData, Data, User, Quiz, Error, Session, UserDetails, QuizDetails, EmptyObject } from './dataStore'
+import { getData, Data, Quiz, Error, QuizDetails, EmptyObject } from './dataStore'
 import { 
   checkUserExists,
   checkQuizName,
