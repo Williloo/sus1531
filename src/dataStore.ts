@@ -24,7 +24,7 @@ export interface Data {
   usersCreated: number,
   quizzes: Quiz[],
   quizCreated: number
-};
+}
 
 export interface Error {
   error_msg: string
@@ -61,7 +61,7 @@ let defaultData: Data = {
   usersCreated: 0,
   quizzes: [],
   quizCreated: 0
-}
+};
 
 let storedDataString: string = fs.readFileSync("src/store.json").toString()
 if (storedDataString === "") {
@@ -89,7 +89,7 @@ function getData(): Data {
 }
 
 function updateData( store: Data ): void {
-  fs.writeFileSync("src/store.json", JSON.stringify(store))
+  fs.writeFileSync("src/store.json", JSON.stringify(store));
 }
 
 export { getData, updateData };
