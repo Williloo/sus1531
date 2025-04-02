@@ -3,13 +3,6 @@ import {
   Data, Quiz, Error, QuizDetails, EmptyObject
 } from './dataStore';
 
-import {
-  checkUserExists,
-  checkQuizName,
-  checkQuizExists,
-  findQuiz,
-} from './helpers';
-
 /**
  * This function provides a list of all the quizzes owned by the currently logged in user
  *
