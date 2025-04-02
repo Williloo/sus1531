@@ -1,11 +1,11 @@
 import {
   clear,
-} from '../other.js'
+} from '../other'
 
 import {
   adminAuthRegister,
   adminUserDetails,
-} from '../auth.js'
+} from '../auth'
 
 let user
 
@@ -19,7 +19,7 @@ describe('tests for adminUserDetails', () => {
     let invalidUid = user.userId + 1
 
     expect(adminUserDetails(invalidUid)).toStrictEqual(
-      { error: expect.any(String) }
+      { error_msg: expect.any(String) }
     )
   })
 

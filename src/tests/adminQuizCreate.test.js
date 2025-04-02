@@ -1,14 +1,14 @@
 import {
   adminAuthRegister,
-} from '../auth.js'
+} from '../auth'
 
 import {
   adminQuizCreate,
-} from '../quiz.js'
+} from '../quiz'
 
 import {
   clear,
-} from '../other.js'
+} from '../other'
 
 let user
 describe('tests for adminQuizCreate', () => {
@@ -17,12 +17,12 @@ describe('tests for adminQuizCreate', () => {
     user = adminAuthRegister('validemail@gmail.com', 'Password123', 'John', 'Doe')
   })
 
-  describe('error cases', () => {
+  describe('error_msg cases', () => {
     test('invalid userId', () => {
       let userId = user.userId
 
       expect(adminQuizCreate(userId-1, 'Valid Name', 'Valid description')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
 
@@ -30,7 +30,7 @@ describe('tests for adminQuizCreate', () => {
       let userId = user.userId
 
       expect(adminQuizCreate(userId, 'Invalid@Name!', 'Valid description')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
 
@@ -38,7 +38,7 @@ describe('tests for adminQuizCreate', () => {
       let userId = user.userId
 
       expect(adminQuizCreate(userId, 'AB', 'Valid description')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
 
@@ -46,7 +46,7 @@ describe('tests for adminQuizCreate', () => {
       let userId = user.userId
 
       expect(adminQuizCreate(userId, 'A'.repeat(31), 'Valid description')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
 
@@ -55,7 +55,7 @@ describe('tests for adminQuizCreate', () => {
 
       adminQuizCreate(userId, 'Duplicate Quiz', 'Valid description')
       expect(adminQuizCreate(userId, 'Duplicate Quiz', 'Another description')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
 
@@ -63,7 +63,7 @@ describe('tests for adminQuizCreate', () => {
       let userId = user.userId
 
       expect(adminQuizCreate(userId, 'Valid Name', 'A'.repeat(101))).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
   })

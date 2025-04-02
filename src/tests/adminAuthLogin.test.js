@@ -1,11 +1,11 @@
 import {
   adminAuthRegister,
   adminAuthLogin,
-} from '../auth.js'
+} from '../auth'
   
 import {
   clear,
-} from '../other.js'
+} from '../other'
 
 let id
 describe('tests for adminAuthLogin', () => {
@@ -14,16 +14,16 @@ describe('tests for adminAuthLogin', () => {
     id = adminAuthRegister('jpozzolungo@gmail.com', 'thisisagoodpassword1974','Joshua', 'Pozzolungo')
   })
 
-  describe('error tests', () => {
+  describe('error_msg tests', () => {
     test('email address does not exist', () => {
       expect(adminAuthLogin('doesnotexist@gmail.com', 'goodpassword123')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
 
     test('password is not correct for given email', () => {
       expect(adminAuthLogin('jpozzolungo@gmail.com', 'incorrectpassword123')).toStrictEqual(
-        { error: expect.any(String) }
+        { error_msg: expect.any(String) }
       )
     })
   })
