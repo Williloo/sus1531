@@ -1,10 +1,15 @@
-import { getData, Data, User, Error, Session, UserDetails, EmptyObject } from './dataStore'
+import { 
+  getData, updateData,
+  Data, User, Error, Session, UserDetails, EmptyObject
+} from './dataStore'
+
 import { 
   checkUserExists,
   checkUserName,
   checkPassword,
   findUser,
 } from './helpers'
+
 import validator from 'validator'
 
 /**
@@ -67,6 +72,9 @@ export function adminAuthRegister( email: string, password: string, nameFirst: s
   }
   store.users.push(newUser)
 
+  // Update Data after Done
+  updateData(store)
+
   // Return new userId
   return { userId }
 }
@@ -93,6 +101,9 @@ export function adminAuthLogin( email: string, password: string ): Error | Sessi
       if (password === user.password) {
         user.numSuccessfulLogins++
         user.numFailedPasswordsSinceLastLogin = 0
+
+        // Update Data after Done
+        updateData(store)
 
         return { userId: user.userId }
       }
@@ -200,6 +211,9 @@ export function adminUserDetailsUpdate( userId: number, email: string, nameFirst
   user.email = email
   user.nameFirst = nameFirst
   user.nameLast = nameLast
+  
+  // Update Data after Done
+  updateData(store)
 
   return {  }
 }
@@ -252,5 +266,7 @@ export function adminUserPasswordUpdate( userId: number, oldPassword: string, ne
   user.pastPasswords.push(user.password)
   user.password = newPassword
 
+  // Update Data after Done
+  updateData(store)
   return {  }
 }
