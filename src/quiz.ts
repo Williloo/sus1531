@@ -93,12 +93,14 @@ export function adminQuizCreate(
 
   // Add new quiz to store
   const newQuiz: Quiz = {
-    quizId,
+    quizId: quizId,
     creatorId: userId,
-    name,
+    name: name,
     timeCreated: timestamp,
     timeLastEdited: timestamp,
-    description
+    description: description,
+    questions: [],
+    totalQuestions: 0
   };
   store.quizzes.push(newQuiz);
 

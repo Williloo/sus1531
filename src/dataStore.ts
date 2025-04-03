@@ -16,7 +16,9 @@ export interface Quiz {
   name: string,
   timeCreated: number,
   timeLastEdited: number,
-  description: string
+  description: string,
+  questions: Question[],
+  totalQuestions: number
 }
 
 export interface Data {
@@ -47,6 +49,19 @@ export interface QuizDetails {
   timeCreated?: number,
   timeLastEdited?: number,
   description?: string
+}
+
+export interface Question {
+  questionId: number,
+  question: string,
+  timeLimit: number,
+  points: number,
+  answerOptions: AnswerOption[]
+}
+
+export interface AnswerOption {
+  answer: string,
+  correct: boolean
 }
 
 export type EmptyObject = Record<never, never>;
