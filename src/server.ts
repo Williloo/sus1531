@@ -8,9 +8,28 @@ import sui from 'swagger-ui-express';
 import fs from 'fs';
 import path from 'path';
 import process from 'process';
-// import request from 'sync-request-curl';
+import request from 'sync-request-curl';
 
-// const HUGGINGFACE_API_TOKEN = process.env.HUGGINGFACE_API_TOKEN;
+import { adminAuthRegister, 
+         adminAuthLogin,
+         adminUserDetails,
+         adminUserDetailsUpdate,
+         adminUserPasswordUpdate } from './auth'
+
+import { adminQuizList,
+         adminQuizCreate,
+         adminQuizRemove,
+         adminQuizInfo,
+         adminQuizNameUpdate,
+         adminQuizDescriptionUpdate } from './quiz'
+
+import {  getUserIdBySessionId,
+          getSessionByUserId } from './session'
+import { clear } from './other'
+import { getData } from './dataStore'
+
+
+const HUGGINGFACE_API_TOKEN = process.env.HUGGINGFACE_API_TOKEN;
 
 // Set up web app
 const app = express();
@@ -23,15 +42,7 @@ app.use(morgan('dev'));
 // for producing the docs that define the API
 const file = fs.readFileSync(path.join(process.cwd(), 'swagger.yaml'), 'utf8');
 app.get('/', (req: Request, res: Response) => res.redirect('/docs'));
-app.use(
-  '/docs', sui.serve,
-  sui.setup(
-    YAML.parse(file),
-    {
-      swaggerOptions: { docExpansion: config.expandDocs ? 'full' : 'list' }
-    }
-  )
-);
+app.use('/docs', sui.serve, sui.setup(YAML.parse(file), { swaggerOptions: { docExpansion: config.expandDocs ? 'full' : 'list' } }));
 
 const PORT: number = parseInt(process.env.PORT || config.port);
 const HOST: string = process.env.IP || '127.0.0.1';
@@ -49,6 +60,269 @@ app.get('/echo', (req: Request, res: Response) => {
 
   return res.json(result);
 });
+
+
+app.post('/v1/admin/auth/register', (req: Request, res: Response) => {
+  const { email, password, nameFirst, nameLast } = req.body;
+  const userId = adminAuthRegister(email, password, nameFirst, nameLast);
+  const store = getData();
+
+  if ("error_msg" in userId) {
+    res.status(400).json(userId);
+    return;
+  }
+
+  const sessionId = getSessionByUserId(store, userId.userId);
+
+  res.status(200).json(sessionId);
+})
+
+app.post('/v1/admin/auth/login', (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  const userId = adminAuthLogin(email, password);
+  const store = getData();
+
+  if ("error_msg" in userId) {
+    res.status(400).json(userId);
+    return;
+  }
+
+  const sessionId = getSessionByUserId(store, userId.userId);
+  res.status(200).json(userId);
+});
+
+app.get('/v1/admin/user/details', (req: Request, res: Response) => {
+  const sessionId = req.headers.session;
+  const store = getData();
+  const userId = getUserIdBySessionId(store, sessionId);
+  const details = adminUserDetails(userId);
+
+  if ("error_msg" in details) {
+    res.status(400).json(userId);
+    return;
+  }
+
+  res.status(200).json(details);
+})
+
+
+app.put('/v1/admin/user/details', (req: Request, res: Response) => {
+  const sessionId = req.headers.session;
+  const { email, nameFirst, nameLast } = req.body;
+  const store = getData();
+  const userId = getUserIdBySessionId(store, sessionId);
+  const result = adminUserDetailsUpdate(userId, email, nameFirst, nameLast);
+
+  if ("error_msg" in result) {
+    if (result.error_code === 400) {
+      res.status(400).json(result);
+    }
+    else {
+      res.status(401).json(result);
+    }
+  }
+
+  res.status(200).json(result);
+})
+
+app.put('/v1/admin/user/password', (req: Request, res: Response) => {
+  const sessionId = req.headers.session;
+  const { oldPassword, newPassword } = req.body;
+  const store = getData();
+  const userId = getUserIdBySessionId(store, sessionId)
+  
+  const result = adminUserPasswordUpdate(userId, oldPassword, newPassword);
+
+  if ("error_msg" in result) {
+    if (result.error_code === 400) {
+      res.status(400).json(result);
+    }
+    else {
+      res.status(401).json(result);
+    }
+    return;
+  }
+
+  res.status(200).json(result);
+})
+
+app.get('/v1/admin/quiz/list', (req: Request, res: Response) => {
+  const sessionId = req.headers.session;
+  const store = getData();
+  const userId = getUserIdBySessionId(store, sessionId);
+  const result = adminQuizList(userId);
+
+  if ("error_msg" in result) {
+    res.status(401).json(result);
+  }
+  else {
+    res.status(200).json(result);
+  }
+
+  res.status(200).json(result)
+})
+
+app.post('/v1/admin/quiz', (req: Request, res: Response) => {
+  const sessionId = req.headers.session;
+  const { name, description } = req.body;
+
+  const store = getData();
+  const userId = getUserIdBySessionId(store, sessionId);
+  const result = adminQuizCreate(userId, name, description);
+
+  if ("error_msg" in result) {
+    if (result.error_code === 400) {
+      res.status(400).json(result);
+    }
+    else {
+      res.status(401).json(result);
+    }
+    return;
+  }
+
+  res.status(200).json(result);
+})
+
+app.delete('/v1/admin/quiz/:quizid', (req: Request, res: Response) => {
+  const sessionId = req.headers.session;
+  const quizId = parseInt(req.params.quizid as string);
+
+  const store = getData();
+  const userId = getUserIdBySessionId(store, sessionId);
+  const result = adminQuizRemove(userId, quizId);
+
+  if ("error_msg" in result) {
+    if (result.error_code === 401) {
+      res.status(401).json(result);
+    }
+    else {
+      res.status(403).json(result);
+    }
+    return;
+  }
+
+  res.status(200).json(result);
+})
+
+app.get('/v1/admin/quiz/:quizid', (req: Request, res: Response) => {
+  const sessionId = req.headers.session;
+  const quizId = parseInt(req.params.quizid as string);
+  
+  const store = getData();
+  const userId = getUserIdBySessionId(store, sessionId);
+  const result = adminQuizInfo(userId, quizId);
+
+  if ("error_msg" in result) {
+    if (result.error_code === 401) {
+      res.status(401).json(result);
+    }
+    else {
+      res.status(403).json(result);
+    }
+    return;
+  }
+
+  res.status(200).json(result);
+
+})
+
+app.put('/v1/admin/quiz/:quizid/name', (req: Request, res: Response) => {
+  const sessionId = req.headers.session;
+  const quizId = parseInt(req.params.quizid as string);
+  const { name } = req.body;
+
+  const store = getData();
+  const userId = getUserIdBySessionId(store, sessionId);
+  const result = adminQuizNameUpdate(userId, quizId, name);
+
+  if ("error_msg" in result) {
+    if (result.error_code === 400) {
+      res.status(400).json(result);
+    }
+    else if (result.error_code === 401){
+      res.status(401).json(result);
+    }
+    else {
+      res.status(403).json(result);
+    }
+    return;
+  }
+
+  res.status(200).json(result);
+
+})
+
+app.put('/v1/admin/quiz/:quizid/description', (req: Request, res: Response) => {
+  const sessionId = req.headers.session;
+  const quizId = parseInt(req.params.quizid as string);
+  const { description } = req.body;
+
+  const store = getData();
+  const userId = getUserIdBySessionId(store, sessionId);
+  const result = adminQuizDescriptionUpdate(userId, quizId, description);
+  
+  if ("error_msg" in result) {
+    if (result.error_code === 400) {
+      res.status(400).json(result);
+    }
+    else if (result.error_code === 401) {
+      res.status(401).json(result);
+    }
+    else {
+      res.status(403).json(result);
+    }
+    return;
+  }
+
+  res.status(200).json(result);
+})
+
+app.delete('/v1/clear', (req: Request, res: Response) => {
+  const result = clear();
+  res.status(200).json(result);
+})
+
+// app.post('/v1/admin/auth/logout', (req: Request, res: Response) => {
+//   const sessionId = req.headers.session;
+//   const result = adminAuthLogin();
+
+//   if ("error" in result) {
+//     res.status(401).json(result);
+//     return;
+//   }
+
+//   res.status(200).json(result);
+// })
+
+
+app.post('/v1/admin/quiz/:quizid/transfer', (req: Request, res: Response) => {
+
+})
+
+app.post('/v1/admin/quiz/:quizid/question', (req: Request, res: Response) => {
+  
+})
+
+app.get('/v1/admin/quiz/:quizid/question/suggestion', (req: Request, res: Response) => {
+  
+})
+
+app.put('/v1/admin/quiz/:quizid/question/:questionid', (req: Request, res: Response) => {
+  
+})
+
+app.delete('/v1/admin/quiz/:quizid/question/:questionid', (req: Request, res: Response) => {
+  
+})
+
+app.put('/v1/admin/quiz/:quizid/question/:questionid/move', (req: Request, res: Response) => {
+  
+})
+
+
+
+
+
 
 // ====================================================================
 //  ================= WORK IS DONE ABOVE THIS LINE ===================
@@ -82,3 +356,5 @@ process.on('SIGINT', () => {
     process.exit();
   });
 });
+
+

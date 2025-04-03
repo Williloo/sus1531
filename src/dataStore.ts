@@ -24,6 +24,7 @@ export interface Data {
   usersCreated: number,
   quizzes: Quiz[],
   quizCreated: number
+  sessions: Map<string | string[], number>
 }
 
 export interface Error {
@@ -57,7 +58,8 @@ const defaultData: Data = {
   users: [],
   usersCreated: 0,
   quizzes: [],
-  quizCreated: 0
+  quizCreated: 0,
+  sessions: new Map()
 };
 
 const storedDataString: string = fs.readFileSync('src/store.json').toString();

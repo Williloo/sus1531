@@ -4,6 +4,12 @@ import {
 } from './dataStore';
 
 import {
+  createSessionId,
+  pairUserIdSessionId,
+  getUserIdBySessionId
+} from './session'
+
+import {
   checkUserExists,
   checkUserName,
   checkPassword,
@@ -87,6 +93,9 @@ export function adminAuthRegister(
     pastPasswords: []
   };
   store.users.push(newUser);
+
+  const sessionId = createSessionId();
+  pairUserIdSessionId(store, userId, sessionId);
 
   // Update Data after Done
   updateData(store);
@@ -279,7 +288,7 @@ export function adminUserDetailsUpdate(
  */
 export function adminUserPasswordUpdate(
   userId: number, oldPassword: string, newPassword: string
-): EmptyObject {
+): EmptyObject | Error {
   const store: Data = getData();
 
   // Check if userId exists
