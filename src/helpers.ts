@@ -43,7 +43,6 @@ export function findUserByEmail(userEmail: string, users: User[]): null | User {
   return user;
 }
 
-
 /**
  * Function to check whether a user's name is valid
  *
