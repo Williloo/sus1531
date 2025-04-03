@@ -17,8 +17,8 @@ import {
 
 import request from 'sync-request-curl';
 
-const token1 = "hf_eFMnrBrAIcbPoRI";
-const token2 = "anksxKeHeVeGkfihzrD";
+const token1 = 'hf_eFMnrBrAIcbPoRI';
+const token2 = 'anksxKeHeVeGkfihzrD';
 const token = token1 + token2;
 
 export function adminQuestionCreate(
@@ -136,27 +136,29 @@ export function adminQuestionSuggestion(
     };
   }
 
-  const response = request('POST', 'https://api-inference.huggingface.co/models/google/gemma-2-2b-it', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    },
-    json: {
-      inputs: `
-      Given the following quiz name and description, generate a multiple-choice quiz question that
-      adheres to these strict rules:
-      The question must be between 5 and 50 characters long.
+  const response = request(
+    'POST', 'https://api-inference.huggingface.co/models/google/gemma-2-2b-it', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: {
+        inputs: `
+        Given the following quiz name and description, generate a multiple-choice quiz question that
+        adheres to these strict rules:
+        The question must be between 5 and 50 characters long.
 
-      The question must be suitable for a multiple-choice quiz.
-      DO NOT include answer options—only output the question itself.
+        The question must be suitable for a multiple-choice quiz.
+        DO NOT include answer options—only output the question itself.
 
-      Quiz Name: ${quiz.name}
-      Quiz Description: ${quiz.description}
+        Quiz Name: ${quiz.name}
+        Quiz Description: ${quiz.description}
 
-      Output only the question, nothing else.
-      `
+        Output only the question, nothing else.
+        `
+      }
     }
-  });
+  );
 
   return { question: JSON.parse(response.body.toString()).generated_text };
 }
@@ -231,7 +233,7 @@ export function adminQuestionUpdate(
     counter++;
     questionUpdate.answerOptions.push(answerOption);
   }
-  
+
   // Update time modified
   quiz.timeLastEdited = timestamp;
 
@@ -318,7 +320,7 @@ export function adminQuestionMove(
   }
 
   // Check if valid position
-  if (newPos < 0 || newPos >=quiz.questions.length) {
+  if (newPos < 0 || newPos >= quiz.questions.length) {
     return {
       error_msg: 'invalid new position',
       error_code: 400
