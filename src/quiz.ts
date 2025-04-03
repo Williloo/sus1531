@@ -22,7 +22,10 @@ export function adminQuizList(userId: number): Error | { quizzes: QuizDetails[] 
 
   // Check if userId exists
   if (!checkUserExists(userId, store.users)) {
-    return { error_msg: 'userId is not a valid user.' };
+    return {
+      error_msg: 'userId is not a valid user.',
+      error_code: 401
+    };
   }
 
   // Find all quizzes made by the user
@@ -52,22 +55,34 @@ export function adminQuizCreate(
 
   // Check if userId is valid
   if (!checkUserExists(userId, store.users)) {
-    return { error_msg: 'userId is not a valid user.' };
+    return {
+      error_msg: 'userId is not a valid user.',
+      error_code: 401
+    };
   }
 
   // Check if quizName is valid
   if (!checkQuizName(name)) {
-    return { error_msg: 'Invalid quiz name' };
+    return {
+      error_msg: 'Invalid quiz name',
+      error_code: 400
+    };
   }
 
   // Check if user already created quiz with same name
   if (checkQuizExists(userId, name, store.quizzes)) {
-    return { error_msg: 'Name is already used by the same user' };
+    return {
+      error_msg: 'Name is already used by the same user',
+      error_code: 400
+    };
   }
 
   // Check description length
   if (description.length > 100) {
-    return { error_msg: 'Description is too long' };
+    return {
+      error_msg: 'Description is too long',
+      error_code: 400
+    };
   }
 
   // Generate new userId
@@ -108,13 +123,19 @@ export function adminQuizRemove(
 
   // Check if valid userId
   if (!checkUserExists(userId, store.users)) {
-    return { error_msg: 'Not A Valid User' };
+    return {
+      error_msg: 'Not A Valid User',
+      error_code: 401
+    };
   }
 
   // Search for existing quiz
   const quiz: null | Quiz = findQuiz(userId, quizId, store.quizzes);
   if (!quiz) {
-    return { error_msg: 'Quiz does not exist' };
+    return {
+      error_msg: 'Quiz does not exist',
+      error_code: 403
+    };
   }
 
   // Find index of quiz and remove from data
@@ -149,13 +170,19 @@ export function adminQuizInfo (userId: number, quizId: number): Error | QuizDeta
 
   // Check if valid userId
   if (!checkUserExists(userId, store.users)) {
-    return { error_msg: 'Not A Valid User' };
+    return {
+      error_msg: 'Not A Valid User',
+      error_code: 401
+    };
   }
 
   // Search for existing quiz
   const quiz: null | Quiz = findQuiz(userId, quizId, store.quizzes);
   if (!quiz) {
-    return { error_msg: 'Quiz does not exist' };
+    return {
+      error_msg: 'Quiz does not exist',
+      error_code: 403
+    };
   }
 
   // Update Data after Done
@@ -187,23 +214,35 @@ export function adminQuizNameUpdate(
 
   // Check if valid userId
   if (!checkUserExists(userId, store.users)) {
-    return { error_msg: 'userId is not a valid user.' };
+    return {
+      error_msg: 'userId is not a valid user.',
+      error_code: 401
+    };
   }
 
   // Search for existing quiz
   const quiz: null | Quiz = findQuiz(userId, quizId, store.quizzes);
   if (!quiz) {
-    return { error_msg: 'Quiz does not exist' };
+    return {
+      error_msg: 'Quiz does not exist',
+      error_code: 403
+    };
   }
 
   // Check if valid quizName
   if (!checkQuizName(name)) {
-    return { error_msg: 'Invalid quiz name' };
+    return {
+      error_msg: 'Invalid quiz name',
+      error_code: 400
+    };
   }
 
   // Check if user already created quiz with same name
   if (checkQuizExists(userId, name, store.quizzes)) {
-    return { error_msg: 'Name is already used by the current logged in user for another quiz.' };
+    return {
+      error_msg: 'Name is already used by the current logged in user for another quiz.',
+      error_code: 400
+    };
   }
 
   // Update name and time modified of quiz
@@ -232,18 +271,27 @@ export function adminQuizDescriptionUpdate(
 
   // Check if valid userId
   if (!checkUserExists(userId, store.users)) {
-    return { error_msg: 'userId is not a valid user.' };
+    return {
+      error_msg: 'userId is not a valid user.',
+      error_code: 401
+    };
   }
 
   // Search for existing quiz
   const quiz: null | Quiz = findQuiz(userId, quizId, store.quizzes);
   if (!quiz) {
-    return { error_msg: 'Quiz does not exist' };
+    return {
+      error_msg: 'Quiz does not exist',
+      error_code: 403
+    };
   }
 
   // Check if description length is valid
   if (description.length > 100) {
-    return { error_msg: 'Description is more than 100 characters in length.' };
+    return {
+      error_msg: 'Description is more than 100 characters in length.',
+      error_code: 400
+    };
   }
 
   // Update description and time modified

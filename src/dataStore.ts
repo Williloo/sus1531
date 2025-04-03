@@ -27,11 +27,8 @@ export interface Data {
 }
 
 export interface Error {
-  error_msg: string
-}
-
-export interface Session {
-  userId: number
+  error_msg: string,
+  error_code: number
 }
 
 export interface UserDetails {
