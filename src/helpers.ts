@@ -1,5 +1,5 @@
 import {
-  User, Quiz
+  User, Quiz, AnswerOption
 } from './dataStore';
 
 /**
@@ -143,4 +143,61 @@ export function findQuiz(userId: number, quizId: number, quizzes: Quiz[]): null 
   }
 
   return quiz;
+}
+
+export function checkQuestionName(question: string): boolean {
+  if (question.length < 5 || question.length > 50) {
+    return false;
+  }
+
+  return true;
+}
+
+export function checkQuestionProperties(
+  answerOptions: AnswerOption[], timeLimit: number,
+  points: number
+): boolean {
+  // Check if there are between 2 and 6 answers
+  if (answerOptions.length < 2 || answerOptions.length > 6) {
+    return false;
+  }
+
+  // Check if timeLimit is positive
+  if (timeLimit <= 0) {
+    return false;
+  }
+
+  // Check if point awarded are between 1 and 10
+  if (points < 1 || points > 10) {
+    return false;
+  }
+
+  let correctAnswer: boolean = false;
+  let answers: string[] = [];
+
+  for (const answer of answerOptions) {
+    // Check if answer length are between 1 and 30
+    if (answer.answer.length < 1 || answer.answer.length > 30) {
+      return false;
+    }
+
+    // Check if any correct answer
+    if (answer.correct === true) {
+      correctAnswer = true;
+    }
+
+    // Check if answer has appeared so far
+    if (answer.answer in answers) {
+      return false;
+    }
+
+    answers.push(answer.answer);
+  }
+
+  // Check if any answers were correct
+  if (!correctAnswer) {
+    return false;
+  }
+
+  return true;
 }
