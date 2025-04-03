@@ -337,7 +337,7 @@ export function adminQuizTransfer(
       error_code: 403
     };
   }
-  
+
   const user: null | User = findUser(userId, store.users);
 
   // Check if new email matches current user's
@@ -353,7 +353,7 @@ export function adminQuizTransfer(
     return {
       error_msg: 'email is a user',
       error_code: 400
-    }
+    };
   }
 
   if (findQuiz(newUser.userId, quiz.quizId, store.quizzes) !== null) {
