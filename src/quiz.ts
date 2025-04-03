@@ -1,13 +1,17 @@
 import {
-  getData, updateData,
-  Data, Quiz, Error, QuizDetails, EmptyObject
+  getData, updateData
 } from './dataStore';
+
+import {
+  Data, Quiz, Error, QuizDetails, EmptyObject
+} from './interface';
 
 import {
   checkUserExists,
   checkQuizName,
   checkQuizExists,
   findQuiz,
+  getTimeLimit
 } from './helpers';
 
 /**
@@ -197,6 +201,9 @@ export function adminQuizInfo (userId: number, quizId: number): Error | QuizDeta
     timeCreated: quiz.timeCreated,
     timeLastEdited: quiz.timeLastEdited,
     description: quiz.description,
+    numQuestions: quiz.questions.length,
+    questions: quiz.questions,
+    timeLimit: getTimeLimit(quiz)
   };
 }
 

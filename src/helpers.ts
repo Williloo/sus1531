@@ -1,6 +1,6 @@
 import {
   User, Quiz, AnswerOption
-} from './dataStore';
+} from './interface';
 
 /**
  * Function to check whether user exists in an array of users
@@ -173,7 +173,7 @@ export function checkQuestionProperties(
   }
 
   let correctAnswer: boolean = false;
-  let answers: string[] = [];
+  const answers: string[] = [];
 
   for (const answer of answerOptions) {
     // Check if answer length are between 1 and 30
@@ -200,4 +200,14 @@ export function checkQuestionProperties(
   }
 
   return true;
+}
+
+export function getTimeLimit(quiz:Quiz): number {
+  let time: number = 0;
+
+  for (const question of quiz.questions) {
+    time += question.timeLimit;
+  }
+
+  return time;
 }

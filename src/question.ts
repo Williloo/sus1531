@@ -1,14 +1,18 @@
 import {
   getData, updateData,
+} from './dataStore';
+
+import {
   Data, Quiz, Question, AnswerOption, Error
-} from './dataStore'
+} from './interface';
 
 import {
   checkUserExists,
   checkQuestionName,
   findQuiz,
-  checkQuestionProperties
-} from './helpers'
+  checkQuestionProperties,
+  getTimeLimit
+} from './helpers';
 
 export function adminQuestionCreate(
   userId: number, quizId: number,
@@ -49,21 +53,17 @@ export function adminQuestionCreate(
     return {
       error_msg: 'invalid question or answer',
       error_code: 400
-    }
+    };
   }
 
   // Check if timeLimits run over
-  let time: number = timeLimit;
-
-  for (const question of quiz.questions) {
-    time += question.timeLimit;
-  }
+  const time: number = timeLimit + getTimeLimit(quiz);
 
   if (time > 3 * 60) {
     return {
       error_msg: 'quiz exceeds time limit of 3 minutes',
       error_code: 400
-    }
+    };
   }
 
   // Create valid question
@@ -78,7 +78,22 @@ export function adminQuestionCreate(
     question: question,
     timeLimit: timeLimit,
     points: points,
-    answerOptions: answerOptions
+    answerOptions: [],
+    totalAnswers: 0
+  };
+
+  const colours: string[] = [
+    'red', 'blue', 'green', 'yellow', 'purple', 'pink', 'orange'
+  ];
+  let counter = 0;
+
+  for (const answerOption of answerOptions) {
+    answerOption.answerId = newQuestion.totalAnswers;
+    newQuestion.totalAnswers++;
+
+    answerOption.colour = colours[counter];
+    counter++;
+    newQuestion.answerOptions.push(answerOption);
   }
 
   quiz.questions.push(newQuestion);
