@@ -1,7 +1,10 @@
 import {
   getData, updateData,
-  Data, User, Error, UserDetails, EmptyObject
 } from './dataStore';
+
+import {
+  Data, User, Error, UserDetails, EmptyObject
+} from './interface';
 
 import {
   checkUserExists,

@@ -1,7 +1,10 @@
 import {
   getData, updateData,
-  Data, EmptyObject
 } from './dataStore';
+
+import {
+  Data, EmptyObject
+} from './interface';
 
 /**
  * The function reset the state of the application back to the start
