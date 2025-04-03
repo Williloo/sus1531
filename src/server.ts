@@ -282,46 +282,167 @@ app.delete('/v1/clear', (req: Request, res: Response) => {
   res.status(200).json(result);
 })
 
-// app.post('/v1/admin/auth/logout', (req: Request, res: Response) => {
-//   const sessionId = req.headers.session;
-//   const result = adminAuthLogin();
+app.post('/v1/admin/auth/logout', (req: Request, res: Response) => {
+  const sessionId = req.headers.session;
+  const store = getData();
+  const userId = getUserIdBySessionId(store, sessionId);
+  const result = adminAuthLogout();
 
-//   if ("error" in result) {
-//     res.status(401).json(result);
-//     return;
-//   }
+  if ("error_msg" in result) {
+    res.status(401).json(result);
+    return;
+  }
 
-//   res.status(200).json(result);
-// })
+  res.status(200).json(result);
+})
+
 
 
 app.post('/v1/admin/quiz/:quizid/transfer', (req: Request, res: Response) => {
+  const sessionId = req.headers.session;
+  const quizId = parseInt(req.params.quizid as string);
+  const { userEmail } = req.body;
+  const store = getData();
+  const userId = getUserIdBySessionId(store, sessionId);
+  const result = adminQuizTransfer(quizId, userId, userEmail);
 
+  if ("error_msg" in result) {
+    if (result.error_code === 400) {
+      res.status(400).json(result);
+    }
+    else if (result.error_code === 401) {
+      res.status(401).json(result);
+    }
+    else {
+      res.status(403).json(result);
+    }
+    return;
+  }
+
+  res.status(200).json(result);
 })
 
 app.post('/v1/admin/quiz/:quizid/question', (req: Request, res: Response) => {
-  
+  const sessionId = req.headers.session;
+  const quizId = parseInt(req.params.quizid as string);
+  const {question, timeLimit, points, answerOptions} = req.body;
+  const store = getData();
+  const userId = getUserIdBySessionId(store, sessionId);
+  const result = adminQuestionCreate(userId, quizId, question, timeLimit, points, answerOptions);
+
+  if ("error_msg" in result) {
+    if (result.error_code === 400) {
+      res.status(400).json(result);
+    }
+    else if (result.error_code === 401) {
+      res.status(401).json(result);
+    }
+    else {
+      res.status(403).json(result);
+    }
+    return;
+  }
+
+  res.status(200).json(result);
+
 })
 
 app.get('/v1/admin/quiz/:quizid/question/suggestion', (req: Request, res: Response) => {
-  
+  const sessionId = req.headers.session;
+  const quizId = parseInt(req.params.quizid as string);
+  const store = getData();
+  const userId = getUserIdBySessionId(store, sessionId);
+  const result = adminQuestionSuggestion(quizId, userId);
+
+  if ("error_msg" in result) {
+    if (result.error_code === 401) {
+      res.status(401).json(result);
+    }
+    else {
+      res.status(403).json(result);
+    }
+    return;
+  }
+
+  res.status(200).json(result);
 })
 
 app.put('/v1/admin/quiz/:quizid/question/:questionid', (req: Request, res: Response) => {
+  const sessionId = req.headers.session;
+  const quizId = parseInt(req.params.quizid as string);
+  const questionId = parseInt(req.params.questionid as string);
+  const {question, timeLimit, points, answerOptions} = req.body;
+  const store = getData();
+  const userId = getUserIdBySessionId(store, sessionId);
+  const result = adminQuestionUpdate(quizId, questionId, userId, question,
+                                     timeLimit, points, answerOptions);
   
+  if ("error_msg" in result) {
+    if (result.error_code === 400) {
+      res.status(400).json(result);
+    }
+    else if (result.error_code === 401) {
+      res.status(401).json(result);
+    }
+    else {
+      res.status(403).json(result);
+    }
+    return;
+  }
+
+  res.status(200).json(result);
 })
 
 app.delete('/v1/admin/quiz/:quizid/question/:questionid', (req: Request, res: Response) => {
-  
+  const sessionId = req.headers.session;
+  const quizId = parseInt(req.params.quizid as string);
+  const questionId = parseInt(req.params.questionid as string); 
+  const store = getData();
+  const userId = getUserIdBySessionId(store, sessionId);
+  const result = adminQuestionRemove(quizId, questionId, userId);
+
+  if ("error_msg" in result) {
+    if (result.error_code === 400) {
+      res.status(400).json(result);
+    }
+    else if (result.error_code === 401) {
+      res.status(401).json(result);
+    }
+    else {
+      res.status(403).json(result);
+    }
+    return;
+  }
+
+  res.status(200).json(result);
+
 })
 
 app.put('/v1/admin/quiz/:quizid/question/:questionid/move', (req: Request, res: Response) => {
-  
+  const sessionId = req.headers.session as string;
+  const quizId = parseInt(req.params.quizid as string);
+  const questionId = parseInt(req.params.questionid as string); 
+  const { newPosition } = req.body;
+  const store = getData();
+  const userId = getUserIdBySessionId(store, sessionId);
+  const result = adminQuestionMove(quizId, questionId, userId, newPosition);
+
+  if ("error_msg" in result) {
+    if (result.error_code === 400) {
+      res.status(400).json(result);
+    }
+    else if (result.error_code === 401) {
+      res.status(401).json(result);
+    }
+    else {
+      res.status(403).json(result);
+    }
+    return;
+  }
+
+  res.status(200).json(result);
+
 })
-
-
-
-
 
 
 // ====================================================================
