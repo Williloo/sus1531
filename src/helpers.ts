@@ -1,5 +1,5 @@
 import {
-  User, Quiz, AnswerOption
+  User, Quiz, Question, AnswerOption
 } from './interface';
 
 /**
@@ -32,6 +32,17 @@ export function findUser(userId: number, users: User[]): null | User {
 
   return user;
 }
+
+export function findUserByEmail(userEmail: string, users: User[]): null | User {
+  const user: null | User = users.find(user => user.email === userEmail);
+
+  if (!user) {
+    return null;
+  }
+
+  return user;
+}
+
 
 /**
  * Function to check whether a user's name is valid
@@ -143,6 +154,16 @@ export function findQuiz(userId: number, quizId: number, quizzes: Quiz[]): null 
   }
 
   return quiz;
+}
+
+export function findQuestion(questionId: number, questions: Question[]): null | Question {
+  const question: null | Question = questions.find(question => question.questionId === questionId);
+
+  if (!question) {
+    return null;
+  }
+
+  return question;
 }
 
 export function checkQuestionName(question: string): boolean {

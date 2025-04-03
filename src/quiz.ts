@@ -3,11 +3,13 @@ import {
 } from './dataStore';
 
 import {
-  Data, Quiz, Error, QuizDetails, EmptyObject
+  Data, User, Quiz, Error, QuizDetails, EmptyObject
 } from './interface';
 
 import {
   checkUserExists,
+  findUser,
+  findUserByEmail,
   checkQuizName,
   checkQuizExists,
   findQuiz,
@@ -308,6 +310,60 @@ export function adminQuizDescriptionUpdate(
   quiz.timeLastEdited = Math.floor(Date.now() / 1000);
 
   // Update Data after Done
+  updateData(store);
+
+  return {};
+}
+
+export function adminQuizTransfer(
+  quizId: number, userId: number,
+  userEmail: string
+): EmptyObject {
+  const store: Data = getData();
+
+  // Check if userId is valid
+  if (!checkUserExists(userId, store.users)) {
+    return {
+      error_msg: 'userId is not a valid user.',
+      error_code: 401
+    };
+  }
+
+  // Search for existing quiz
+  const quiz: null | Quiz = findQuiz(userId, quizId, store.quizzes);
+  if (!quiz) {
+    return {
+      error_msg: 'Quiz does not exist',
+      error_code: 403
+    };
+  }
+  
+  const user: null | User = findUser(userId, store.users);
+
+  // Check if new email matches current user's
+  if (user.email === userEmail) {
+    return {
+      error_msg: 'cannot transfer to yourself',
+      error_code: 400
+    };
+  }
+
+  const newUser: null | User = findUserByEmail(userEmail, store.users);
+  if (!newUser) {
+    return {
+      error_msg: 'email is a user',
+      error_code: 400
+    }
+  }
+
+  if (findQuiz(newUser.userId, quiz.quizId, store.quizzes) !== null) {
+    return {
+      error_msg: 'quizId already used by user',
+      error_code: 400
+    };
+  }
+
+  quiz.creatorId = newUser.userId;
   updateData(store);
 
   return {};
