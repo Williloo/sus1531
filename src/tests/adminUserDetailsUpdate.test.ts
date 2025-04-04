@@ -51,7 +51,7 @@ describe('PUT /v1/admin/user/details', () => {
       );
       expect(res).toStrictEqual(401);
 
-      // Verify that the details are not updated
+      // Verify the details are not updated
       const userDetails = adminUserDetails(sessionToken);
       expect(userDetails.user.name).toStrictEqual('John Doe');
     });
@@ -83,12 +83,7 @@ describe('PUT /v1/admin/user/details', () => {
     });
 
     test('Error when first name is too long', () => {
-      const res = adminUserDetailsUpdate(
-        sessionToken,
-        'updated@example.com',
-        'ThisNameIsMuchTooLongForTheSystem',
-        'Name'
-      );
+      const res = adminUserDetailsUpdate(sessionToken,'updated@example.com','ThisNameIsMuchTooLongForTheSystem','Name');
       expect(res).toStrictEqual(400);
 
       const userDetails = adminUserDetails(sessionToken);

@@ -62,7 +62,7 @@ describe('tests for adminQuizDescriptionUpdate', () => {
       const res = adminQuizDescriptionUpdate(newSessionToken, quizId, 'Unauthorized update');
       expect(res).toStrictEqual(403);
 
-      // Verify the description was not changed
+      // description was not changed
       const quizInfo = adminQuizInfo(sessionToken, quizId);
       expect(quizInfo.description).toStrictEqual('Original description');
     });
@@ -97,7 +97,7 @@ describe('tests for adminQuizDescriptionUpdate', () => {
       const res = adminQuizDescriptionUpdate(sessionToken, otherQuizId, 'Unauthorized update');
       expect(res).toStrictEqual(403);
 
-      // Verify the description was not changed
+      //description was not changed
       const quizInfo = adminQuizInfo(otherSessionToken, otherQuizId);
       expect(quizInfo.description).toStrictEqual('Other description');
     });

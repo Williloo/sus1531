@@ -8,7 +8,7 @@ import {
 
 const colours = ['red', 'blue', 'green', 'yellow', 'purple', 'pink', 'orange'];
 
-// TO DO : check if colour checking correct
+// TO DO : check if colour checking correct, timestamps + timelimit
 describe('tests for adminQuizInfo', () => {
   let sessionToken: string;
   let quizId: number;
@@ -59,9 +59,9 @@ describe('tests for adminQuizInfo', () => {
   });
 
   describe('Success cases', () => {
-    test('Successfully updated the info of a quiz after a question is created', () => {
-      const initialQuizInfo = adminQuizInfo(sessionToken, quizId);
-      expect(initialQuizInfo).toStrictEqual({
+    test('successfully display info of an empty quiz with no questions', () => {
+      const quizInfo = adminQuizInfo(sessionToken, quizId);
+      expect(quizInfo).toStrictEqual({
         quizId: quizId,
         name: 'test quiz',
         timeCreated: expect.any(Number),
@@ -69,10 +69,17 @@ describe('tests for adminQuizInfo', () => {
         description: 'This quiz is for testing adminQuizInfo function',
         numQuestions: 0,
         questions: [],
-        timeLimit: 0
+        timeimit: 0
       });
+      expect(quizInfo.timeLastEdited).toBeGreaterThanOrEqual(quizInfo.timeLastEdited);
+    }); 
 
-      const questionBody = {
+    test('Successfully displayed quizInfo when questions are added', () => {
+      const requestTime = Date.now();
+
+      const initialQuizInfo = adminQuizInfo(sessionToken, quizId);
+
+      const questionBody1 = {
         question: 'What is the capital of France?',
         timeLimit: 10,
         points: 5,
@@ -83,8 +90,22 @@ describe('tests for adminQuizInfo', () => {
         ]
       };
 
-      const questionResult = adminQuestionCreate(sessionToken, quizId, questionBody);
-      const questionId = questionResult.questionId;
+      const questionResult = adminQuestionCreate(sessionToken, quizId, questionBody1);
+      const questionId1 = questionResult.questionId;
+
+      const questionBody2 = {
+        question: 'What is the capital of Australia?',
+        timeLimit: 10,
+        points: 5,
+        answerOptions: [
+          { answer: 'Canbera', correct: true },
+          { answer: 'Sydney', correct: false },
+          { answer: 'Brisbane', correct: false }
+        ]
+      };
+
+      const questionResult2 = adminQuestionCreate(sessionToken, quizId, questionBody2);
+      const questionId2 = questionResult.questionId;
 
       // Check updated quiz info
       const updatedQuizInfo = adminQuizInfo(sessionToken, quizId);
@@ -94,12 +115,12 @@ describe('tests for adminQuizInfo', () => {
         timeCreated: expect.any(Number),
         timeLastEdited: expect.any(Number),
         description: 'This quiz is for testing adminQuizInfo function',
-        numQuestions: 1,
+        numQuestions: 2,
         questions: [
           {
-            questionId: questionId,
+            questionId: questionId1,
             question: 'What is the capital of France?',
-            duration: 10,
+            timeLimit: 10,
             points: 5,
             answers: expect.arrayContaining([
               expect.objectContaining({
@@ -121,9 +142,35 @@ describe('tests for adminQuizInfo', () => {
                 correct: false
               })
             ])
+          },
+          {
+            questionId: questionId2,
+            question: 'What is the capital of Australia?',
+            timeLimit: 10,
+            points: 5,
+            answers: expect.arrayContaining([
+              expect.objectContaining({
+                answerId: expect.any(Number),
+                answer: 'Canberra',
+                colour: expect.any(String),
+                correct: true
+              }),
+              expect.objectContaining({
+                answerId: expect.any(Number),
+                answer: 'Sydney',
+                colour: expect.any(String),
+                correct: false
+              }),
+              expect.objectContaining({
+                answerId: expect.any(Number),
+                answer: 'Brisbane',
+                colour: expect.any(String),
+                correct: false
+              })
+            ])
           }
         ],
-        duration: 10
+        timeimit: 20
       });
 
       // Check that all answer colours are valid
@@ -136,6 +183,9 @@ describe('tests for adminQuizInfo', () => {
       expect(
         updatedQuizInfo.timeLastEdited
       ).toBeGreaterThanOrEqual(initialQuizInfo.timeLastEdited);
+
+      //Check if the delay between request time and when the server processes it is no more than 1 sec
+      expect(updatedQuizInfo.timeLastEdited).toBeLessThanOrEqual(requestTime + 1000);
     });
   });
 });

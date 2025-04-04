@@ -98,7 +98,7 @@ describe('tests for adminQuizCreate', () => {
       );
       expect(res).toStrictEqual(401);
 
-      // Check with adminQuizList that quiz was not created
+      // Check quiz was not created
       const quizList: Quiz[] = adminQuizList(sessionToken).quizzes;
       expect(quizList.find(quiz => quiz.name === 'My Test Quiz')).toBeUndefined();
     });
@@ -114,7 +114,6 @@ describe('tests for adminQuizCreate', () => {
       );
       expect(res).toStrictEqual(400);
 
-      // Check that quiz was not created
       const quizList: Quiz[] = adminQuizList(sessionToken).quizzes;
       expect(quizList.find(quiz => quiz.name === 'Invalid@Quiz#Name')).toBeUndefined();
     });
@@ -123,7 +122,6 @@ describe('tests for adminQuizCreate', () => {
       const res = adminQuizCreate(sessionToken, 'AB', 'This is a test quiz description');
       expect(res).toStrictEqual(400);
 
-      // check that quiz was not created
       const quizList: Quiz[] = adminQuizList(sessionToken).quizzes;
       expect(quizList.find(quiz => quiz.name === 'AB')).toBeUndefined();
     });
@@ -138,7 +136,6 @@ describe('tests for adminQuizCreate', () => {
       );
       expect(res).toStrictEqual(400);
 
-      // Check that quiz was not created
       const quizList: Quiz[] = adminQuizList(sessionToken).quizzes;
       expect(quizList.find(quiz => quiz.name.includes('way too long'))).toBeUndefined();
     });
@@ -148,7 +145,6 @@ describe('tests for adminQuizCreate', () => {
       const res = adminQuizCreate(sessionToken, 'Duplicate Quiz Name', 'Second quiz description');
       expect(res).toStrictEqual(400);
 
-      // Check that only one quiz with that name exists
       const quizList: Quiz[] = adminQuizList(sessionToken).quizzes;
       const duplicateQuizzes = quizList.filter(quiz => quiz.name === 'Duplicate Quiz Name');
       expect(duplicateQuizzes.length).toStrictEqual(1);
@@ -159,7 +155,6 @@ describe('tests for adminQuizCreate', () => {
       const res = adminQuizCreate(sessionToken, 'Valid Quiz Name', longDescription);
       expect(res).toStrictEqual(400);
 
-      // Check that quiz was not created
       const quizList: Quiz[] = adminQuizList(sessionToken).quizzes;
       expect(quizList.find(quiz => quiz.name === 'Valid Quiz Name')).toBeUndefined();
     });
