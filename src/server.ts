@@ -37,12 +37,6 @@ import {
 } from './question'
 
 import {
-  User, Quiz, Error,
-  UserDetails, QuizDetails, Question, AnswerOption,
-  EmptyObject
-} from './interface';
-
-import {
   getUserIdBySessionId,
   getSessionByUserId,
   checkValidSessionId
