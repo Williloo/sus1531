@@ -24,7 +24,8 @@ export interface Data {
   users: User[],
   usersCreated: number,
   quizzes: Quiz[],
-  quizCreated: number
+  quizCreated: number,
+  sessions: Map<string | string[], number>
 }
 
 export interface Error {
