@@ -1,6 +1,6 @@
 import {
-  User, Quiz
-} from './dataStore';
+  User, Quiz, Question, AnswerOption
+} from './interface';
 
 /**
  * Function to check whether user exists in an array of users
@@ -25,6 +25,16 @@ export function checkUserExists(userId: number, users: User[]): boolean {
  */
 export function findUser(userId: number, users: User[]): null | User {
   const user: null | User = users.find(user => user.userId === userId);
+
+  if (!user) {
+    return null;
+  }
+
+  return user;
+}
+
+export function findUserByEmail(userEmail: string, users: User[]): null | User {
+  const user: null | User = users.find(user => user.email === userEmail);
 
   if (!user) {
     return null;
@@ -143,4 +153,81 @@ export function findQuiz(userId: number, quizId: number, quizzes: Quiz[]): null 
   }
 
   return quiz;
+}
+
+export function findQuestion(questionId: number, questions: Question[]): null | Question {
+  const question: null | Question = questions.find(question => question.questionId === questionId);
+
+  if (!question) {
+    return null;
+  }
+
+  return question;
+}
+
+export function checkQuestionName(question: string): boolean {
+  if (question.length < 5 || question.length > 50) {
+    return false;
+  }
+
+  return true;
+}
+
+export function checkQuestionProperties(
+  answerOptions: AnswerOption[], timeLimit: number,
+  points: number
+): boolean {
+  // Check if there are between 2 and 6 answers
+  if (answerOptions.length < 2 || answerOptions.length > 6) {
+    return false;
+  }
+
+  // Check if timeLimit is positive
+  if (timeLimit <= 0) {
+    return false;
+  }
+
+  // Check if point awarded are between 1 and 10
+  if (points < 1 || points > 10) {
+    return false;
+  }
+
+  let correctAnswer: boolean = false;
+  const answers: string[] = [];
+
+  for (const answer of answerOptions) {
+    // Check if answer length are between 1 and 30
+    if (answer.answer.length < 1 || answer.answer.length > 30) {
+      return false;
+    }
+
+    // Check if any correct answer
+    if (answer.correct === true) {
+      correctAnswer = true;
+    }
+
+    // Check if answer has appeared so far
+    if (answer.answer in answers) {
+      return false;
+    }
+
+    answers.push(answer.answer);
+  }
+
+  // Check if any answers were correct
+  if (!correctAnswer) {
+    return false;
+  }
+
+  return true;
+}
+
+export function getTimeLimit(quiz:Quiz): number {
+  let time: number = 0;
+
+  for (const question of quiz.questions) {
+    time += question.timeLimit;
+  }
+
+  return time;
 }

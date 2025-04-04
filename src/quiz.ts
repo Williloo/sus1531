@@ -1,13 +1,19 @@
 import {
-  getData, updateData,
-  Data, Quiz, Error, QuizDetails, EmptyObject
+  getData, updateData
 } from './dataStore';
 
 import {
+  Data, User, Quiz, Error, QuizDetails, EmptyObject
+} from './interface';
+
+import {
   checkUserExists,
+  findUser,
+  findUserByEmail,
   checkQuizName,
   checkQuizExists,
   findQuiz,
+  getTimeLimit
 } from './helpers';
 
 /**
@@ -93,12 +99,14 @@ export function adminQuizCreate(
 
   // Add new quiz to store
   const newQuiz: Quiz = {
-    quizId,
+    quizId: quizId,
     creatorId: userId,
-    name,
+    name: name,
     timeCreated: timestamp,
     timeLastEdited: timestamp,
-    description
+    description: description,
+    questions: [],
+    totalQuestions: 0
   };
   store.quizzes.push(newQuiz);
 
@@ -195,6 +203,9 @@ export function adminQuizInfo (userId: number, quizId: number): Error | QuizDeta
     timeCreated: quiz.timeCreated,
     timeLastEdited: quiz.timeLastEdited,
     description: quiz.description,
+    numQuestions: quiz.questions.length,
+    questions: quiz.questions,
+    timeLimit: getTimeLimit(quiz)
   };
 }
 
@@ -299,6 +310,60 @@ export function adminQuizDescriptionUpdate(
   quiz.timeLastEdited = Math.floor(Date.now() / 1000);
 
   // Update Data after Done
+  updateData(store);
+
+  return {};
+}
+
+export function adminQuizTransfer(
+  quizId: number, userId: number,
+  userEmail: string
+): EmptyObject {
+  const store: Data = getData();
+
+  // Check if userId is valid
+  if (!checkUserExists(userId, store.users)) {
+    return {
+      error_msg: 'userId is not a valid user.',
+      error_code: 401
+    };
+  }
+
+  // Search for existing quiz
+  const quiz: null | Quiz = findQuiz(userId, quizId, store.quizzes);
+  if (!quiz) {
+    return {
+      error_msg: 'Quiz does not exist',
+      error_code: 403
+    };
+  }
+
+  const user: null | User = findUser(userId, store.users);
+
+  // Check if new email matches current user's
+  if (user.email === userEmail) {
+    return {
+      error_msg: 'cannot transfer to yourself',
+      error_code: 400
+    };
+  }
+
+  const newUser: null | User = findUserByEmail(userEmail, store.users);
+  if (!newUser) {
+    return {
+      error_msg: 'email is a user',
+      error_code: 400
+    };
+  }
+
+  if (findQuiz(newUser.userId, quiz.quizId, store.quizzes) !== null) {
+    return {
+      error_msg: 'quizId already used by user',
+      error_code: 400
+    };
+  }
+
+  quiz.creatorId = newUser.userId;
   updateData(store);
 
   return {};

@@ -1,12 +1,15 @@
 import {
   getData, updateData,
-  Data, User, Error, UserDetails, EmptyObject
 } from './dataStore';
 
 import {
   createSessionId,
   pairUserIdSessionId,
 } from './session';
+
+import {
+  Data, User, Error, UserDetails, EmptyObject
+} from './interface';
 
 import {
   checkUserExists,
