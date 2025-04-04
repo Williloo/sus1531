@@ -39,7 +39,8 @@ import {
 import {
   getUserIdBySessionId,
   getSessionByUserId,
-  checkValidSessionId
+  checkValidSessionId,
+  deleteSession
 } from './session';
 
 import { clear } from './other';
@@ -308,6 +309,10 @@ app.put('/v1/admin/quiz/:quizid/description', (req: Request, res: Response) => {
 
 app.delete('/v1/clear', (req: Request, res: Response) => {
   const result = clear();
+
+  const store = getData();
+  deleteSession(store);
+
   res.status(200).json(result);
 });
 

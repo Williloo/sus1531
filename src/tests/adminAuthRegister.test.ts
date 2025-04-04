@@ -3,7 +3,6 @@ import {
   clear
 } from '../requests';
 
-// TO DO: a way to check registered users
 describe('tests for adminAuthRegister', () => {
   beforeEach(() => {
     clear();
@@ -15,7 +14,7 @@ describe('tests for adminAuthRegister', () => {
         'jpozzolungo@gmail.com', 'thisisagoodpassword1974', 'Joshua', 'Pozzolungo'
       );
       expect(result).toStrictEqual({
-        session: expect.any(String)
+        sessionId: expect.any(String)
       });
     });
 
@@ -24,7 +23,7 @@ describe('tests for adminAuthRegister', () => {
         'user@example.com', 'password123', "O'Connor", 'Smith-Jones'
       );
       expect(result).toStrictEqual({
-        session: expect.any(String)
+        sessionId: expect.any(String)
       });
     });
 
@@ -33,14 +32,16 @@ describe('tests for adminAuthRegister', () => {
       const res2 = adminAuthRegister('user2@example.com', 'password123', 'Jane', 'Smith');
 
       expect(res1).toStrictEqual({
-        session: expect.any(String)
+        sessionId: expect.any(String)
       });
 
       expect(res2).toStrictEqual({
-        session: expect.any(String)
+        sessionId: expect.any(String)
       });
 
-      expect(res1.session).not.toEqual(res2.session);
+      expect((res1 as { sessionId: string }).sessionId).not.toEqual(
+        (res2 as { sessionId: string }).sessionId
+      );
     });
   });
 

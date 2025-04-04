@@ -2,6 +2,10 @@ import {
   Data, EmptyObject, Error
 } from './interface';
 
+import {
+  updateData
+} from './dataStore'
+
 export function createSessionId(store: Data): string {
   let sessionId;
   while (true) {
@@ -18,6 +22,14 @@ export function pairUserIdSessionId(
   store: Data, userId: number, sessionId: string | string[]
 ) {
   store.sessions.set(sessionId, userId);
+  updateData(store);
+}
+
+export function deleteSession(
+  store: Data
+) {
+  store.sessions = new Map();
+  updateData(store);
 }
 
 export function getUserIdBySessionId(store: Data, sessionId: string | string[]): number {

@@ -13,8 +13,8 @@ describe('tests for adminQuizList', () => {
 
     const registerResult = adminAuthRegister(
       'validemail@gmail.com', 'Password123', 'Yash', 'Mittal'
-    );
-    sessionToken = registerResult.session;
+    ) as { sessionId: string };
+    sessionToken = registerResult.sessionId;
   });
 
   describe('Error tests', () => {

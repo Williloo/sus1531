@@ -6,13 +6,16 @@ import {
   clear
 } from '../requests';
 
-describe('PUT /v1/admin/user/password', () => {
+describe('tests for adminUserPasswordUpdate', () => {
   let sessionToken: string;
 
   beforeEach(() => {
     clear();
-    const registerResult = adminAuthRegister('user@example.com', 'password123', 'John', 'Doe');
-    sessionToken = registerResult.session;
+
+    const registerResult = adminAuthRegister(
+      'user@example.com', 'password123', 'John', 'Doe'
+    ) as { sessionId: string };
+    sessionToken = registerResult.sessionId;
   });
 
   describe('Success Cases', () => {
@@ -29,17 +32,22 @@ describe('PUT /v1/admin/user/password', () => {
     test('Multiple password updates work correctly', () => {
       adminUserPasswordUpdate(sessionToken, 'password123', 'newPassword456');
 
-      let loginResult = adminAuthLogin('user@example.com', 'newPassword456');
-      const newSessionToken = loginResult.session;
+      let loginResult = adminAuthLogin(
+        'user@example.com', 'newPassword456'
+      ) as { sessionId: string };
+      const newSessionToken = loginResult.sessionId;
+
       adminUserPasswordUpdate(newSessionToken, 'newPassword456', 'anotherPassword789');
 
-      // Verify new password works
-      loginResult = adminAuthLogin('user@example.com', 'anotherPassword789');
+      // new password works
+      loginResult = adminAuthLogin(
+        'user@example.com', 'anotherPassword789'
+      ) as { sessionId: string };
       expect(loginResult).toStrictEqual({
         session: expect.any(String)
       });
 
-      // Verify old passwords no longer work
+      // old passwords no longer work
       expect(adminAuthLogin('user@example.com', 'password123')).toStrictEqual(400);
       expect(adminAuthLogin('user@example.com', 'newPassword456')).toStrictEqual(400);
     });
@@ -60,7 +68,7 @@ describe('PUT /v1/admin/user/password', () => {
       const res = adminUserPasswordUpdate(sessionToken, 'wrongPassword', 'newPassword456');
       expect(res).toStrictEqual(400);
 
-      // Verify old password still works
+      // old password still works
       const loginResult = adminAuthLogin('user@example.com', 'password123');
       expect(loginResult).toStrictEqual({
         session: expect.any(String)
@@ -75,8 +83,10 @@ describe('PUT /v1/admin/user/password', () => {
     test('Error when new password has been used before', () => {
       adminUserPasswordUpdate(sessionToken, 'password123', 'newPassword456');
 
-      const loginResult = adminAuthLogin('user@example.com', 'newPassword456');
-      const newSessionToken = loginResult.session;
+      const loginResult = adminAuthLogin(
+        'user@example.com', 'newPassword456'
+      ) as { sessionId: string };
+      const newSessionToken = loginResult.sessionId;
 
       // Try to change back to original password
       const res = adminUserPasswordUpdate(newSessionToken, 'newPassword456', 'password123');

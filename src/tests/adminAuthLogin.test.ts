@@ -1,20 +1,16 @@
 import {
-  //  adminAuthRegister,
+  adminAuthRegister,
   adminAuthLogin,
   clear
 } from '../requests';
 
-// TO DO: a way to check users
 describe('tests for adminAuthLogin', () => {
-  // let sessionToken: string;
-
   beforeEach(() => {
     clear();
 
-    // const registerResult = adminAuthRegister(
-    //   'jpozzolungo@gmail.com', 'thisisagoodpassword1974', 'Joshua', 'Pozzolungo'
-    // );
-    // sessionToken = registerResult.session;
+    adminAuthRegister(
+      'jpozzolungo@gmail.com', 'thisisagoodpassword1974', 'Joshua', 'Pozzolungo'
+    );
   });
 
   describe('Error tests', () => {
@@ -33,13 +29,13 @@ describe('tests for adminAuthLogin', () => {
     test('correct return value', () => {
       const result = adminAuthLogin('jpozzolungo@gmail.com', 'thisisagoodpassword1974');
       expect(result).toStrictEqual({
-        session: expect.any(String)
+        sessionId: expect.any(String)
       });
     });
 
     test('email address is case insensitive', () => {
       const result = adminAuthLogin('JPOZZOLUNGO@GMAIL.COM', 'thisisagoodpassword1974');
-      expect(result).toStrictEqual({ session: expect.any(String) });
+      expect(result).toStrictEqual({ sessionId: expect.any(String) });
     });
   });
 });

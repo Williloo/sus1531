@@ -1,5 +1,5 @@
 import {
-  User,
+  UserDetails,
   QuizDetails, AnswerOption,
   EmptyObject
 } from './interface';
@@ -51,7 +51,7 @@ export function adminAuthLogin(
 
 export function adminUserDetails(
   sessionId: string
-): { user: User } | number {
+): { user: UserDetails } | number {
   const res = request('GET', `${server}/v1/admin/user/details`, {
     headers: { sessionId },
   });
@@ -162,7 +162,7 @@ export function adminQuizDelete(
 export function adminQuizInfo(
   sessionId: string,
   quizId: number
-): QuizDetails[] | number {
+): QuizDetails | number {
   const res = request('GET', `${server}/v1/admin/quiz/${quizId}`, {
     headers: { sessionId },
     json: { quizId }
@@ -232,7 +232,7 @@ export function clear(
   return body;
 }
 
-export function adminUserLogout(
+export function adminAuthLogout(
   sessionId: string
 ): EmptyObject | number {
   const res = request('POST', `${server}/v1/admin/auth/logout`, {

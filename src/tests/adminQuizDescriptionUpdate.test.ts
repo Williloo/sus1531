@@ -1,3 +1,14 @@
+/// ////////////////////////////////////////////
+/// _______     _____      _____    _____   ////
+///    |       |     |    |     \  |     |  ////
+///    |       |     |    |      | |     |  ////
+///    |       |     |    |      | |     |  ////
+///    |       |     |    |      / |     |  ////
+///    |       |_____|    |_____/  |_____|  ////
+///                                         ////
+/// ////////////////////////////////////////////
+
+import { QuizDetails } from '../interface';
 import {
   clear,
   adminAuthRegister,
@@ -15,10 +26,12 @@ describe('tests for adminQuizDescriptionUpdate', () => {
 
     const registerResult = adminAuthRegister(
       'hayden.smith@unsw.edu.au', 'myPassword1', 'Hayden', 'Smith'
-    );
-    sessionToken = registerResult.session;
+    ) as { sessionId: string };
+    sessionToken = registerResult.sessionId;
 
-    const quizResult = adminQuizCreate(sessionToken, 'Test Quiz', 'Original description');
+    const quizResult = adminQuizCreate(
+      sessionToken, 'Test Quiz', 'Original description'
+    ) as { quizId: number};
     quizId = quizResult.quizId;
   });
 
@@ -28,7 +41,7 @@ describe('tests for adminQuizDescriptionUpdate', () => {
       const res = adminQuizDescriptionUpdate(sessionToken, quizId, newDescription);
       expect(res).toStrictEqual({});
 
-      const quizInfo = adminQuizInfo(sessionToken, quizId);
+      const quizInfo = adminQuizInfo(sessionToken, quizId) as QuizDetails;
       expect(quizInfo.description).toStrictEqual(newDescription);
     });
 
@@ -36,7 +49,7 @@ describe('tests for adminQuizDescriptionUpdate', () => {
       const res = adminQuizDescriptionUpdate(sessionToken, quizId, '');
       expect(res).toStrictEqual({});
 
-      const quizInfo = adminQuizInfo(sessionToken, quizId);
+      const quizInfo = adminQuizInfo(sessionToken, quizId) as QuizDetails;
       expect(quizInfo.description).toStrictEqual('');
     });
   });
@@ -55,15 +68,15 @@ describe('tests for adminQuizDescriptionUpdate', () => {
     test('error when quiz is not owned by user', () => {
       const newUserResult = adminAuthRegister(
         'another.user@unsw.edu.au', 'anotherPassword1', 'Another', 'User'
-      );
-      const newSessionToken = newUserResult.session;
+      ) as { sessionId: string };
+      const newSessionToken = newUserResult.sessionId;
 
       // Attempt to update first user's quiz with second user's session
       const res = adminQuizDescriptionUpdate(newSessionToken, quizId, 'Unauthorized update');
       expect(res).toStrictEqual(403);
 
-      // Verify the description was not changed
-      const quizInfo = adminQuizInfo(sessionToken, quizId);
+      // description was not changed
+      const quizInfo = adminQuizInfo(sessionToken, quizId) as QuizDetails;
       expect(quizInfo.description).toStrictEqual('Original description');
     });
 
@@ -78,27 +91,27 @@ describe('tests for adminQuizDescriptionUpdate', () => {
       const res = adminQuizDescriptionUpdate(sessionToken, quizId, longDescription);
       expect(res).toStrictEqual(400);
 
-      const quizInfo = adminQuizInfo(sessionToken, quizId);
+      const quizInfo = adminQuizInfo(sessionToken, quizId) as QuizDetails;
       expect(quizInfo.description).toStrictEqual('Original description');
     });
 
     test('update description of a quiz that is not owned by an user will return error', () => {
       const otherUserResult = adminAuthRegister(
         'other.user@unsw.edu.au', 'password123', 'Other', 'User'
-      );
-      const otherSessionToken = otherUserResult.session;
+      ) as { sessionId: string };
+      const otherSessionToken = otherUserResult.sessionId;
 
       const otherQuizResult = adminQuizCreate(
         otherSessionToken, 'Other Quiz', 'Other description'
-      );
+      ) as { quizId: number };
       const otherQuizId = otherQuizResult.quizId;
 
       // First user tries to update second user's quiz
       const res = adminQuizDescriptionUpdate(sessionToken, otherQuizId, 'Unauthorized update');
       expect(res).toStrictEqual(403);
 
-      // Verify the description was not changed
-      const quizInfo = adminQuizInfo(otherSessionToken, otherQuizId);
+      // description was not changed
+      const quizInfo = adminQuizInfo(otherSessionToken, otherQuizId) as QuizDetails;
       expect(quizInfo.description).toStrictEqual('Other description');
     });
   });

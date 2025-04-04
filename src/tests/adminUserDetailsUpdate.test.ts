@@ -5,13 +5,19 @@ import {
   clear
 } from '../requests';
 
+import {
+  UserDetails
+} from '../interface';
+
 describe('PUT /v1/admin/user/details', () => {
   let sessionToken: string;
 
   beforeEach(() => {
     clear();
-    const registerResult = adminAuthRegister('user@example.com', 'password123', 'John', 'Doe');
-    sessionToken = registerResult.session;
+    const registerResult = adminAuthRegister(
+      'user@example.com', 'password123', 'John', 'Doe'
+    ) as { sessionId: string };
+    sessionToken = registerResult.sessionId;
   });
 
   describe('Success cases', () => {
@@ -19,7 +25,7 @@ describe('PUT /v1/admin/user/details', () => {
       const res = adminUserDetailsUpdate(sessionToken, 'updated@example.com', 'Updated', 'Name');
       expect(res).toStrictEqual({});
 
-      const userDetails = adminUserDetails(sessionToken);
+      const userDetails = adminUserDetails(sessionToken) as { user: UserDetails };
       expect(userDetails.user.email).toStrictEqual('updated@example.com');
       expect(userDetails.user.name).toStrictEqual('Updated Name');
     });
@@ -29,7 +35,7 @@ describe('PUT /v1/admin/user/details', () => {
         sessionToken, 'user@example.com', 'Updated', 'Name'
       )).toEqual({});
 
-      const res = adminUserDetails(sessionToken);
+      const res = adminUserDetails(sessionToken) as { user: UserDetails };
       expect(res.user.email).toStrictEqual('user@example.com');
       expect(res.user.name).toStrictEqual('Updated Name');
     });
@@ -39,7 +45,7 @@ describe('PUT /v1/admin/user/details', () => {
         sessionToken, 'updated@example.com', "O'Connor", 'Smith-Jones'
       )).toEqual({});
 
-      const res = adminUserDetails(sessionToken);
+      const res = adminUserDetails(sessionToken) as { user: UserDetails };
       expect(res.user.name).toStrictEqual("O'Connor Smith-Jones");
     });
   });
@@ -51,8 +57,8 @@ describe('PUT /v1/admin/user/details', () => {
       );
       expect(res).toStrictEqual(401);
 
-      // Verify that the details are not updated
-      const userDetails = adminUserDetails(sessionToken);
+      // Verify the details are not updated
+      const userDetails = adminUserDetails(sessionToken) as { user: UserDetails };
       expect(userDetails.user.name).toStrictEqual('John Doe');
     });
 
@@ -60,7 +66,7 @@ describe('PUT /v1/admin/user/details', () => {
       const res = adminUserDetailsUpdate('', 'updated@example.com', 'Updated', 'Name');
       expect(res).toStrictEqual(401);
 
-      const userDetails = adminUserDetails(sessionToken);
+      const userDetails = adminUserDetails(sessionToken) as { user: UserDetails };
       expect(userDetails.user.name).toStrictEqual('John Doe');
     });
 
@@ -70,7 +76,7 @@ describe('PUT /v1/admin/user/details', () => {
       );
       expect(res).toStrictEqual(400);
 
-      const userDetails = adminUserDetails(sessionToken);
+      const userDetails = adminUserDetails(sessionToken) as { user: UserDetails };
       expect(userDetails.user.name).toStrictEqual('John Doe');
     });
 
@@ -78,20 +84,17 @@ describe('PUT /v1/admin/user/details', () => {
       const res = adminUserDetailsUpdate(sessionToken, 'updated@example.com', 'A', 'Name');
       expect(res).toStrictEqual(400);
 
-      const userDetails = adminUserDetails(sessionToken);
+      const userDetails = adminUserDetails(sessionToken) as { user: UserDetails };
       expect(userDetails.user.name).toStrictEqual('John Doe');
     });
 
     test('Error when first name is too long', () => {
       const res = adminUserDetailsUpdate(
-        sessionToken,
-        'updated@example.com',
-        'ThisNameIsMuchTooLongForTheSystem',
-        'Name'
+        sessionToken, 'updated@example.com', 'ThisNameIsMuchTooLongForTheSystem', 'Name'
       );
       expect(res).toStrictEqual(400);
 
-      const userDetails = adminUserDetails(sessionToken);
+      const userDetails = adminUserDetails(sessionToken) as { user: UserDetails };
       expect(userDetails.user.name).toStrictEqual('John Doe');
     });
 
@@ -101,7 +104,7 @@ describe('PUT /v1/admin/user/details', () => {
       );
       expect(res).toStrictEqual(400);
 
-      const userDetails = adminUserDetails(sessionToken);
+      const userDetails = adminUserDetails(sessionToken) as { user: UserDetails };
       expect(userDetails.user.name).toStrictEqual('John Doe');
     });
 
@@ -109,7 +112,7 @@ describe('PUT /v1/admin/user/details', () => {
       const res = adminUserDetailsUpdate(sessionToken, 'updated@example.com', 'Updated', 'A');
       expect(res).toStrictEqual(400);
 
-      const userDetails = adminUserDetails(sessionToken);
+      const userDetails = adminUserDetails(sessionToken) as { user: UserDetails };
       expect(userDetails.user.name).toStrictEqual('John Doe');
     });
 
@@ -119,7 +122,7 @@ describe('PUT /v1/admin/user/details', () => {
       );
       expect(res).toStrictEqual(400);
 
-      const userDetails = adminUserDetails(sessionToken);
+      const userDetails = adminUserDetails(sessionToken) as { user: UserDetails };
       expect(userDetails.user.name).toStrictEqual('John Doe');
     });
 
@@ -127,7 +130,7 @@ describe('PUT /v1/admin/user/details', () => {
       const res = adminUserDetailsUpdate(sessionToken, 'not-an-email', 'Updated', 'Name');
       expect(res).toStrictEqual(400);
 
-      const userDetails = adminUserDetails(sessionToken);
+      const userDetails = adminUserDetails(sessionToken) as { user: UserDetails };
       expect(userDetails.user.name).toStrictEqual('John Doe');
     });
 
@@ -139,7 +142,7 @@ describe('PUT /v1/admin/user/details', () => {
       expect(res).toStrictEqual(400);
 
       // details are not updated
-      const userDetails = adminUserDetails(sessionToken);
+      const userDetails = adminUserDetails(sessionToken) as { user: UserDetails };
       expect(userDetails.user.name).toStrictEqual('John Doe');
     });
   });

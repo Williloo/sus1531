@@ -6,14 +6,20 @@ import {
   clear
 } from '../requests';
 
-describe('PUT /v1/admin/user/details', () => {
+import {
+  UserDetails
+} from '../interface';
+
+describe('tests for adminUserDetails', () => {
   let sessionToken: string;
 
   beforeEach(() => {
     clear();
 
-    const registerResult = adminAuthRegister('user@example.com', 'password123', 'John', 'Doe');
-    sessionToken = registerResult.session;
+    const registerResult = adminAuthRegister(
+      'user@example.com', 'password123', 'John', 'Doe'
+    ) as { sessionId: string };
+    sessionToken = registerResult.sessionId;
   });
 
   // TO DO CHECK
@@ -34,15 +40,25 @@ describe('PUT /v1/admin/user/details', () => {
     });
 
     test('numFailedPasswordsSinceLastLogin are tracked', () => {
-      // TO DO: numFailedPasswordsSinceLastLogin is reset every time they have a
-      // successful login, and simply counts the number of attempted logins that
-      // failed due to incorrect password, only since the last login
+      // TO DO CHECK
+      adminAuthLogin('user@example.com', 'wrongpassword');
+      adminAuthLogin('user@example.com', 'wrongpassword');
+
+      const res = adminUserDetails(sessionToken) as { user: UserDetails };
+      expect(res.user.numFailedPasswordsSinceLastLogin).toBe(2);
     });
 
-    test('numFailedPasswordsSinceLastLogin resetted to zero after a succesful login', () => {
-      // TO DO: numFailedPasswordsSinceLastLogin is reset every time they have a
-      // successful login, and simply counts the number of attempted logins that
-      // failed due to incorrect password, only since the last login
+    test('numFailedPasswordsSinceLastLogin reset to zero after a successful login', () => {
+      adminAuthLogin('user@example.com', 'wrongpassword');
+      adminAuthLogin('user@example.com', 'wrongpassword');
+
+      let res = adminUserDetails(sessionToken) as { user: UserDetails };
+      expect(res.user.numFailedPasswordsSinceLastLogin).toBe(2);
+
+      adminAuthLogin('user@example.com', 'password123');
+
+      res = adminUserDetails(sessionToken) as { user: UserDetails };
+      expect(res.user.numFailedPasswordsSinceLastLogin).toBe(0);
     });
   });
 
