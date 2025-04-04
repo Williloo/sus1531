@@ -26,8 +26,8 @@ describe('tests for adminQuizDescriptionUpdate', () => {
 
     const registerResult = adminAuthRegister(
       'hayden.smith@unsw.edu.au', 'myPassword1', 'Hayden', 'Smith'
-    ) as { sessionId: string };
-    sessionToken = registerResult.sessionId;
+    ) as { session: string };
+    sessionToken = registerResult.session;
 
     const quizResult = adminQuizCreate(
       sessionToken, 'Test Quiz', 'Original description'
@@ -68,8 +68,8 @@ describe('tests for adminQuizDescriptionUpdate', () => {
     test('error when quiz is not owned by user', () => {
       const newUserResult = adminAuthRegister(
         'another.user@unsw.edu.au', 'anotherPassword1', 'Another', 'User'
-      ) as { sessionId: string };
-      const newSessionToken = newUserResult.sessionId;
+      ) as { session: string };
+      const newSessionToken = newUserResult.session;
 
       // Attempt to update first user's quiz with second user's session
       const res = adminQuizDescriptionUpdate(newSessionToken, quizId, 'Unauthorized update');
@@ -98,8 +98,8 @@ describe('tests for adminQuizDescriptionUpdate', () => {
     test('update description of a quiz that is not owned by an user will return error', () => {
       const otherUserResult = adminAuthRegister(
         'other.user@unsw.edu.au', 'password123', 'Other', 'User'
-      ) as { sessionId: string };
-      const otherSessionToken = otherUserResult.sessionId;
+      ) as { session: string };
+      const otherSessionToken = otherUserResult.session;
 
       const otherQuizResult = adminQuizCreate(
         otherSessionToken, 'Other Quiz', 'Other description'

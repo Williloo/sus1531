@@ -10,3 +10,6 @@
 // test('Test invalid echo', () => {
 //   expect(echo({ echo: 'echo' })).toMatchObject({ error: expect.any(String) });
 // });
+
+test('place', () => {
+});

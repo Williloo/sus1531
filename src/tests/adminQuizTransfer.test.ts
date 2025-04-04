@@ -18,8 +18,8 @@ describe('tests for adminQuizTransfer', () => {
 
     const registerResult = adminAuthRegister(
       'user@example.com', 'password123', 'John', 'Doe'
-    ) as { sessionId: string };
-    sessionToken = registerResult.sessionId;
+    ) as { session: string };
+    sessionToken = registerResult.session;
 
     const createQuizResult = adminQuizCreate(
       sessionToken, 'Sample Quiz', 'A description of my quiz'
@@ -28,8 +28,8 @@ describe('tests for adminQuizTransfer', () => {
 
     const registerResult2 = adminAuthRegister(
       'yuchao@unsw.edu.au', 'goodpassword123', 'Yu', 'Chao'
-    ) as { sessionId: string };
-    sessionToken2 = registerResult2.sessionId;
+    ) as { session: string };
+    sessionToken2 = registerResult2.session;
   });
 
   describe('Success cases', () => {
@@ -47,7 +47,7 @@ describe('tests for adminQuizTransfer', () => {
         description: 'A description of my quiz',
         numQuestions: 0,
         questions: [],
-        timeimit: 0
+        timeLimit: 0
       });
     });
   });
@@ -74,6 +74,10 @@ describe('tests for adminQuizTransfer', () => {
     });
 
     test('Error if quiz name is already used by target user', () => {
+      adminQuizCreate(
+        sessionToken2, 'Sample Quiz', 'A description of my quiz'
+      ) as { quizId: number };
+
       // Attempt to transfer quiz again to the same user
       const res = adminQuizTransfer(sessionToken, quizId, 'yuchao@unsw.edu.au');
       expect(res).toStrictEqual(400);

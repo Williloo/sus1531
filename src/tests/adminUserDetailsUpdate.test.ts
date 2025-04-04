@@ -16,8 +16,8 @@ describe('PUT /v1/admin/user/details', () => {
     clear();
     const registerResult = adminAuthRegister(
       'user@example.com', 'password123', 'John', 'Doe'
-    ) as { sessionId: string };
-    sessionToken = registerResult.sessionId;
+    ) as { session: string };
+    sessionToken = registerResult.session;
   });
 
   describe('Success cases', () => {

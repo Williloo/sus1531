@@ -18,8 +18,8 @@ describe('tests for adminUserDetails', () => {
 
     const registerResult = adminAuthRegister(
       'user@example.com', 'password123', 'John', 'Doe'
-    ) as { sessionId: string };
-    sessionToken = registerResult.sessionId;
+    ) as { session: string };
+    sessionToken = registerResult.session;
   });
 
   // TO DO CHECK
@@ -30,7 +30,7 @@ describe('tests for adminUserDetails', () => {
 
       expect(res).toStrictEqual({
         user: {
-          userId: sessionToken,
+          userId: expect.any(Number),
           name: 'John Doe',
           email: 'user@example.com',
           numSuccessfulLogins: 2,

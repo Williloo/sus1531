@@ -8,22 +8,21 @@ import {
 
 describe('POST /v1/admin/auth/logout', () => {
   let sessionToken: string;
+  let registerResult: number | { session: string };
 
   beforeEach(() => {
     clear();
+
+    registerResult = adminAuthRegister('user@example.com', 'password123', 'John', 'Doe');
   });
 
   describe('Success cases', () => {
     beforeEach(() => {
-      const registerResult = adminAuthRegister('user@example.com', 'password123', 'John', 'Doe');
-
-      expect(registerResult).toHaveProperty('sessionId');
-      sessionToken = (registerResult as { sessionId: string }).sessionId;
+      expect(registerResult).toHaveProperty('session');
+      sessionToken = (registerResult as { session: string }).session;
     });
 
     test('Successfully logs out a user with a valid session', () => {
-      adminAuthLogin('user@example.com', 'password123');
-
       const res = adminAuthLogout(sessionToken);
       expect(res).toStrictEqual({});
 

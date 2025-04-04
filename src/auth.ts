@@ -3,11 +3,6 @@ import {
 } from './dataStore';
 
 import {
-  createSessionId,
-  pairUserIdSessionId,
-} from './session';
-
-import {
   Data, User, Error, UserDetails, EmptyObject
 } from './interface';
 
@@ -18,8 +13,6 @@ import {
   findUser,
 } from './helpers';
 import validator from 'validator';
-
-import { checkValidSessionId } from './session';
 
 /**
 * Register a user with an email, password and names
@@ -128,8 +121,6 @@ export function adminAuthLogin(email: string, password: string): Error | { userI
         user.numSuccessfulLogins++;
         user.numFailedPasswordsSinceLastLogin = 0;
 
-        const sessionId = createSessionId(store);
-        pairUserIdSessionId(store, user.userId, sessionId);
         // Update Data after Done
         updateData(store);
 
@@ -152,30 +143,6 @@ export function adminAuthLogin(email: string, password: string): Error | { userI
 }
 
 /**
-* Given a user's sessionId, logs out an admin user who
-* has an active user session.
-*
-* @param { string } sessionId - The sessionId of an admin user
-*
-* @returns { Object } - Empty object
-*
-*/
-export function adminAuthLogout(sessionId: string | string[]): EmptyObject | Error {
-  const store: Data = getData();
-
-  if (!(checkValidSessionId(store, sessionId))) {
-    return {
-      error_msg: 'Session is empty or invalid',
-      error_code: 401
-    };
-  }
-
-  store.sessions.delete(sessionId);
-
-  return { };
-}
-
-/**
  * This function takes an userId and returns information about the user
  * in an user object
  *
@@ -193,7 +160,7 @@ export function adminAuthLogout(sessionId: string | string[]): EmptyObject | Err
  * @property { number } numFailedPasswordsSinceLastLogin - Number of failed password attempts
  *                                                         of the user since the last login
  */
-export function adminUserDetails(userId: number): Error | UserDetails {
+export function adminUserDetails(userId: number): Error | { user: UserDetails} {
   const store: Data = getData();
 
   // Check if userId exists
@@ -252,7 +219,7 @@ export function adminUserDetailsUpdate(
 
   // Check if email already in use
   for (const user of store.users) {
-    if (email === user.email) {
+    if (email === user.email && userId !== user.userId) {
       return {
         error_msg: 'Email address is already in use',
         error_code: 400

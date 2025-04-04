@@ -3,7 +3,7 @@ import {
 } from './dataStore';
 
 import {
-  Data, User, Quiz, Error, QuizDetails, EmptyObject
+  Data, User, Quiz, Error, QuizDetails, Question, EmptyObject
 } from './interface';
 
 import {
@@ -196,6 +196,19 @@ export function adminQuizInfo (userId: number, quizId: number): Error | QuizDeta
   // Update Data after Done
   updateData(store);
 
+  const pubQuestions = [];
+  for (const qs of quiz.questions) {
+    const pubQuestion: Question = {
+      questionId: qs.questionId,
+      question: qs.question,
+      timeLimit: qs.timeLimit,
+      points: qs.points,
+      answerOptions: qs.answerOptions
+    };
+
+    pubQuestions.push(pubQuestion);
+  }
+
   // Return information about the quiz
   return {
     quizId: quiz.quizId,
@@ -204,7 +217,7 @@ export function adminQuizInfo (userId: number, quizId: number): Error | QuizDeta
     timeLastEdited: quiz.timeLastEdited,
     description: quiz.description,
     numQuestions: quiz.questions.length,
-    questions: quiz.questions,
+    questions: pubQuestions,
     timeLimit: getTimeLimit(quiz)
   };
 }
@@ -338,10 +351,10 @@ export function adminQuizTransfer(
     };
   }
 
-  const user: null | User = findUser(userId, store.users);
+  const curUser: null | User = findUser(userId, store.users);
 
   // Check if new email matches current user's
-  if (user.email === userEmail) {
+  if (curUser.email === userEmail) {
     return {
       error_msg: 'cannot transfer to yourself',
       error_code: 400
@@ -351,16 +364,27 @@ export function adminQuizTransfer(
   const newUser: null | User = findUserByEmail(userEmail, store.users);
   if (!newUser) {
     return {
-      error_msg: 'email is a user',
+      error_msg: 'invalid transfer',
       error_code: 400
     };
   }
 
+  // Check if new user owns quiz with this quizId
   if (findQuiz(newUser.userId, quiz.quizId, store.quizzes) !== null) {
     return {
       error_msg: 'quizId already used by user',
       error_code: 400
     };
+  }
+
+  // Check if new user owns quiz with this quiz name
+  for (const quizzes of store.quizzes) {
+    if (quizzes.name === quiz.name && quizzes.creatorId === newUser.userId) {
+      return {
+        error_msg: 'quizName already used by user',
+        error_code: 400
+      };
+    }
   }
 
   quiz.creatorId = newUser.userId;

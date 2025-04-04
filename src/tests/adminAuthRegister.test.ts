@@ -14,7 +14,7 @@ describe('tests for adminAuthRegister', () => {
         'jpozzolungo@gmail.com', 'thisisagoodpassword1974', 'Joshua', 'Pozzolungo'
       );
       expect(result).toStrictEqual({
-        sessionId: expect.any(String)
+        session: expect.any(String)
       });
     });
 
@@ -23,7 +23,7 @@ describe('tests for adminAuthRegister', () => {
         'user@example.com', 'password123', "O'Connor", 'Smith-Jones'
       );
       expect(result).toStrictEqual({
-        sessionId: expect.any(String)
+        session: expect.any(String)
       });
     });
 
@@ -32,15 +32,15 @@ describe('tests for adminAuthRegister', () => {
       const res2 = adminAuthRegister('user2@example.com', 'password123', 'Jane', 'Smith');
 
       expect(res1).toStrictEqual({
-        sessionId: expect.any(String)
+        session: expect.any(String)
       });
 
       expect(res2).toStrictEqual({
-        sessionId: expect.any(String)
+        session: expect.any(String)
       });
 
-      expect((res1 as { sessionId: string }).sessionId).not.toEqual(
-        (res2 as { sessionId: string }).sessionId
+      expect((res1 as { session: string }).session).not.toEqual(
+        (res2 as { session: string }).session
       );
     });
   });

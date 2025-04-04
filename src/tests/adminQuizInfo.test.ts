@@ -7,7 +7,7 @@ import {
 } from '../requests';
 
 import {
-  QuizDetails
+  QuizDetails, Question, AnswerOption
 } from '../interface';
 
 const colours = ['red', 'blue', 'green', 'yellow', 'purple', 'pink', 'orange'];
@@ -21,8 +21,8 @@ describe('tests for adminQuizInfo', () => {
 
     const registerResult = adminAuthRegister(
       'jpozzolungo@gmail.com', 'thisisagoodpassword1974', 'Joshua', 'Pozzolungo'
-    ) as { sessionId: string };
-    sessionToken = registerResult.sessionId;
+    ) as { session: string };
+    sessionToken = registerResult.session;
 
     const quizResult = adminQuizCreate(
       sessionToken, 'test quiz', 'This quiz is for testing adminQuizInfo function'
@@ -49,8 +49,8 @@ describe('tests for adminQuizInfo', () => {
     test('quiz ID not owned By input user', () => {
       const newRegisterResult = adminAuthRegister(
         'Haoyuuuzz@gmail.com', 'thisisagoodpassword2025', 'Haoyu', 'Zhuang'
-      ) as { sessionId: string };
-      const newSession = newRegisterResult.sessionId;
+      ) as { session: string };
+      const newSession = newRegisterResult.session;
 
       const anotherQuizResult = adminQuizCreate(
         newSession, 'test quiz 2', 'This quiz is for testing if the quiz Id is owned by input user'
@@ -73,7 +73,7 @@ describe('tests for adminQuizInfo', () => {
         description: 'This quiz is for testing adminQuizInfo function',
         numQuestions: 0,
         questions: [],
-        timeimit: 0
+        timeLimit: 0
       });
       expect(
         (quizInfo as QuizDetails).timeLastEdited
@@ -106,7 +106,7 @@ describe('tests for adminQuizInfo', () => {
         timeLimit: 10,
         points: 5,
         answerOptions: [
-          { answer: 'Canbera', correct: true },
+          { answer: 'Canberra', correct: true },
           { answer: 'Sydney', correct: false },
           { answer: 'Brisbane', correct: false }
         ]
@@ -120,12 +120,12 @@ describe('tests for adminQuizInfo', () => {
       const questionId2 = questionResult2.questionId;
 
       // Check updated quiz info
-      const requestTime = Date.now();
+      const requestTime = Date.now() / 1000;
       const updatedQuizInfo = adminQuizInfo(sessionToken, quizId);
       expect(updatedQuizInfo).toStrictEqual({
         quizId: quizId,
         name: 'test quiz',
-        timeCreated: (initialQuizInfo as QuizDetails),
+        timeCreated: (initialQuizInfo as QuizDetails).timeCreated,
         timeLastEdited: expect.any(Number),
         description: 'This quiz is for testing adminQuizInfo function',
         numQuestions: 2,
@@ -135,60 +135,60 @@ describe('tests for adminQuizInfo', () => {
             question: 'What is the capital of France?',
             timeLimit: 10,
             points: 5,
-            answers: expect.arrayContaining([
-              expect.objectContaining({
+            answerOptions: [
+              {
                 answerId: expect.any(Number),
                 answer: 'Paris',
                 colour: expect.any(String),
                 correct: true
-              }),
-              expect.objectContaining({
+              },
+              {
                 answerId: expect.any(Number),
                 answer: 'London',
                 colour: expect.any(String),
                 correct: false
-              }),
-              expect.objectContaining({
+              },
+              {
                 answerId: expect.any(Number),
                 answer: 'Berlin',
                 colour: expect.any(String),
                 correct: false
-              })
-            ])
+              }
+            ]
           },
           {
             questionId: questionId2,
             question: 'What is the capital of Australia?',
             timeLimit: 10,
             points: 5,
-            answers: expect.arrayContaining([
-              expect.objectContaining({
+            answerOptions: [
+              {
                 answerId: expect.any(Number),
                 answer: 'Canberra',
                 colour: expect.any(String),
                 correct: true
-              }),
-              expect.objectContaining({
+              },
+              {
                 answerId: expect.any(Number),
                 answer: 'Sydney',
                 colour: expect.any(String),
                 correct: false
-              }),
-              expect.objectContaining({
+              },
+              {
                 answerId: expect.any(Number),
                 answer: 'Brisbane',
                 colour: expect.any(String),
                 correct: false
-              })
-            ])
+              }
+            ]
           }
         ],
-        timeimit: 20
+        timeLimit: 20
       });
 
       // Check that all answer colours are valid
-      (updatedQuizInfo as QuizDetails).questions.forEach((question: any) => {
-        question.answers.forEach((answer: any) => {
+      (updatedQuizInfo as QuizDetails).questions.forEach((question: Question) => {
+        question.answerOptions.forEach((answer: AnswerOption) => {
           expect(colours).toContain(answer.colour);
         });
       });
@@ -199,7 +199,7 @@ describe('tests for adminQuizInfo', () => {
 
       // Check if the delay between request time and when the quiz creation it is less than 1 sec
       expect(
-        Math.abs(requestTime - (updatedQuizInfo as QuizDetails).timeLastEdited)
+        Math.abs((updatedQuizInfo as QuizDetails).timeLastEdited - requestTime)
       ).toBeLessThan(1000);
     });
   });

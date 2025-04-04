@@ -15,8 +15,8 @@ describe('tests for adminQuizDelete', () => {
 
     const registerResult = adminAuthRegister(
       'jpozzolungo@gmail.com', 'thisisagoodpassword1974', 'Joshua', 'Pozzolungo'
-    ) as { sessionId: string };
-    sessionToken = registerResult.sessionId;
+    ) as { session: string };
+    sessionToken = registerResult.session;
 
     const quizResult = adminQuizCreate(
       sessionToken, 'test quiz', 'This quiz is for testing adminQuizDelete function'
@@ -25,10 +25,14 @@ describe('tests for adminQuizDelete', () => {
   });
 
   describe('Success cases', () => {
-    const res = adminQuizDelete(sessionToken, quizId);
-    expect(res).toStrictEqual({});
-    expect(adminQuizList(sessionToken)).toStrictEqual({
-      quizzes: []
+    test('success case', () => {
+      const res = adminQuizDelete(sessionToken, quizId);
+
+      expect(res).toStrictEqual({});
+
+      expect(adminQuizList(sessionToken)).toStrictEqual({
+        quizzes: []
+      });
     });
   });
 
@@ -64,8 +68,8 @@ describe('tests for adminQuizDelete', () => {
     test('Valid session is provided, but quiz ID Not Owned By Input User', () => {
       const newRegisterResult = adminAuthRegister(
         'Haoyuuuzz@gmail.com', 'thisisagoodpassword2025', 'Haoyu', 'Zhuang'
-      ) as { sessionId: string };
-      const newSession = newRegisterResult.sessionId;
+      ) as { session: string };
+      const newSession = newRegisterResult.session;
 
       const anotherQuizResult = adminQuizCreate(
         newSession, 'test quiz 2', 'This quiz is for testing if the quiz Id is owned by input user'

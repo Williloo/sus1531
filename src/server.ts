@@ -12,7 +12,6 @@ import process from 'process';
 import {
   adminAuthRegister,
   adminAuthLogin,
-  adminAuthLogout,
   adminUserDetails,
   adminUserDetailsUpdate,
   adminUserPasswordUpdate
@@ -37,8 +36,8 @@ import {
 } from './question';
 
 import {
+  createSessionId,
   getUserIdBySessionId,
-  getSessionByUserId,
   checkValidSessionId,
   deleteSession
 } from './session';
@@ -88,7 +87,8 @@ app.post('/v1/admin/auth/register', (req: Request, res: Response) => {
     return;
   }
 
-  const sessionId = getSessionByUserId(store, userId.userId);
+  const sessionId = createSessionId(store, (userId as { userId: number }).userId);
+
   res.status(200).json({ session: sessionId });
 });
 
@@ -102,7 +102,7 @@ app.post('/v1/admin/auth/login', (req: Request, res: Response) => {
     return;
   }
 
-  const sessionId = getSessionByUserId(store, userId.userId);
+  const sessionId = createSessionId(store, (userId as { userId: number }).userId);
   res.status(200).json({ session: sessionId });
 });
 
@@ -188,9 +188,12 @@ app.get('/v1/admin/quiz/list', (req: Request, res: Response) => {
 
 app.post('/v1/admin/quiz', (req: Request, res: Response) => {
   const sessionId = req.headers.session;
+
   const { name, description } = req.body;
   const store = getData();
+
   const userId = getUserIdBySessionId(store, sessionId);
+
   const result = adminQuizCreate(userId, name, description);
   const isValidSessionId = checkValidSessionId(store, sessionId);
 
@@ -319,18 +322,17 @@ app.delete('/v1/clear', (req: Request, res: Response) => {
 app.post('/v1/admin/auth/logout', (req: Request, res: Response) => {
   const sessionId = req.headers.session;
   const store = getData();
-  const result = adminAuthLogout(sessionId);
+
   const isValidSessionId = checkValidSessionId(store, sessionId);
 
   if ('error_msg' in isValidSessionId) {
     res.status(401).json({ error: isValidSessionId.error_msg });
     return;
-  } else if ('error_msg' in result) {
-    res.status(401).json({ error: result.error_msg });
-    return;
   }
 
-  res.status(200).json(result);
+  store.sessions.delete(sessionId);
+
+  res.status(200).json({});
 });
 
 app.post('/v1/admin/quiz/:quizid/transfer', (req: Request, res: Response) => {

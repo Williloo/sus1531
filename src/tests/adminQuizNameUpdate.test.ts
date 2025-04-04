@@ -19,8 +19,8 @@ describe('tests for adminQuizNameUpdate', () => {
 
     const registerResult = adminAuthRegister(
       'hayden.smith@unsw.edu.au', 'myPassword1', 'Hayden', 'Smith'
-    ) as { sessionId: string };
-    sessionToken = registerResult.sessionId;
+    ) as { session: string };
+    sessionToken = registerResult.session;
 
     const quizResult = adminQuizCreate(
       sessionToken, 'Quiz Name', 'This is a quiz description'
@@ -50,8 +50,8 @@ describe('tests for adminQuizNameUpdate', () => {
     test('same name can be used by different users', () => {
       const otherUserResult = adminAuthRegister(
         'other.user@unsw.edu.au', 'password123', 'Other', 'User'
-      ) as { sessionId: string };
-      const otherSessionToken = otherUserResult.sessionId;
+      ) as { session: string };
+      const otherSessionToken = otherUserResult.session;
 
       const otherQuizResult = adminQuizCreate(
         otherSessionToken, 'Other Quiz', 'Other description'
@@ -84,8 +84,8 @@ describe('tests for adminQuizNameUpdate', () => {
     test('error when quiz is not owned by user', () => {
       const newUserResult = adminAuthRegister(
         'another.user@unsw.edu.au', 'anotherPassword1', 'Another', 'User'
-      ) as { sessionId: string };
-      const newSessionToken = newUserResult.sessionId;
+      ) as { session: string };
+      const newSessionToken = newUserResult.session;
 
       // Attempt to update first user's quiz with second user's session
       const res = adminQuizNameUpdate(newSessionToken, quizId, 'Unauthorized update');
@@ -103,7 +103,7 @@ describe('tests for adminQuizNameUpdate', () => {
 
     test('error when new name contains invalid characters', () => {
       const res = adminQuizNameUpdate(sessionToken, quizId, 'Invalid@Name#');
-      expect(res).toStrictEqual(403);
+      expect(res).toStrictEqual(400);
 
       const quizInfo = adminQuizInfo(sessionToken, quizId) as QuizDetails;
       expect(quizInfo.name).toStrictEqual('Quiz Name');

@@ -14,8 +14,8 @@ describe('tests for adminUserPasswordUpdate', () => {
 
     const registerResult = adminAuthRegister(
       'user@example.com', 'password123', 'John', 'Doe'
-    ) as { sessionId: string };
-    sessionToken = registerResult.sessionId;
+    ) as { session: string };
+    sessionToken = registerResult.session;
   });
 
   describe('Success Cases', () => {
@@ -34,15 +34,15 @@ describe('tests for adminUserPasswordUpdate', () => {
 
       let loginResult = adminAuthLogin(
         'user@example.com', 'newPassword456'
-      ) as { sessionId: string };
-      const newSessionToken = loginResult.sessionId;
+      ) as { session: string };
+      const newSessionToken = loginResult.session;
 
       adminUserPasswordUpdate(newSessionToken, 'newPassword456', 'anotherPassword789');
 
       // new password works
       loginResult = adminAuthLogin(
         'user@example.com', 'anotherPassword789'
-      ) as { sessionId: string };
+      ) as { session: string };
       expect(loginResult).toStrictEqual({
         session: expect.any(String)
       });
@@ -85,8 +85,8 @@ describe('tests for adminUserPasswordUpdate', () => {
 
       const loginResult = adminAuthLogin(
         'user@example.com', 'newPassword456'
-      ) as { sessionId: string };
-      const newSessionToken = loginResult.sessionId;
+      ) as { session: string };
+      const newSessionToken = loginResult.session;
 
       // Try to change back to original password
       const res = adminUserPasswordUpdate(newSessionToken, 'newPassword456', 'password123');

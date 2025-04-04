@@ -29,13 +29,13 @@ describe('tests for adminAuthLogin', () => {
     test('correct return value', () => {
       const result = adminAuthLogin('jpozzolungo@gmail.com', 'thisisagoodpassword1974');
       expect(result).toStrictEqual({
-        sessionId: expect.any(String)
+        session: expect.any(String)
       });
     });
 
     test('email address is case insensitive', () => {
       const result = adminAuthLogin('JPOZZOLUNGO@GMAIL.COM', 'thisisagoodpassword1974');
-      expect(result).toStrictEqual({ sessionId: expect.any(String) });
+      expect(result).toStrictEqual({ session: expect.any(String) });
     });
   });
 });

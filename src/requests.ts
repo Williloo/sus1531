@@ -16,7 +16,7 @@ export function adminAuthRegister(
   password: string,
   nameFirst: string,
   nameLast: string
-): { sessionId: string } | number {
+): { session: string } | number {
   const res = request('POST', `${server}/v1/admin/auth/register`, {
     json: { email, password, nameFirst, nameLast },
   });
@@ -34,7 +34,7 @@ export function adminAuthRegister(
 export function adminAuthLogin(
   email: string,
   password: string
-): { sessionId: string } | number {
+): { session: string } | number {
   const res = request('POST', `${server}/v1/admin/auth/login`, {
     json: { email, password },
   });
@@ -50,10 +50,10 @@ export function adminAuthLogin(
 }
 
 export function adminUserDetails(
-  sessionId: string
+  session: string
 ): { user: UserDetails } | number {
   const res = request('GET', `${server}/v1/admin/user/details`, {
-    headers: { sessionId },
+    headers: { session },
   });
 
   const body = JSON.parse(res.body.toString());
@@ -67,11 +67,11 @@ export function adminUserDetails(
 }
 
 export function adminUserDetailsUpdate(
-  sessionId: string, email: string,
+  session: string, email: string,
   nameFirst: string, nameLast: string
 ): EmptyObject | number {
   const res = request('PUT', `${server}/v1/admin/user/details`, {
-    headers: { sessionId },
+    headers: { session },
     json: { email, nameFirst, nameLast }
   });
 
@@ -86,11 +86,11 @@ export function adminUserDetailsUpdate(
 }
 
 export function adminUserPasswordUpdate(
-  sessionId: string,
+  session: string,
   oldPassword: string, newPassword: string
 ): EmptyObject | number {
   const res = request('PUT', `${server}/v1/admin/user/password`, {
-    headers: { sessionId },
+    headers: { session },
     json: { oldPassword, newPassword }
   });
 
@@ -105,10 +105,10 @@ export function adminUserPasswordUpdate(
 }
 
 export function adminQuizList(
-  sessionId: string
-): QuizDetails[] | number {
+  session: string
+): { quizzes: QuizDetails[] } | number {
   const res = request('GET', `${server}/v1/admin/quiz/list`, {
-    headers: { sessionId },
+    headers: { session },
   });
 
   const body = JSON.parse(res.body.toString());
@@ -122,11 +122,11 @@ export function adminQuizList(
 }
 
 export function adminQuizCreate(
-  sessionId: string,
+  session: string,
   name: string, description: string
 ): { quizId: number } | number {
   const res = request('POST', `${server}/v1/admin/quiz`, {
-    headers: { sessionId },
+    headers: { session },
     json: { name, description }
   });
 
@@ -141,11 +141,11 @@ export function adminQuizCreate(
 }
 
 export function adminQuizDelete(
-  sessionId: string,
+  session: string,
   quizId: number
 ): EmptyObject | number {
   const res = request('DELETE', `${server}/v1/admin/quiz/${quizId}`, {
-    headers: { sessionId },
+    headers: { session },
     json: { quizId }
   });
 
@@ -160,11 +160,11 @@ export function adminQuizDelete(
 }
 
 export function adminQuizInfo(
-  sessionId: string,
+  session: string,
   quizId: number
 ): QuizDetails | number {
   const res = request('GET', `${server}/v1/admin/quiz/${quizId}`, {
-    headers: { sessionId },
+    headers: { session },
     json: { quizId }
   });
 
@@ -179,12 +179,12 @@ export function adminQuizInfo(
 }
 
 export function adminQuizNameUpdate(
-  sessionId: string,
+  session: string,
   quizId: number,
   name: string
 ): EmptyObject | number {
   const res = request('PUT', `${server}/v1/admin/quiz/${quizId}/name`, {
-    headers: { sessionId },
+    headers: { session },
     json: { name }
   });
 
@@ -199,12 +199,12 @@ export function adminQuizNameUpdate(
 }
 
 export function adminQuizDescriptionUpdate(
-  sessionId: string,
+  session: string,
   quizId: number,
   description: string
 ): EmptyObject | number {
   const res = request('PUT', `${server}/v1/admin/quiz/${quizId}/description`, {
-    headers: { sessionId },
+    headers: { session },
     json: { description }
   });
 
@@ -233,10 +233,10 @@ export function clear(
 }
 
 export function adminAuthLogout(
-  sessionId: string
+  session: string
 ): EmptyObject | number {
   const res = request('POST', `${server}/v1/admin/auth/logout`, {
-    headers: { sessionId },
+    headers: { session },
   });
 
   const body = JSON.parse(res.body.toString());
@@ -250,12 +250,12 @@ export function adminAuthLogout(
 }
 
 export function adminQuizTransfer(
-  sessionId: string,
+  session: string,
   quizId: number,
   userEmail: string
 ): EmptyObject | number {
   const res = request('POST', `${server}/v1/admin/quiz/${quizId}/transfer`, {
-    headers: { sessionId },
+    headers: { session },
     json: { userEmail }
   });
 
@@ -270,21 +270,19 @@ export function adminQuizTransfer(
 }
 
 export function adminQuestionCreate(
-  sessionId: string,
+  session: string,
   quizId: number,
   question: string, timeLimit: number,
   points: number, answerOptions: AnswerOption[]
 
 ): { questionId: number } | number {
-  const res = request('POST', `${server}/v1/admin/quiz/${quizId}/description`, {
-    headers: { sessionId },
+  const res = request('POST', `${server}/v1/admin/quiz/${quizId}/question`, {
+    headers: { session },
     json: {
-      questionBody: {
-        question,
-        timeLimit,
-        points,
-        answerOptions
-      }
+      question,
+      timeLimit,
+      points,
+      answerOptions
     }
   });
 
@@ -299,12 +297,12 @@ export function adminQuestionCreate(
 }
 
 export function adminQuestionSuggestion(
-  sessionId: string,
+  session: string,
   quizId: number
 
 ): { question: string } | number {
   const res = request('GET', `${server}/v1/admin/quiz/${quizId}/question/suggestion`, {
-    headers: { sessionId }
+    headers: { session }
   });
 
   const body = JSON.parse(res.body.toString());
@@ -318,13 +316,13 @@ export function adminQuestionSuggestion(
 }
 
 export function adminQuestionUpdat(
-  sessionId: string,
+  session: string,
   quizId: number, questionId: number,
   question: string, timeLimit: number,
   points: number, answerOptions: AnswerOption[]
 ): EmptyObject | number {
   const res = request('PUT', `${server}/v1/admin/quiz/${quizId}/question/${questionId}`, {
-    headers: { sessionId },
+    headers: { session },
     json: {
       questionBody: {
         question,
@@ -346,11 +344,11 @@ export function adminQuestionUpdat(
 }
 
 export function adminQuestionRemove(
-  sessionId: string,
+  session: string,
   quizId: number, questionId: number
 ): { questionId: number } | number {
   const res = request('DELETE', `${server}/v1/admin/quiz/${quizId}/question/${questionId}`, {
-    headers: { sessionId }
+    headers: { session }
   });
 
   const body = JSON.parse(res.body.toString());
@@ -364,13 +362,13 @@ export function adminQuestionRemove(
 }
 
 export function adminQuestionMove(
-  sessionId: string,
+  session: string,
   quizId: number, questionId: number,
   newPosition: number
 
 ): EmptyObject | number {
   const res = request('PUT', `${server}/v1/admin/quiz/${quizId}/question/${questionId}/move`, {
-    headers: { sessionId },
+    headers: { session },
     json: { newPosition }
   });
 

@@ -4,21 +4,23 @@ import {
 
 import {
   updateData
-} from './dataStore'
+} from './dataStore';
 
-export function createSessionId(store: Data): string {
+export function createSessionId(store: Data, userId: number): string {
   let sessionId;
   while (true) {
-    sessionId = Math.random().toString(36).substr(2, 7);
+    sessionId = Math.random().toString(36).substr(2, 7).toString();
     if (!(store.sessions.has(sessionId))) {
       break;
     }
   }
 
+  pairUserIdSessionId(store, userId, sessionId);
+  updateData(store);
   return sessionId;
 }
 
-export function pairUserIdSessionId(
+function pairUserIdSessionId(
   store: Data, userId: number, sessionId: string | string[]
 ) {
   store.sessions.set(sessionId, userId);
@@ -37,7 +39,11 @@ export function getUserIdBySessionId(store: Data, sessionId: string | string[]):
 }
 
 export function getSessionByUserId(store: Data, userId: number): string | string[] {
-  return [...store.sessions].find(([key, value]) => userId === value)[0];
+  for (const [key, value] of store.sessions.entries()) {
+    if (value === userId) {
+      return key;
+    }
+  }
 }
 
 export function checkValidSessionId(
@@ -48,7 +54,7 @@ export function checkValidSessionId(
       error_msg: 'Session is empty or invalid',
       error_code: 401
     };
-  } else if (!(store.sessions.get(sessionId))) {
+  } else if (typeof store.sessions.get(sessionId) === 'undefined') {
     return {
       error_msg: 'Session is empty or invalid',
       error_code: 401
