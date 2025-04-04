@@ -160,6 +160,8 @@ export function adminQuestionSuggestion(
     }
   );
 
+  console.log(JSON.parse(response.body.toString()).generated_text);
+
   return { question: JSON.parse(response.body.toString()).generated_text };
 }
 

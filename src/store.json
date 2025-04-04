@@ -1,1 +1,1 @@
-{"users":[],"usersCreated":0,"quizzes":[],"quizCreated":0,"sessions":{}}
+{"users":[{"userId":0,"nameFirst":"user","nameLast":"one","email":"user@example.com","password":"password123","numSuccessfulLogins":1,"numFailedPasswordsSinceLastLogin":0,"pastPasswords":[]}],"usersCreated":1,"quizzes":[{"quizId":0,"creatorId":0,"name":"Chemistry Quiz","timeCreated":1743796313,"timeLastEdited":1743796313,"description":"A quiz for chemistry students in year 11","questions":[],"totalQuestions":0}],"quizCreated":1,"sessions":{}}
