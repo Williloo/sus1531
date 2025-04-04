@@ -15,7 +15,7 @@ import {
   findUser,
 } from './helpers';
 import validator from 'validator';
-import { getUserIdBySessionId } from './session'
+import { checkValidSessionId } from './session'
 
 /**
 * Register a user with an email, password and names
@@ -94,9 +94,6 @@ export function adminAuthRegister(
   };
   store.users.push(newUser);
 
-  const sessionId = createSessionId(store);
-  pairUserIdSessionId(store, userId, sessionId);
-
   // Update Data after Done
   updateData(store);
 
@@ -126,7 +123,9 @@ export function adminAuthLogin(email: string, password: string): Error | { userI
       if (password === user.password) {
         user.numSuccessfulLogins++;
         user.numFailedPasswordsSinceLastLogin = 0;
-
+        
+        const sessionId = createSessionId(store);
+        pairUserIdSessionId(store, user.userId, sessionId);
         // Update Data after Done
         updateData(store);
 
@@ -160,7 +159,7 @@ export function adminAuthLogin(email: string, password: string): Error | { userI
 export function adminAuthLogout(sessionId: string | string[]): EmptyObject | Error  {
   const store: Data = getData();
 
-  if (!(getUserIdBySessionId(store, sessionId))) {
+  if (!(checkValidSessionId(store, sessionId))) {
     return {
       error_msg: 'Session is empty or invalid',
       error_code: 401
