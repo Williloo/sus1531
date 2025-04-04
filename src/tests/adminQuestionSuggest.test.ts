@@ -46,7 +46,6 @@ describe('tests for adminQuestionSuggestion', () => {
       quizId2 = quizResult2.quizId;
 
       const question = adminQuestionSuggestion(sessionToken, quizId);
-      console.log(question);
       expect(question).toStrictEqual({
         question: expect.any(String)
       });
