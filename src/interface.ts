@@ -34,13 +34,11 @@ export interface Error {
 }
 
 export interface UserDetails {
-  user: {
-    userId: number,
-    name: string,
-    email: string,
-    numSuccessfulLogins: number,
-    numFailedPasswordsSinceLastLogin: number,
-  }
+  userId: number,
+  name: string,
+  email: string,
+  numSuccessfulLogins: number,
+  numFailedPasswordsSinceLastLogin: number
 }
 
 export interface QuizDetails {
@@ -67,7 +65,7 @@ export interface AnswerOption {
   answerId?: number,
   answer: string,
   colour?: string,
-  correct: boolean,
+  correct: boolean
 }
 
 export type EmptyObject = Record<never, never>;

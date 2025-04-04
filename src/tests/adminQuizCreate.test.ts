@@ -1,5 +1,3 @@
-import { Quiz } from '../interface';
-
 import {
   adminAuthRegister,
   adminQuizCreate,
@@ -8,31 +6,53 @@ import {
   clear
 } from '../requests';
 
+import {
+  QuizDetails
+} from '../interface';
+
 describe('tests for adminQuizCreate', () => {
   let sessionToken: string;
 
   beforeEach(() => {
     clear();
 
-    const registerResult = adminAuthRegister('user@example.com', 'password123', 'John', 'Doe');
-    sessionToken = registerResult.session;
+    const registerResult = adminAuthRegister(
+      'jpozzolungo@gmail.com', 'thisisagoodpassword1974', 'Joshua', 'Pozzolungo'
+    );
+
+    expect(registerResult).toHaveProperty('sessionId');
+    sessionToken = (registerResult as { sessionId: string }).sessionId;
   });
 
   describe('Success tests', () => {
     test('Successfully creates a new quiz', () => {
       const res = adminQuizCreate(sessionToken, 'My Test Quiz', 'This is a test quiz description');
+      const timestamp: number = Math.floor(Date.now() / 1000);
 
       expect(res).toStrictEqual({
         quizId: expect.any(Number)
       });
 
-      const quizData = adminQuizInfo(sessionToken, res.quizId);
+      const quizData = adminQuizInfo(sessionToken, (res as { quizId: number }).quizId);
+      expect(quizData).toStrictEqual({
+        quizId: (res as { quizId: number }).quizId,
+        name: 'My Test Quiz',
+        timeCreated: expect.any(Number),
+        timeLastEdited: expect.any(Number),
+        description: 'This is a test quiz description',
+        numQuestions: 0,
+        questions: [],
+        timeLimit: 0
+      });
 
-      expect(quizData.name).toStrictEqual('My Test Quiz');
-      expect(quizData.description).toStrictEqual('This is a test quiz description');
+      expect((quizData as QuizDetails).timeCreated).toStrictEqual(
+        (quizData as QuizDetails).timeLastEdited
+      );
+      expect(Math.abs(timestamp - (quizData as QuizDetails).timeCreated)).toBeLessThan(1000);
+
       const quizList = adminQuizList(sessionToken);
-      expect(quizList.quizzes).toContainEqual({
-        quizId: res.quizId,
+      expect((quizList as QuizDetails[])).toContainEqual({
+        quizId: (res as { quizId: number }).quizId,
         name: 'My Test Quiz'
       });
     });
@@ -44,8 +64,8 @@ describe('tests for adminQuizCreate', () => {
       });
 
       const quizList = adminQuizList(sessionToken);
-      expect(quizList.quizzes).toContainEqual({
-        quizId: res.quizId,
+      expect((quizList as QuizDetails[])).toContainEqual({
+        quizId: (res as { quizId: number }).quizId,
         name: 'Valid Quiz Name'
       });
     });
@@ -56,7 +76,9 @@ describe('tests for adminQuizCreate', () => {
       const register2Result = adminAuthRegister(
         'user2@example.com', 'password123', 'Jane', 'Smith'
       );
-      const sessionToken2 = register2Result.session;
+
+      expect(register2Result).toHaveProperty('sessionId');
+      const sessionToken2 = (register2Result as { sessionId: string }).sessionId;
 
       // Create quiz with same name for second user
       const res2 = adminQuizCreate(sessionToken2, 'Common Quiz Name', 'Second user description');
@@ -65,14 +87,14 @@ describe('tests for adminQuizCreate', () => {
       });
 
       const quizList1 = adminQuizList(sessionToken);
-      expect(quizList1.quizzes).toContainEqual({
-        quizId: res1.quizId,
+      expect((quizList1 as QuizDetails[])).toContainEqual({
+        quizId: (res1 as { quizId: number }).quizId,
         name: 'Common Quiz Name'
       });
 
       const quizList2 = adminQuizList(sessionToken2);
-      expect(quizList2.quizzes).toContainEqual({
-        quizId: res2.quizId,
+      expect((quizList2 as QuizDetails[])).toContainEqual({
+        quizId: (res2 as { quizId: number }).quizId,
         name: 'Common Quiz Name'
       });
     });
@@ -80,7 +102,15 @@ describe('tests for adminQuizCreate', () => {
     test('Quiz IDs are unique', () => {
       const res1 = adminQuizCreate(sessionToken, 'First Quiz', 'First quiz description');
       const res2 = adminQuizCreate(sessionToken, 'Second Quiz', 'Second quiz description');
-      expect(res1.quizId).not.toEqual(res2.quizId);
+
+      expect(res1).toStrictEqual({
+        quizId: expect.any(Number)
+      });
+      expect(res2).toStrictEqual({
+        quizId: expect.any(Number)
+      });
+
+      expect((res1 as { quizId: number }).quizId).not.toEqual((res2 as { quizId: number }).quizId);
     });
 
     test('Quiz with name containing numbers and spaces is valid', () => {
@@ -99,7 +129,7 @@ describe('tests for adminQuizCreate', () => {
       expect(res).toStrictEqual(401);
 
       // Check quiz was not created
-      const quizList: Quiz[] = adminQuizList(sessionToken).quizzes;
+      const quizList = adminQuizList(sessionToken) as QuizDetails[];
       expect(quizList.find(quiz => quiz.name === 'My Test Quiz')).toBeUndefined();
     });
 
@@ -114,7 +144,7 @@ describe('tests for adminQuizCreate', () => {
       );
       expect(res).toStrictEqual(400);
 
-      const quizList: Quiz[] = adminQuizList(sessionToken).quizzes;
+      const quizList: QuizDetails[] = adminQuizList(sessionToken) as QuizDetails[];
       expect(quizList.find(quiz => quiz.name === 'Invalid@Quiz#Name')).toBeUndefined();
     });
 
@@ -122,7 +152,7 @@ describe('tests for adminQuizCreate', () => {
       const res = adminQuizCreate(sessionToken, 'AB', 'This is a test quiz description');
       expect(res).toStrictEqual(400);
 
-      const quizList: Quiz[] = adminQuizList(sessionToken).quizzes;
+      const quizList: QuizDetails[] = adminQuizList(sessionToken) as QuizDetails[];
       expect(quizList.find(quiz => quiz.name === 'AB')).toBeUndefined();
     });
 
@@ -136,7 +166,7 @@ describe('tests for adminQuizCreate', () => {
       );
       expect(res).toStrictEqual(400);
 
-      const quizList: Quiz[] = adminQuizList(sessionToken).quizzes;
+      const quizList: QuizDetails[] = adminQuizList(sessionToken) as QuizDetails[];
       expect(quizList.find(quiz => quiz.name.includes('way too long'))).toBeUndefined();
     });
 
@@ -145,7 +175,7 @@ describe('tests for adminQuizCreate', () => {
       const res = adminQuizCreate(sessionToken, 'Duplicate Quiz Name', 'Second quiz description');
       expect(res).toStrictEqual(400);
 
-      const quizList: Quiz[] = adminQuizList(sessionToken).quizzes;
+      const quizList: QuizDetails[] = adminQuizList(sessionToken) as QuizDetails[];
       const duplicateQuizzes = quizList.filter(quiz => quiz.name === 'Duplicate Quiz Name');
       expect(duplicateQuizzes.length).toStrictEqual(1);
     });
@@ -155,7 +185,7 @@ describe('tests for adminQuizCreate', () => {
       const res = adminQuizCreate(sessionToken, 'Valid Quiz Name', longDescription);
       expect(res).toStrictEqual(400);
 
-      const quizList: Quiz[] = adminQuizList(sessionToken).quizzes;
+      const quizList: QuizDetails[] = adminQuizList(sessionToken) as QuizDetails[];
       expect(quizList.find(quiz => quiz.name === 'Valid Quiz Name')).toBeUndefined();
     });
   });

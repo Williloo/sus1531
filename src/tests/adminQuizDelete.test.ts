@@ -1,12 +1,12 @@
 import {
-  adminQuizRemove,
+  adminQuizDelete,
   adminQuizCreate,
   adminAuthRegister,
   adminQuizList,
   clear,
 } from '../requests';
 
-describe('tests for adminQuizRemove', () => {
+describe('tests for adminQuizDelete', () => {
   let sessionToken: string;
   let quizId: number;
 
@@ -15,17 +15,17 @@ describe('tests for adminQuizRemove', () => {
 
     const registerResult = adminAuthRegister(
       'jpozzolungo@gmail.com', 'thisisagoodpassword1974', 'Joshua', 'Pozzolungo'
-    );
-    sessionToken = registerResult.session;
+    ) as { sessionId: string };
+    sessionToken = registerResult.sessionId;
 
     const quizResult = adminQuizCreate(
-      sessionToken, 'test quiz', 'This quiz is for testing adminQuizRemove function'
-    );
+      sessionToken, 'test quiz', 'This quiz is for testing adminQuizDelete function'
+    ) as { quizId: number };
     quizId = quizResult.quizId;
   });
 
   describe('Success cases', () => {
-    const res = adminQuizRemove(sessionToken, quizId);
+    const res = adminQuizDelete(sessionToken, quizId);
     expect(res).toStrictEqual({});
     expect(adminQuizList(sessionToken)).toStrictEqual({
       quizzes: []
@@ -34,7 +34,7 @@ describe('tests for adminQuizRemove', () => {
 
   describe('Error cases', () => {
     test('invalid session', () => {
-      const res = adminQuizRemove('invalid-session-token', quizId);
+      const res = adminQuizDelete('invalid-session-token', quizId);
       expect(res).toStrictEqual(401);
 
       const quizes = adminQuizList(sessionToken);
@@ -46,12 +46,12 @@ describe('tests for adminQuizRemove', () => {
     });
 
     test('empty session', () => {
-      const res = adminQuizRemove('', quizId);
+      const res = adminQuizDelete('', quizId);
       expect(res).toStrictEqual(401);
     });
 
     test('Valid session is provided, but the quiz does not exist', () => {
-      const res = adminQuizRemove(sessionToken, quizId + 100);
+      const res = adminQuizDelete(sessionToken, quizId + 100);
       expect(res).toStrictEqual(403);
       const quizes = adminQuizList(sessionToken);
       expect(quizes).toStrictEqual({
@@ -64,14 +64,15 @@ describe('tests for adminQuizRemove', () => {
     test('Valid session is provided, but quiz ID Not Owned By Input User', () => {
       const newRegisterResult = adminAuthRegister(
         'Haoyuuuzz@gmail.com', 'thisisagoodpassword2025', 'Haoyu', 'Zhuang'
-      );
-      const newSession = newRegisterResult.session;
+      ) as { sessionId: string };
+      const newSession = newRegisterResult.sessionId;
+
       const anotherQuizResult = adminQuizCreate(
         newSession, 'test quiz 2', 'This quiz is for testing if the quiz Id is owned by input user'
-      );
+      ) as { quizId: number };
       const anotherQuizId = anotherQuizResult.quizId;
 
-      const res = adminQuizRemove(sessionToken, anotherQuizId);
+      const res = adminQuizDelete(sessionToken, anotherQuizId);
       expect(res).toStrictEqual(403);
       const quizes = adminQuizList(sessionToken);
       expect(quizes).toStrictEqual({

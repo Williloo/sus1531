@@ -6,9 +6,12 @@ import {
   clear
 } from '../requests';
 
+import {
+  QuizDetails
+} from '../interface';
+
 const colours = ['red', 'blue', 'green', 'yellow', 'purple', 'pink', 'orange'];
 
-// TO DO : check if colour checking correct, timestamps + timelimit
 describe('tests for adminQuizInfo', () => {
   let sessionToken: string;
   let quizId: number;
@@ -18,12 +21,12 @@ describe('tests for adminQuizInfo', () => {
 
     const registerResult = adminAuthRegister(
       'jpozzolungo@gmail.com', 'thisisagoodpassword1974', 'Joshua', 'Pozzolungo'
-    );
-    sessionToken = registerResult.session;
+    ) as { sessionId: string };
+    sessionToken = registerResult.sessionId;
 
     const quizResult = adminQuizCreate(
       sessionToken, 'test quiz', 'This quiz is for testing adminQuizInfo function'
-    );
+    ) as { quizId: number };
     quizId = quizResult.quizId;
   });
 
@@ -46,13 +49,14 @@ describe('tests for adminQuizInfo', () => {
     test('quiz ID not owned By input user', () => {
       const newRegisterResult = adminAuthRegister(
         'Haoyuuuzz@gmail.com', 'thisisagoodpassword2025', 'Haoyu', 'Zhuang'
-      );
-      const newSession = newRegisterResult.session;
+      ) as { sessionId: string };
+      const newSession = newRegisterResult.sessionId;
 
       const anotherQuizResult = adminQuizCreate(
         newSession, 'test quiz 2', 'This quiz is for testing if the quiz Id is owned by input user'
-      );
+      ) as { quizId: number };
       const anotherQuizId = anotherQuizResult.quizId;
+
       const res = adminQuizInfo(sessionToken, anotherQuizId);
       expect(res).toStrictEqual(403);
     });
@@ -71,12 +75,12 @@ describe('tests for adminQuizInfo', () => {
         questions: [],
         timeimit: 0
       });
-      expect(quizInfo.timeLastEdited).toBeGreaterThanOrEqual(quizInfo.timeLastEdited);
-    }); 
+      expect(
+        (quizInfo as QuizDetails).timeLastEdited
+      ).toBeGreaterThanOrEqual((quizInfo as QuizDetails).timeLastEdited);
+    });
 
     test('Successfully displayed quizInfo when questions are added', () => {
-      const requestTime = Date.now();
-
       const initialQuizInfo = adminQuizInfo(sessionToken, quizId);
 
       const questionBody1 = {
@@ -90,7 +94,11 @@ describe('tests for adminQuizInfo', () => {
         ]
       };
 
-      const questionResult = adminQuestionCreate(sessionToken, quizId, questionBody1);
+      const questionResult = adminQuestionCreate(
+        sessionToken, quizId,
+        questionBody1.question, questionBody1.timeLimit,
+        questionBody1.points, questionBody1.answerOptions
+      ) as { questionId: number };
       const questionId1 = questionResult.questionId;
 
       const questionBody2 = {
@@ -104,15 +112,20 @@ describe('tests for adminQuizInfo', () => {
         ]
       };
 
-      const questionResult2 = adminQuestionCreate(sessionToken, quizId, questionBody2);
-      const questionId2 = questionResult.questionId;
+      const questionResult2 = adminQuestionCreate(
+        sessionToken, quizId,
+        questionBody2.question, questionBody2.timeLimit,
+        questionBody2.points, questionBody2.answerOptions
+      ) as { questionId: number };
+      const questionId2 = questionResult2.questionId;
 
       // Check updated quiz info
+      const requestTime = Date.now();
       const updatedQuizInfo = adminQuizInfo(sessionToken, quizId);
       expect(updatedQuizInfo).toStrictEqual({
         quizId: quizId,
         name: 'test quiz',
-        timeCreated: expect.any(Number),
+        timeCreated: (initialQuizInfo as QuizDetails),
         timeLastEdited: expect.any(Number),
         description: 'This quiz is for testing adminQuizInfo function',
         numQuestions: 2,
@@ -174,18 +187,20 @@ describe('tests for adminQuizInfo', () => {
       });
 
       // Check that all answer colours are valid
-      updatedQuizInfo.questions.forEach((question: any) => {
+      (updatedQuizInfo as QuizDetails).questions.forEach((question: any) => {
         question.answers.forEach((answer: any) => {
           expect(colours).toContain(answer.colour);
         });
       });
 
       expect(
-        updatedQuizInfo.timeLastEdited
-      ).toBeGreaterThanOrEqual(initialQuizInfo.timeLastEdited);
+        (updatedQuizInfo as QuizDetails).timeLastEdited
+      ).toBeGreaterThanOrEqual((initialQuizInfo as QuizDetails).timeLastEdited);
 
-      //Check if the delay between request time and when the server processes it is no more than 1 sec
-      expect(updatedQuizInfo.timeLastEdited).toBeLessThanOrEqual(requestTime + 1000);
+      // Check if the delay between request time and when the quiz creation it is less than 1 sec
+      expect(
+        Math.abs(requestTime - (updatedQuizInfo as QuizDetails).timeLastEdited)
+      ).toBeLessThan(1000);
     });
   });
 });

@@ -6,6 +6,10 @@ import {
   adminQuizNameUpdate,
 } from '../requests';
 
+import {
+  QuizDetails
+} from '../interface';
+
 describe('tests for adminQuizNameUpdate', () => {
   let sessionToken: string;
   let quizId: number;
@@ -13,10 +17,15 @@ describe('tests for adminQuizNameUpdate', () => {
   beforeEach(() => {
     clear();
 
-    sessionToken = adminAuthRegister(
+    const registerResult = adminAuthRegister(
       'hayden.smith@unsw.edu.au', 'myPassword1', 'Hayden', 'Smith'
-    ).session;
-    quizId = adminQuizCreate(sessionToken, 'Quiz Name', 'This is a quiz description').quizId;
+    ) as { sessionId: string };
+    sessionToken = registerResult.sessionId;
+
+    const quizResult = adminQuizCreate(
+      sessionToken, 'Quiz Name', 'This is a quiz description'
+    ) as { quizId: number };
+    quizId = quizResult.quizId;
   });
 
   describe('Success cases', () => {
@@ -25,7 +34,7 @@ describe('tests for adminQuizNameUpdate', () => {
       const res = adminQuizNameUpdate(sessionToken, quizId, newName);
       expect(res).toStrictEqual({});
 
-      const quizInfo = adminQuizInfo(sessionToken, quizId);
+      const quizInfo = adminQuizInfo(sessionToken, quizId) as QuizDetails;
       expect(quizInfo.name).toStrictEqual(newName);
     });
 
@@ -34,25 +43,28 @@ describe('tests for adminQuizNameUpdate', () => {
       const res = adminQuizNameUpdate(sessionToken, quizId, newName);
       expect(res).toStrictEqual({});
 
-      const quizInfo = adminQuizInfo(sessionToken, quizId);
+      const quizInfo = adminQuizInfo(sessionToken, quizId) as QuizDetails;
       expect(quizInfo.name).toStrictEqual(newName);
     });
 
     test('same name can be used by different users', () => {
       const otherUserResult = adminAuthRegister(
         'other.user@unsw.edu.au', 'password123', 'Other', 'User'
-      );
-      const otherSessionToken = otherUserResult.session;
+      ) as { sessionId: string };
+      const otherSessionToken = otherUserResult.sessionId;
 
-      const otherQuizId = adminQuizCreate(
+      const otherQuizResult = adminQuizCreate(
         otherSessionToken, 'Other Quiz', 'Other description'
-      ).quizId;
+      ) as { quizId: number };
+      const otherQuizId = otherQuizResult.quizId;
+
       const res = adminQuizNameUpdate(otherSessionToken, otherQuizId, 'Quiz Name');
       expect(res).toStrictEqual({});
 
       // Verify both quizzes have the same name
-      const quizInfo1 = adminQuizInfo(sessionToken, quizId);
-      const quizInfo2 = adminQuizInfo(otherSessionToken, otherQuizId);
+      const quizInfo1 = adminQuizInfo(sessionToken, quizId) as QuizDetails;
+      const quizInfo2 = adminQuizInfo(otherSessionToken, otherQuizId) as QuizDetails;
+
       expect(quizInfo1.name).toStrictEqual('Quiz Name');
       expect(quizInfo2.name).toStrictEqual('Quiz Name');
     });
@@ -72,14 +84,14 @@ describe('tests for adminQuizNameUpdate', () => {
     test('error when quiz is not owned by user', () => {
       const newUserResult = adminAuthRegister(
         'another.user@unsw.edu.au', 'anotherPassword1', 'Another', 'User'
-      );
-      const newSessionToken = newUserResult.session;
+      ) as { sessionId: string };
+      const newSessionToken = newUserResult.sessionId;
 
       // Attempt to update first user's quiz with second user's session
       const res = adminQuizNameUpdate(newSessionToken, quizId, 'Unauthorized update');
       expect(res).toStrictEqual(403);
 
-      const quizInfo = adminQuizInfo(sessionToken, quizId);
+      const quizInfo = adminQuizInfo(sessionToken, quizId) as QuizDetails;
       expect(quizInfo.name).toStrictEqual('Quiz Name');
     });
 
@@ -92,7 +104,8 @@ describe('tests for adminQuizNameUpdate', () => {
     test('error when new name contains invalid characters', () => {
       const res = adminQuizNameUpdate(sessionToken, quizId, 'Invalid@Name#');
       expect(res).toStrictEqual(403);
-      const quizInfo = adminQuizInfo(sessionToken, quizId);
+
+      const quizInfo = adminQuizInfo(sessionToken, quizId) as QuizDetails;
       expect(quizInfo.name).toStrictEqual('Quiz Name');
     });
 
@@ -100,7 +113,7 @@ describe('tests for adminQuizNameUpdate', () => {
       const res = adminQuizNameUpdate(sessionToken, quizId, 'AB');
       expect(res).toStrictEqual(400);
 
-      const quizInfo = adminQuizInfo(sessionToken, quizId);
+      const quizInfo = adminQuizInfo(sessionToken, quizId) as QuizDetails;
       expect(quizInfo.name).toStrictEqual('Quiz Name');
     });
 
@@ -110,18 +123,20 @@ describe('tests for adminQuizNameUpdate', () => {
       const res = adminQuizNameUpdate(sessionToken, quizId, longName);
       expect(res).toStrictEqual(400);
 
-      const quizInfo = adminQuizInfo(sessionToken, quizId);
+      const quizInfo = adminQuizInfo(sessionToken, quizId) as QuizDetails;
       expect(quizInfo.name).toStrictEqual('Quiz Name');
     });
 
     test('error when name is already used by the current logged in user for another quiz', () => {
-      const secondQuizId = adminQuizCreate(
+      const secondQuizResult = adminQuizCreate(
         sessionToken, 'Second Quiz', 'Another quiz description'
-      ).quizId;
+      ) as { quizId: number };
+      const secondQuizId = secondQuizResult.quizId;
+
       const res = adminQuizNameUpdate(sessionToken, secondQuizId, 'Quiz Name');
       expect(res).toStrictEqual(400);
 
-      const quizInfo = adminQuizInfo(sessionToken, secondQuizId);
+      const quizInfo = adminQuizInfo(sessionToken, secondQuizId) as QuizDetails;
       expect(quizInfo.name).toStrictEqual('Second Quiz');
     });
   });
