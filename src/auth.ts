@@ -6,8 +6,7 @@ import {
 import {
   createSessionId,
   pairUserIdSessionId,
-  getUserIdBySessionId
-} from './session'
+} from './session';
 
 import {
   checkUserExists,
@@ -16,6 +15,7 @@ import {
   findUser,
 } from './helpers';
 import validator from 'validator';
+import { getUserIdBySessionId } from './session'
 
 /**
 * Register a user with an email, password and names
@@ -94,7 +94,7 @@ export function adminAuthRegister(
   };
   store.users.push(newUser);
 
-  const sessionId = createSessionId();
+  const sessionId = createSessionId(store);
   pairUserIdSessionId(store, userId, sessionId);
 
   // Update Data after Done
@@ -146,6 +146,30 @@ export function adminAuthLogin(email: string, password: string): Error | { userI
     error_msg: 'Email address does not exist',
     error_code: 400
   };
+}
+
+/**
+* Given a user's sessionId, logs out an admin user who
+* has an active user session.
+*
+* @param { string } sessionId - The sessionId of an admin user
+*
+* @returns { Object } - Empty object
+*
+*/
+export function adminAuthLogout(sessionId: string | string[]): EmptyObject | Error  {
+  const store: Data = getData();
+
+  if (!(getUserIdBySessionId(store, sessionId))) {
+    return {
+      error_msg: 'Session is empty or invalid',
+      error_code: 401
+    }
+  }
+
+  store.sessions.delete(sessionId);
+
+  return { };
 }
 
 /**
@@ -348,3 +372,4 @@ export function adminUserPasswordUpdate(
   updateData(store);
   return {};
 }
+

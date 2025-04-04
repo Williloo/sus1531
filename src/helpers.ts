@@ -144,4 +144,3 @@ export function findQuiz(userId: number, quizId: number, quizzes: Quiz[]): null 
 
   return quiz;
 }
-
