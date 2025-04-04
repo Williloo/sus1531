@@ -14,6 +14,6 @@ describe('DELETE /v1/clear', () => {
   });
 
   test('Successfully clears all data', () => {
-    // TO DO
+    //TO DO
   });
 });

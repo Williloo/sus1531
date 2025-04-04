@@ -4,7 +4,6 @@ import {
   clear
 } from '../requests';
 
-// TO DO: a way to check users
 describe('tests for adminAuthLogin', () => {
   // let sessionToken: string;
 

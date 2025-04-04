@@ -33,13 +33,13 @@ describe('PUT /v1/admin/user/password', () => {
       const newSessionToken = loginResult.session;
       adminUserPasswordUpdate(newSessionToken, 'newPassword456', 'anotherPassword789');
 
-      // Verify new password works
+      //new password works
       loginResult = adminAuthLogin('user@example.com', 'anotherPassword789');
       expect(loginResult).toStrictEqual({
         session: expect.any(String)
       });
 
-      // Verify old passwords no longer work
+      //old passwords no longer work
       expect(adminAuthLogin('user@example.com', 'password123')).toStrictEqual(400);
       expect(adminAuthLogin('user@example.com', 'newPassword456')).toStrictEqual(400);
     });
@@ -60,7 +60,7 @@ describe('PUT /v1/admin/user/password', () => {
       const res = adminUserPasswordUpdate(sessionToken, 'wrongPassword', 'newPassword456');
       expect(res).toStrictEqual(400);
 
-      // Verify old password still works
+      // old password still works
       const loginResult = adminAuthLogin('user@example.com', 'password123');
       expect(loginResult).toStrictEqual({
         session: expect.any(String)

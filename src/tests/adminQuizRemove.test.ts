@@ -25,7 +25,6 @@ describe('tests for adminQuizRemove', () => {
   });
 
   describe('Success cases', () => {
-    // TO DO
     const res = adminQuizRemove(sessionToken, quizId);
     expect(res).toStrictEqual({});
     expect(adminQuizList(sessionToken)).toStrictEqual({
@@ -33,11 +32,17 @@ describe('tests for adminQuizRemove', () => {
     });
   });
 
-  // TO DO using QuizList to check that quiz not removed
   describe('Error cases', () => {
     test('invalid session', () => {
       const res = adminQuizRemove('invalid-session-token', quizId);
       expect(res).toStrictEqual(401);
+
+      const quizes = adminQuizList(sessionToken);
+      expect(quizes).toStrictEqual({
+        quizzes: [
+          { quizId: quizId, name: 'test quiz' }
+        ]
+      });
     });
 
     test('empty session', () => {
@@ -48,6 +53,12 @@ describe('tests for adminQuizRemove', () => {
     test('Valid session is provided, but the quiz does not exist', () => {
       const res = adminQuizRemove(sessionToken, quizId + 100);
       expect(res).toStrictEqual(403);
+      const quizes = adminQuizList(sessionToken);
+      expect(quizes).toStrictEqual({
+        quizzes: [
+          { quizId: quizId, name: 'test quiz' }
+        ]
+      });
     });
 
     test('Valid session is provided, but quiz ID Not Owned By Input User', () => {
@@ -62,6 +73,12 @@ describe('tests for adminQuizRemove', () => {
 
       const res = adminQuizRemove(sessionToken, anotherQuizId);
       expect(res).toStrictEqual(403);
+      const quizes = adminQuizList(sessionToken);
+      expect(quizes).toStrictEqual({
+        quizzes: [
+          { quizId: quizId, name: 'test quiz' }
+        ]
+      });
     });
   });
 });

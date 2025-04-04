@@ -51,7 +51,7 @@ describe('PUT /v1/admin/user/details', () => {
       );
       expect(res).toStrictEqual(401);
 
-      // Verify that the details are not updated
+      // Verify the details are not updated
       const userDetails = adminUserDetails(sessionToken);
       expect(userDetails.user.name).toStrictEqual('John Doe');
     });

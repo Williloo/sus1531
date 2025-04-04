@@ -3,7 +3,6 @@ import {
   clear
 } from '../requests';
 
-// TO DO: a way to check registered users
 describe('tests for adminAuthRegister', () => {
   beforeEach(() => {
     clear();
