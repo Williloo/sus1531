@@ -2,6 +2,7 @@ import {
     adminAuthRegister,
     adminAuthLogin,
     adminAuthLogout,
+    adminUserDetails,
     clear
   } from '../requests';
   
@@ -20,6 +21,8 @@ import {
         adminAuthLogin('user@example.com', 'password123');
         const res = adminAuthLogout(sessionToken);
         expect(res).toStrictEqual({});
+        
+        expect(adminUserDetails(sessionToken)).toStrictEqual(401);
       });
     });
   
@@ -38,7 +41,7 @@ import {
         adminAuthLogin('user@example.com', 'password123');
         adminAuthLogout(sessionToken);
   
-        // Try to log out again with the same session (should be invalid)
+        // Try to log out again with same session (should be invalid)
         const res = adminAuthLogout(sessionToken);
         expect(res).toStrictEqual(401); 
       });

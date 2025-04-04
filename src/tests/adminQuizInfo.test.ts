@@ -61,15 +61,16 @@ describe('tests for adminQuizInfo', () => {
   describe('Success cases', () => {
     test('successfully display info of an empty quiz with no questions', () => {
       const quizInfo = adminQuizInfo(sessionToken, quizId);
-      expect(quizInfo).toStrictEqual(
-       {
-         quizId: quizId,
-         name: 'test quiz',
-         timeCreated: expect.any(Number),
-         timeLastEdited: expect.any(Number),
-         description: 'This quiz is for testing adminQuizInfo function',
-       }
-      );
+      expect(quizInfo).toStrictEqual({
+        quizId: quizId,
+        name: 'test quiz',
+        timeCreated: expect.any(Number),
+        timeLastEdited: expect.any(Number),
+        description: 'This quiz is for testing adminQuizInfo function',
+        numQuestions: 0,
+        questions: [],
+        timeimit: 0
+      });
       expect(quizInfo.timeLastEdited).toBeGreaterThanOrEqual(quizInfo.timeLastEdited);
     }); 
 
@@ -114,7 +115,7 @@ describe('tests for adminQuizInfo', () => {
         timeCreated: expect.any(Number),
         timeLastEdited: expect.any(Number),
         description: 'This quiz is for testing adminQuizInfo function',
-        numQuestions: 1,
+        numQuestions: 2,
         questions: [
           {
             questionId: questionId1,
