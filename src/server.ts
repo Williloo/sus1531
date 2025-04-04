@@ -8,7 +8,6 @@ import sui from 'swagger-ui-express';
 import fs from 'fs';
 import path from 'path';
 import process from 'process';
-import request from 'sync-request-curl';
 
 import {
   adminAuthRegister,
@@ -38,6 +37,12 @@ import {
 } from './question'
 
 import {
+  User, Quiz, Error,
+  UserDetails, QuizDetails, Question, AnswerOption,
+  EmptyObject
+} from './interface';
+
+import {
   getUserIdBySessionId,
   getSessionByUserId,
   checkValidSessionId
@@ -45,8 +50,6 @@ import {
 
 import { clear } from './other';
 import { getData } from './dataStore';
-
-const HUGGINGFACE_API_TOKEN = process.env.HUGGINGFACE_API_TOKEN;
 
 // Set up web app
 const app = express();
