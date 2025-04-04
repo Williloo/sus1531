@@ -1,6 +1,6 @@
 import {
-  User, Quiz, Error,
-  UserDetails, QuizDetails, Question, AnswerOption,
+  User,
+  QuizDetails, AnswerOption,
   EmptyObject
 } from './interface';
 
@@ -9,13 +9,13 @@ import config from './config.json';
 
 const port = config.port;
 const url = config.url;
-const server = `${url}:${port}`
+const server = `${url}:${port}`;
 
 export function adminAuthRegister(
   email: string,
   password: string,
   nameFirst: string,
-  nameLast:  string
+  nameLast: string
 ): { sessionId: string } | number {
   const res = request('POST', `${server}/v1/admin/auth/register`, {
     json: { email, password, nameFirst, nameLast },
@@ -105,7 +105,7 @@ export function adminUserPasswordUpdate(
 }
 
 export function adminQuizList(
-  sessionId: string,
+  sessionId: string
 ): QuizDetails[] | number {
   const res = request('GET', `${server}/v1/admin/quiz/list`, {
     headers: { sessionId },
@@ -233,7 +233,7 @@ export function clear(
 }
 
 export function adminUserLogout(
-  sessionId: string,
+  sessionId: string
 ): EmptyObject | number {
   const res = request('POST', `${server}/v1/admin/auth/logout`, {
     headers: { sessionId },
@@ -278,14 +278,14 @@ export function adminQuestionCreate(
 ): { questionId: number } | number {
   const res = request('POST', `${server}/v1/admin/quiz/${quizId}/description`, {
     headers: { sessionId },
-    json: { questionBody:
-      {
+    json: {
+      questionBody: {
         question,
         timeLimit,
         points,
         answerOptions
       }
-     }
+    }
   });
 
   const body = JSON.parse(res.body.toString());
@@ -322,18 +322,17 @@ export function adminQuestionUpdat(
   quizId: number, questionId: number,
   question: string, timeLimit: number,
   points: number, answerOptions: AnswerOption[]
-
 ): EmptyObject | number {
   const res = request('PUT', `${server}/v1/admin/quiz/${quizId}/question/${questionId}`, {
     headers: { sessionId },
-    json: { questionBody:
-      {
+    json: {
+      questionBody: {
         question,
         timeLimit,
         points,
         answerOptions
       }
-     }
+    }
   });
 
   const body = JSON.parse(res.body.toString());
