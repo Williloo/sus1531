@@ -318,7 +318,7 @@ export function adminQuizDescriptionUpdate(
 export function adminQuizTransfer(
   quizId: number, userId: number,
   userEmail: string
-): EmptyObject {
+): EmptyObject | Error {
   const store: Data = getData();
 
   // Check if userId is valid

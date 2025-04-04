@@ -8,7 +8,6 @@ import sui from 'swagger-ui-express';
 import fs from 'fs';
 import path from 'path';
 import process from 'process';
-import request from 'sync-request-curl';
 
 import {
   adminAuthRegister,
@@ -35,7 +34,7 @@ import {
   adminQuestionUpdate,
   adminQuestionRemove,
   adminQuestionMove
-} from './question'
+} from './question';
 
 import {
   getUserIdBySessionId,
@@ -45,8 +44,6 @@ import {
 
 import { clear } from './other';
 import { getData } from './dataStore';
-
-const HUGGINGFACE_API_TOKEN = process.env.HUGGINGFACE_API_TOKEN;
 
 // Set up web app
 const app = express();
@@ -60,8 +57,8 @@ app.use(morgan('dev'));
 const file = fs.readFileSync(path.join(process.cwd(), 'swagger.yaml'), 'utf8');
 app.get('/', (req: Request, res: Response) => res.redirect('/docs'));
 app.use('/docs', sui.serve, sui.setup(YAML.parse(file), {
-        swaggerOptions: { docExpansion: config.expandDocs ? 'full' : 'list' }                                
-        }));
+  swaggerOptions: { docExpansion: config.expandDocs ? 'full' : 'list' }
+}));
 
 const PORT: number = parseInt(process.env.PORT || config.port);
 const HOST: string = process.env.IP || '127.0.0.1';
@@ -86,12 +83,12 @@ app.post('/v1/admin/auth/register', (req: Request, res: Response) => {
   const store = getData();
 
   if ('error_msg' in userId) {
-    res.status(400).json({error: userId.error_msg});
+    res.status(400).json({ error: userId.error_msg });
     return;
   }
 
   const sessionId = getSessionByUserId(store, userId.userId);
-  res.status(200).json({session: sessionId});
+  res.status(200).json({ session: sessionId });
 });
 
 app.post('/v1/admin/auth/login', (req: Request, res: Response) => {
@@ -100,12 +97,12 @@ app.post('/v1/admin/auth/login', (req: Request, res: Response) => {
   const store = getData();
 
   if ('error_msg' in userId) {
-    res.status(400).json({error: userId.error_msg});
+    res.status(400).json({ error: userId.error_msg });
     return;
   }
 
   const sessionId = getSessionByUserId(store, userId.userId);
-  res.status(200).json({session: sessionId});
+  res.status(200).json({ session: sessionId });
 });
 
 app.get('/v1/admin/user/details', (req: Request, res: Response) => {
@@ -116,11 +113,10 @@ app.get('/v1/admin/user/details', (req: Request, res: Response) => {
   const isValidSessionId = checkValidSessionId(store, sessionId);
 
   if ('error_msg' in isValidSessionId) {
-    res.status(401).json({error: isValidSessionId.error_msg});
+    res.status(401).json({ error: isValidSessionId.error_msg });
     return;
-  }
-  else if ('error_msg' in details) {
-    res.status(400).json({error: details.error_msg});
+  } else if ('error_msg' in details) {
+    res.status(400).json({ error: details.error_msg });
     return;
   }
 
@@ -136,14 +132,13 @@ app.put('/v1/admin/user/details', (req: Request, res: Response) => {
   const isValidSessionId = checkValidSessionId(store, sessionId);
 
   if ('error_msg' in isValidSessionId) {
-    res.status(401).json({error: isValidSessionId.error_msg});
+    res.status(401).json({ error: isValidSessionId.error_msg });
     return;
-  }
-  else if ('error_msg' in result) {
+  } else if ('error_msg' in result) {
     if (result.error_code === 401) {
-      res.status(401).json({error: result.error_msg});
+      res.status(401).json({ error: result.error_msg });
     } else {
-      res.status(400).json({error: result.error_msg});
+      res.status(400).json({ error: result.error_msg });
     }
     return;
   }
@@ -160,14 +155,13 @@ app.put('/v1/admin/user/password', (req: Request, res: Response) => {
   const isValidSessionId = checkValidSessionId(store, sessionId);
 
   if ('error_msg' in isValidSessionId) {
-    res.status(401).json({error: isValidSessionId.error_msg});
+    res.status(401).json({ error: isValidSessionId.error_msg });
     return;
-  }
-  else if ('error_msg' in result) {
+  } else if ('error_msg' in result) {
     if (result.error_code === 401) {
-      res.status(401).json({error: result.error_msg});
+      res.status(401).json({ error: result.error_msg });
     } else {
-      res.status(400).json({error: result.error_msg});
+      res.status(400).json({ error: result.error_msg });
     }
     return;
   }
@@ -182,17 +176,13 @@ app.get('/v1/admin/quiz/list', (req: Request, res: Response) => {
   const result = adminQuizList(userId);
   const isValidSessionId = checkValidSessionId(store, sessionId);
 
-
   if ('error_msg' in isValidSessionId) {
-    res.status(401).json({error: isValidSessionId.error_msg});
-    return;
-  }
-  else if ('error_msg' in result) {
-    res.status(401).json({error: result.error_msg});
+    res.status(401).json({ error: isValidSessionId.error_msg });
+  } else if ('error_msg' in result) {
+    res.status(401).json({ error: result.error_msg });
   } else {
     res.status(200).json(result);
   }
-
 });
 
 app.post('/v1/admin/quiz', (req: Request, res: Response) => {
@@ -203,16 +193,14 @@ app.post('/v1/admin/quiz', (req: Request, res: Response) => {
   const result = adminQuizCreate(userId, name, description);
   const isValidSessionId = checkValidSessionId(store, sessionId);
 
-
   if ('error_msg' in isValidSessionId) {
-    res.status(401).json({error: isValidSessionId.error_msg});
+    res.status(401).json({ error: isValidSessionId.error_msg });
     return;
-  }
-  else if ('error_msg' in result) {
+  } else if ('error_msg' in result) {
     if (result.error_code === 401) {
-      res.status(401).json({error: result.error_msg});
+      res.status(401).json({ error: result.error_msg });
     } else {
-      res.status(400).json({error: result.error_msg});
+      res.status(400).json({ error: result.error_msg });
     }
     return;
   }
@@ -229,14 +217,13 @@ app.delete('/v1/admin/quiz/:quizid', (req: Request, res: Response) => {
   const isValidSessionId = checkValidSessionId(store, sessionId);
 
   if ('error_msg' in isValidSessionId) {
-    res.status(401).json({error: isValidSessionId.error_msg});
+    res.status(401).json({ error: isValidSessionId.error_msg });
     return;
-  }
-  else if ('error_msg' in result) {
+  } else if ('error_msg' in result) {
     if (result.error_code === 401) {
-      res.status(401).json({error: result.error_msg});
+      res.status(401).json({ error: result.error_msg });
     } else {
-      res.status(403).json({error: result.error_msg});
+      res.status(403).json({ error: result.error_msg });
     }
     return;
   }
@@ -252,16 +239,14 @@ app.get('/v1/admin/quiz/:quizid', (req: Request, res: Response) => {
   const result = adminQuizInfo(userId, quizId);
   const isValidSessionId = checkValidSessionId(store, sessionId);
 
-
   if ('error_msg' in isValidSessionId) {
-    res.status(401).json({error: isValidSessionId.error_msg});
+    res.status(401).json({ error: isValidSessionId.error_msg });
     return;
-  }
-  else if ('error_msg' in result) {
+  } else if ('error_msg' in result) {
     if (result.error_code === 401) {
-      res.status(401).json({error: result.error_msg});
+      res.status(401).json({ error: result.error_msg });
     } else {
-      res.status(403).json({error: result.error_msg});
+      res.status(403).json({ error: result.error_msg });
     }
     return;
   }
@@ -278,18 +263,16 @@ app.put('/v1/admin/quiz/:quizid/name', (req: Request, res: Response) => {
   const result = adminQuizNameUpdate(userId, quizId, name);
   const isValidSessionId = checkValidSessionId(store, sessionId);
 
-
   if ('error_msg' in isValidSessionId) {
-    res.status(401).json({error: isValidSessionId.error_msg});
+    res.status(401).json({ error: isValidSessionId.error_msg });
     return;
-  }
-  else if ('error_msg' in result) {
+  } else if ('error_msg' in result) {
     if (result.error_code === 401) {
-      res.status(401).json({error: result.error_msg});
+      res.status(401).json({ error: result.error_msg });
     } else if (result.error_code === 403) {
-      res.status(403).json({error: result.error_msg});
+      res.status(403).json({ error: result.error_msg });
     } else {
-      res.status(400).json({error: result.error_msg});
+      res.status(400).json({ error: result.error_msg });
     }
     return;
   }
@@ -306,18 +289,16 @@ app.put('/v1/admin/quiz/:quizid/description', (req: Request, res: Response) => {
   const result = adminQuizDescriptionUpdate(userId, quizId, description);
   const isValidSessionId = checkValidSessionId(store, sessionId);
 
-
   if ('error_msg' in isValidSessionId) {
-    res.status(401).json({error: isValidSessionId.error_msg});
+    res.status(401).json({ error: isValidSessionId.error_msg });
     return;
-  }
-  else if ('error_msg' in result) {
+  } else if ('error_msg' in result) {
     if (result.error_code === 401) {
-      res.status(401).json({error: result.error_msg});
+      res.status(401).json({ error: result.error_msg });
     } else if (result.error_code === 403) {
-      res.status(403).json({error: result.error_msg});
+      res.status(403).json({ error: result.error_msg });
     } else {
-      res.status(400).json({error: result.error_msg});
+      res.status(400).json({ error: result.error_msg });
     }
     return;
   }
@@ -333,16 +314,14 @@ app.delete('/v1/clear', (req: Request, res: Response) => {
 app.post('/v1/admin/auth/logout', (req: Request, res: Response) => {
   const sessionId = req.headers.session;
   const store = getData();
-  const userId = getUserIdBySessionId(store, sessionId);
   const result = adminAuthLogout(sessionId);
   const isValidSessionId = checkValidSessionId(store, sessionId);
 
   if ('error_msg' in isValidSessionId) {
-    res.status(401).json({error: isValidSessionId.error_msg});
+    res.status(401).json({ error: isValidSessionId.error_msg });
     return;
-  }
-  else if ('error_msg' in result) {
-    res.status(401).json({error: result.error_msg});
+  } else if ('error_msg' in result) {
+    res.status(401).json({ error: result.error_msg });
     return;
   }
 
@@ -358,18 +337,16 @@ app.post('/v1/admin/quiz/:quizid/transfer', (req: Request, res: Response) => {
   const result = adminQuizTransfer(quizId, userId, userEmail);
   const isValidSessionId = checkValidSessionId(store, sessionId);
 
-
   if ('error_msg' in isValidSessionId) {
-    res.status(401).json({error: isValidSessionId.error_msg});
+    res.status(401).json({ error: isValidSessionId.error_msg });
     return;
-  }
-  else if ('error_msg' in result) {
+  } else if ('error_msg' in result) {
     if (result.error_code === 401) {
-      res.status(401).json({error: result.error_msg});
+      res.status(401).json({ error: result.error_msg });
     } else if (result.error_code === 403) {
-      res.status(403).json({error: result.error_msg});
+      res.status(403).json({ error: result.error_msg });
     } else {
-      res.status(400).json({error: result.error_msg});
+      res.status(400).json({ error: result.error_msg });
     }
     return;
   }
@@ -386,18 +363,16 @@ app.post('/v1/admin/quiz/:quizid/question', (req: Request, res: Response) => {
   const result = adminQuestionCreate(userId, quizId, question, timeLimit, points, answerOptions);
   const isValidSessionId = checkValidSessionId(store, sessionId);
 
-
   if ('error_msg' in isValidSessionId) {
-    res.status(401).json({error: isValidSessionId.error_msg});
+    res.status(401).json({ error: isValidSessionId.error_msg });
     return;
-  }
-  else if ('error_msg' in result) {
+  } else if ('error_msg' in result) {
     if (result.error_code === 401) {
-      res.status(401).json({error: result.error_msg});
+      res.status(401).json({ error: result.error_msg });
     } else if (result.error_code === 403) {
-      res.status(403).json({error: result.error_msg});
+      res.status(403).json({ error: result.error_msg });
     } else {
-      res.status(400).json({error: result.error_msg});
+      res.status(400).json({ error: result.error_msg });
     }
     return;
   }
@@ -413,16 +388,14 @@ app.get('/v1/admin/quiz/:quizid/question/suggestion', (req: Request, res: Respon
   const result = adminQuestionSuggestion(quizId, userId);
   const isValidSessionId = checkValidSessionId(store, sessionId);
 
-
   if ('error_msg' in isValidSessionId) {
-    res.status(401).json({error: isValidSessionId.error_msg});
+    res.status(401).json({ error: isValidSessionId.error_msg });
     return;
-  }
-  else if ('error_msg' in result) {
+  } else if ('error_msg' in result) {
     if (result.error_code === 401) {
-      res.status(401).json({error: result.error_msg});
+      res.status(401).json({ error: result.error_msg });
     } else {
-      res.status(403).json({error: result.error_msg});
+      res.status(403).json({ error: result.error_msg });
     }
     return;
   }
@@ -437,16 +410,18 @@ app.put('/v1/admin/quiz/:quizid/question/:questionid', (req: Request, res: Respo
   const { question, timeLimit, points, answerOptions } = req.body;
   const store = getData();
   const userId = getUserIdBySessionId(store, sessionId);
-  const result = adminQuestionUpdate(quizId, questionId, userId, question,
-                                     timeLimit, points, answerOptions);
+  const result = adminQuestionUpdate(
+    quizId, questionId, userId, question,
+    timeLimit, points, answerOptions
+  );
 
   if ('error_msg' in result) {
     if (result.error_code === 401) {
-      res.status(401).json({error: result.error_msg});
+      res.status(401).json({ error: result.error_msg });
     } else if (result.error_code === 403) {
-      res.status(403).json({error: result.error_msg});
+      res.status(403).json({ error: result.error_msg });
     } else {
-      res.status(400).json({error: result.error_msg});
+      res.status(400).json({ error: result.error_msg });
     }
     return;
   }
@@ -464,11 +439,11 @@ app.delete('/v1/admin/quiz/:quizid/question/:questionid', (req: Request, res: Re
 
   if ('error_msg' in result) {
     if (result.error_code === 401) {
-      res.status(401).json({error: result.error_msg});
+      res.status(401).json({ error: result.error_msg });
     } else if (result.error_code === 403) {
-      res.status(403).json({error: result.error_msg});
+      res.status(403).json({ error: result.error_msg });
     } else {
-      res.status(400).json({error: result.error_msg});
+      res.status(400).json({ error: result.error_msg });
     }
     return;
   }
@@ -487,11 +462,11 @@ app.put('/v1/admin/quiz/:quizid/question/:questionid/move', (req: Request, res: 
 
   if ('error_msg' in result) {
     if (result.error_code === 401) {
-      res.status(401).json({error: result.error_msg});
+      res.status(401).json({ error: result.error_msg });
     } else if (result.error_code === 403) {
-      res.status(403).json({error: result.error_msg});
+      res.status(403).json({ error: result.error_msg });
     } else {
-      res.status(400).json({error: result.error_msg});
+      res.status(400).json({ error: result.error_msg });
     }
     return;
   }
