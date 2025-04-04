@@ -159,10 +159,13 @@ export function adminQuestionSuggestion(
       }
     }
   );
+  console.log(`HELLO FROM QUESTION - ${token}`);
+  const q:string = JSON.parse(response.body.toString())[0].generated_text;
 
-  console.log(JSON.parse(response.body.toString()).generated_text);
+  const text = q.split('\n')[-1].trim();
+  console.log(text);
 
-  return { question: JSON.parse(response.body.toString()).generated_text };
+  return { question: text };
 }
 
 export function adminQuestionUpdate(
