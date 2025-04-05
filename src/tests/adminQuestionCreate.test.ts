@@ -8,7 +8,7 @@ describe('tests for adminQuestionCreate', () => {
 
     });
 
-    test('create multiple questions for different users, so total time limit greater than 3 minutes', () => {
+    test('create questions for different users, so timelimit total greater than 3 minutes', () => {
 
     });
   });
@@ -93,5 +93,5 @@ describe('tests for adminQuestionCreate', () => {
     test('no correct answers', () => {
 
     });
-  })
+  });
 });

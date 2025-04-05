@@ -146,7 +146,8 @@ export function adminQuestionSuggestion(
         inputs: `
         Given the following quiz name and description, generate a multiple-choice quiz question that
         adheres to these strict rules:
-        The question must be between 5 and 50 characters long. The length must never exceed 50 characters.
+        The question must be between 5 and 50 characters long.
+        The length must never exceed 50 characters.
 
         The question must be suitable for a multiple-choice quiz.
         DO NOT include answer options—only output the question itself.

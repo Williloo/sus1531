@@ -8,7 +8,6 @@ import {
 describe('tests for adminQuestionSuggestion', () => {
   let sessionToken: string;
   let quizId: number;
-  let quizId2: number;
 
   beforeEach(() => {
     clear();
@@ -43,9 +42,9 @@ describe('tests for adminQuestionSuggestion', () => {
       const quizResult2 = adminQuizCreate(
         sessionToken, 'Maths Quiz', 'A quiz for first year uni maths students preparing for finals'
       ) as { quizId: number };
-      quizId2 = quizResult2.quizId;
+      const quizId2 = quizResult2.quizId;
 
-      const question = adminQuestionSuggestion(sessionToken, quizId);
+      const question = adminQuestionSuggestion(sessionToken, quizId2);
       expect(question).toStrictEqual({
         question: expect.any(String)
       });
