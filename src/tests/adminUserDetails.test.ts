@@ -37,41 +37,43 @@ describe('tests for adminUserDetails', () => {
           numFailedPasswordsSinceLastLogin: 0
         }
       });
-    });
 
-    test('numFailedPasswordsSinceLastLogin are tracked', () => {
-      // TO DO CHECK
-      adminAuthLogin('user@example.com', 'wrongpassword');
-      adminAuthLogin('user@example.com', 'wrongpassword');
+      test('Name is correctly formed from first and last name', () => {
+        const res = adminUserDetails(sessionToken) as { user: UserDetails };
+        expect(res.user.name).toStrictEqual('John Doe');
+      });
+      test('numFailedPasswordsSinceLastLogin are tracked', () => {
+        // TO DO CHECK
+        adminAuthLogin('user@example.com', 'wrongpassword');
+        adminAuthLogin('user@example.com', 'wrongpassword');
 
-      const res = adminUserDetails(sessionToken) as { user: UserDetails };
-      expect(res.user.numFailedPasswordsSinceLastLogin).toBe(2);
-    });
+        const res = adminUserDetails(sessionToken) as { user: UserDetails };
+        expect(res.user.numFailedPasswordsSinceLastLogin).toBe(2);
+      });
 
-    test('numFailedPasswordsSinceLastLogin reset to zero after a successful login', () => {
-      adminAuthLogin('user@example.com', 'wrongpassword');
-      adminAuthLogin('user@example.com', 'wrongpassword');
+      test('numFailedPasswordsSinceLastLogin reset to zero after a successful login', () => {
+        adminAuthLogin('user@example.com', 'wrongpassword');
+        adminAuthLogin('user@example.com', 'wrongpassword');
 
-      let res = adminUserDetails(sessionToken) as { user: UserDetails };
-      expect(res.user.numFailedPasswordsSinceLastLogin).toBe(2);
+        let res = adminUserDetails(sessionToken) as { user: UserDetails };
+        expect(res.user.numFailedPasswordsSinceLastLogin).toBe(2);
 
-      adminAuthLogin('user@example.com', 'password123');
+        adminAuthLogin('user@example.com', 'password123');
 
-      res = adminUserDetails(sessionToken) as { user: UserDetails };
-      expect(res.user.numFailedPasswordsSinceLastLogin).toBe(0);
+        res = adminUserDetails(sessionToken) as { user: UserDetails };
+        expect(res.user.numFailedPasswordsSinceLastLogin).toBe(0);
+      });
     });
   });
 
   describe('Error cases', () => {
     test('Error when session is invalid', () => {
-      const res = adminUserDetailsUpdate(
-        'invalid-session-token', 'updated@example.com', 'Updated', 'Name'
-      );
+      const res = adminUserDetails('invalid-session-token');
       expect(res).toStrictEqual(401);
     });
 
     test('Error when session is empty', () => {
-      const res = adminUserDetailsUpdate('', 'updated@example.com', 'Updated', 'Name');
+      const res = adminUserDetails('');
       expect(res).toStrictEqual(401);
     });
   });

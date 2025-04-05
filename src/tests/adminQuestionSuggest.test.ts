@@ -64,7 +64,7 @@ describe('tests for adminQuestionSuggestion', () => {
       expect(question).toStrictEqual(401);
     });
 
-    test('invlid session', () => {
+    test('invalid session', () => {
       const question = adminQuestionSuggestion('1_4m_a_m4L1cI0u5_h4cK3R', quizId);
       expect(question).toStrictEqual(401);
     });

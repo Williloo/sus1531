@@ -1,14 +1,5 @@
-/// ////////////////////////////////////////////
-/// _______     _____      _____    _____   ////
-///    |       |     |    |     \  |     |  ////
-///    |       |     |    |      | |     |  ////
-///    |       |     |    |      | |     |  ////
-///    |       |     |    |      / |     |  ////
-///    |       |_____|    |_____/  |_____|  ////
-///                                         ////
-/// ////////////////////////////////////////////
-
 import { QuizDetails } from '../interface';
+
 import {
   clear,
   adminAuthRegister,
@@ -51,6 +42,26 @@ describe('tests for adminQuizDescriptionUpdate', () => {
 
       const quizInfo = adminQuizInfo(sessionToken, quizId) as QuizDetails;
       expect(quizInfo.description).toStrictEqual('');
+    });
+
+    test('timestamps are correctly set when creating a quiz', () => {
+      // Get current time before making request
+      const beforeRequestTime = Math.floor(Date.now() / 1000);
+
+      const quizResult = adminQuizCreate(
+        sessionToken, 'Time Test Quiz', 'Testing timestamps'
+      ) as { quizId: number };
+
+      // Get current time after response received
+      const afterRequestTime = Math.floor(Date.now() / 1000);
+
+      const quizInfo = adminQuizInfo(sessionToken, quizResult.quizId) as QuizDetails;
+
+      expect(quizInfo.timeCreated).toBeGreaterThanOrEqual(beforeRequestTime);
+      expect(quizInfo.timeCreated).toBeLessThanOrEqual(afterRequestTime + 1);
+
+      expect(quizInfo.timeLastEdited).toBeGreaterThanOrEqual(beforeRequestTime);
+      expect(quizInfo.timeLastEdited).toBeLessThanOrEqual(afterRequestTime + 1);
     });
   });
 
