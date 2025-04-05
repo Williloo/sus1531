@@ -77,11 +77,14 @@ describe('tests for adminQuizInfo', () => {
       });
       expect(
         (quizInfo as QuizDetails).timeLastEdited
-      ).toBeGreaterThanOrEqual((quizInfo as QuizDetails).timeLastEdited);
+      ).toBeGreaterThanOrEqual((quizInfo as QuizDetails).timeCreated);
     });
 
     test('Successfully displayed quizInfo when questions are added', () => {
-      const initialQuizInfo = adminQuizInfo(sessionToken, quizId);
+      const initialQuizInfo = adminQuizInfo(sessionToken, quizId) as QuizDetails;
+
+      // Before request
+      const beforeRequestTime = Math.floor(Date.now() / 1000);
 
       const questionBody1 = {
         question: 'What is the capital of France?',
@@ -119,13 +122,15 @@ describe('tests for adminQuizInfo', () => {
       ) as { questionId: number };
       const questionId2 = questionResult2.questionId;
 
+      // After request
+      const afterRequestTime = Math.floor(Date.now() / 1000);
+
       // Check updated quiz info
-      const requestTime = Date.now() / 1000;
-      const updatedQuizInfo = adminQuizInfo(sessionToken, quizId);
+      const updatedQuizInfo = adminQuizInfo(sessionToken, quizId) as QuizDetails;
       expect(updatedQuizInfo).toStrictEqual({
         quizId: quizId,
         name: 'test quiz',
-        timeCreated: (initialQuizInfo as QuizDetails).timeCreated,
+        timeCreated: initialQuizInfo.timeCreated,
         timeLastEdited: expect.any(Number),
         description: 'This quiz is for testing adminQuizInfo function',
         numQuestions: 2,
@@ -186,21 +191,19 @@ describe('tests for adminQuizInfo', () => {
         timeLimit: 20
       });
 
-      // Check that all answer colours are valid
-      (updatedQuizInfo as QuizDetails).questions.forEach((question: Question) => {
+      // Check that colours are valid
+      updatedQuizInfo.questions.forEach((question: Question) => {
         question.answerOptions.forEach((answer: AnswerOption) => {
           expect(colours).toContain(answer.colour);
         });
       });
 
-      expect(
-        (updatedQuizInfo as QuizDetails).timeLastEdited
-      ).toBeGreaterThanOrEqual((initialQuizInfo as QuizDetails).timeLastEdited);
+      // Check timeLastEdited updated
+      expect(updatedQuizInfo.timeLastEdited).toBeGreaterThanOrEqual(initialQuizInfo.timeLastEdited);
 
-      // Check if the delay between request time and when the quiz creation it is less than 1 sec
-      expect(
-        Math.abs((updatedQuizInfo as QuizDetails).timeLastEdited - requestTime)
-      ).toBeLessThan(1000);
+      // Check timestamp is within range
+      expect(updatedQuizInfo.timeLastEdited).toBeGreaterThanOrEqual(beforeRequestTime);
+      expect(updatedQuizInfo.timeLastEdited).toBeLessThanOrEqual(afterRequestTime + 1);
     });
   });
 });

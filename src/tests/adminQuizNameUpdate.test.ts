@@ -68,6 +68,23 @@ describe('tests for adminQuizNameUpdate', () => {
       expect(quizInfo1.name).toStrictEqual('Quiz Name');
       expect(quizInfo2.name).toStrictEqual('Quiz Name');
     });
+
+    test('timeLastEdited is updated when name is changed', () => {
+      const initialInfo = adminQuizInfo(sessionToken, quizId) as QuizDetails;
+      const initialEditTime = initialInfo.timeLastEdited;
+
+      const beforeRequestTime = Math.floor(Date.now() / 1000);
+
+      adminQuizNameUpdate(sessionToken, quizId, 'New Name');
+
+      const afterRequestTime = Math.floor(Date.now() / 1000);
+
+      const updatedInfo = adminQuizInfo(sessionToken, quizId) as QuizDetails;
+
+      expect(updatedInfo.timeLastEdited).toBeGreaterThan(initialEditTime);
+      expect(updatedInfo.timeLastEdited).toBeGreaterThanOrEqual(beforeRequestTime);
+      expect(updatedInfo.timeLastEdited).toBeLessThanOrEqual(afterRequestTime + 1);
+    });
   });
 
   describe('Error cases', () => {

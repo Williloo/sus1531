@@ -28,6 +28,22 @@ describe('POST /v1/admin/auth/logout', () => {
 
       expect(adminUserDetails(sessionToken)).toStrictEqual(401);
     });
+
+    test('Logging out one session doesn\'t affect other sessions', () => {
+      adminAuthRegister('user2@example.com', 'password123', 'Jane', 'Doe');
+
+      const loginResult1 = adminAuthLogin('user@example.com', 'password123') as {session: string};
+      const loginResult2 = adminAuthLogin('user2@example.com', 'password123') as {session: string};
+
+      const firstSession = loginResult1.session;
+      const secondSession = loginResult2.session;
+
+      // Logout first session
+      adminAuthLogout(firstSession);
+
+      // Second session should still be valid
+      expect(adminUserDetails(secondSession)).not.toStrictEqual(401);
+    });
   });
 
   describe('Error cases', () => {

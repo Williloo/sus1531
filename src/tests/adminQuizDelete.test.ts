@@ -78,8 +78,8 @@ describe('tests for adminQuizDelete', () => {
 
       const res = adminQuizDelete(sessionToken, anotherQuizId);
       expect(res).toStrictEqual(403);
-      const quizes = adminQuizList(sessionToken);
-      expect(quizes).toStrictEqual({
+      const quizzes = adminQuizList(sessionToken);
+      expect(quizzes).toStrictEqual({
         quizzes: [
           { quizId: quizId, name: 'test quiz' }
         ]

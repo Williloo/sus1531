@@ -50,6 +50,20 @@ describe('tests for adminQuizTransfer', () => {
         timeLimit: 0
       });
     });
+
+    test('Quiz timestamps are preserved during transfer', () => {
+      // Get timestamps before transfer
+      const quizBefore = adminQuizInfo(sessionToken, quizId);
+      const createdTime = (quizBefore as any).timeCreated;
+      const editedTime = (quizBefore as any).timeLastEdited;
+
+      adminQuizTransfer(sessionToken, quizId, 'yuchao@unsw.edu.au');
+
+      // Check timestamps after transfer
+      const quizAfter = adminQuizInfo(sessionToken2, quizId);
+      expect((quizAfter as any).timeCreated).toEqual(createdTime);
+      expect((quizAfter as any).timeLastEdited).toEqual(editedTime);
+    });
   });
 
   describe('Error cases', () => {

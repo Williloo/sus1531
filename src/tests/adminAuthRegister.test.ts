@@ -1,5 +1,6 @@
 import {
   adminAuthRegister,
+  adminAuthLogin,
   clear
 } from '../requests';
 
@@ -23,6 +24,14 @@ describe('tests for adminAuthRegister', () => {
         'user@example.com', 'password123', "O'Connor", 'Smith-Jones'
       );
       expect(result).toStrictEqual({
+        session: expect.any(String)
+      });
+    });
+
+    test('User can login with credentials after registration', () => {
+      adminAuthRegister('newuser@example.com', 'password123', 'New', 'User');
+      const loginResult = adminAuthLogin('newuser@example.com', 'password123');
+      expect(loginResult).toStrictEqual({
         session: expect.any(String)
       });
     });

@@ -45,7 +45,7 @@ describe('tests for adminQuestionSuggestion', () => {
       ) as { quizId: number };
       quizId2 = quizResult2.quizId;
 
-      const question = adminQuestionSuggestion(sessionToken, quizId);
+      const question = adminQuestionSuggestion(sessionToken, quizId2);
       expect(question).toStrictEqual({
         question: expect.any(String)
       });
@@ -65,7 +65,7 @@ describe('tests for adminQuestionSuggestion', () => {
       expect(question).toStrictEqual(401);
     });
 
-    test('invlid session', () => {
+    test('invalid session', () => {
       const question = adminQuestionSuggestion('1_4m_a_m4L1cI0u5_h4cK3R', quizId);
       expect(question).toStrictEqual(401);
     });
